@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/actionChangeLanguage"
+        android:title="сменить язык"
+        android:icon="@drawable/ic_swap_vert_24dp"
+
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/actionRestart"
+        android:title="начать сначала"
+        android:icon="@drawable/ic_loop_24dp"
+        app:showAsAction="always"
+
+        android:orderInCategory="100"
+        />
+
+
+</menu>

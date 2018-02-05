@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/lesson_layout"
+    >
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lesson_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width ="match_parent"
+        android:layout_height ="wrap_content"
+        android:id="@+id/appbar_lesson"
+        >
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_lesson"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags = "scroll"
+            />
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ff1a1e23"
+                android:paddingRight="5dp"
+                android:paddingLeft="13dp">
+
+                <com.gigamole.navigationtabstrip.NavigationTabStrip
+                    android:id="@+id/nts_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:padding="50dp"
+                    app:nts_active_color="#fff"
+                    app:nts_color="#ff1748"
+                    app:nts_factor="2.8"
+                    app:nts_corners_radius="1.5dp"
+                    app:nts_inactive_color="#81ffffff"
+                    app:nts_titles="@array/titles"
+                    app:nts_type="line"
+                    app:nts_typeface="fonts/drugs.otf"
+                    app:nts_weight="3dp"
+
+                    />
+
+            </FrameLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.github.rubensousa.floatingtoolbar.FloatingToolbar
+        android:id="@+id/floatingToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        app:floatingMenu="@menu/menu_lesson"
+        android:layout_alignParentBottom = "true"
+        android:layout_alignParentRight="true"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabLesson"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:srcCompat="@drawable/ic_add"
+        android:layout_alignParentBottom = "true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"/>
+
+</android.support.design.widget.CoordinatorLayout>

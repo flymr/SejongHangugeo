@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.flymr92gmail.sejonghangugeo">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".LessonActivity"
+            android:theme="@style/LessonTheme" />
+        <activity
+            android:name=".EditLessonActivity"
+            android:theme="@style/LessonTheme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".activities.CardActivity"
+            android:theme="@style/LessonTheme" />
+        <activity
+            android:name=".activities.LearnActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/LessonTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
+        <activity
+            android:name=".activities.LearnResult"
+            android:theme="@style/LessonTheme" />
+        <activity
+            android:name=".activities.LearnFinalResult"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/LessonTheme" />
+        <activity android:name=".activities.BookActivity"></activity>
+    </application>
+
+</manifest>

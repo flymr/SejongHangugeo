@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.flymr92gmail.sejonghangugeo.activities.BookActivity">
+    <RelativeLayout
+        android:id="@+id/book_rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoPanelHeight="25dp"
+        sothree:umanoShadowHeight="4dp"
+        >
+
+        <com.github.barteksc.pdfviewer.PDFView
+            android:id="@+id/pdfViewPager"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <include layout="@layout/sliding_layout" />
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <io.github.yavski.fabspeeddial.FabSpeedDial
+                android:id="@+id/book_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                app:fabGravity="bottom_end"
+                app:fabMenu="@menu/menu_book"
+                app:miniFabBackgroundTint="@android:color/white"
+                app:miniFabDrawableTint="?attr/colorPrimaryDark"
+                app:miniFabTitleTextColor="?attr/colorPrimaryDark"
+                />
+
+        </FrameLayout>
+        <LinearLayout
+            android:id="@+id/book_audio_control_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:layout_marginBottom="25dp"
+            >
+            <ImageButton
+                android:id="@+id/close_audio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_close"
+                android:layout_gravity="end"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/blackAlpha"
+                >
+                <TextView
+                    android:id="@+id/tv_audio_start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    />
+                <SeekBar
+                    android:id="@+id/book_seek_bar"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:progressTint="@color/white"
+                    android:thumbTint="@color/white"
+                    />
+                <TextView
+                    android:id="@+id/tv_audio_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    />
+            </LinearLayout>
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="@color/blackAlpha"
+               android:gravity="center"
+               >
+               <com.wnafee.vector.MorphButton
+                   android:id="@+id/book_play_audio"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center"
+                   android:scaleType="fitCenter"
+                   android:layout_marginBottom="5dp"
+                   app:vc_foregroundTint="@color/white"
+                   app:vc_startDrawable="@drawable/ic_pause_to_play"
+                   app:vc_endDrawable="@drawable/ic_play_to_pause"/>
+
+           </LinearLayout>
+
+        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/nav_book_rv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

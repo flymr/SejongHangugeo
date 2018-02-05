@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools">
+
+    <com.flymr92gmail.sejonghangugeo.Utils.SquareCardView
+        android:id="@+id/card_holf"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardBackgroundColor="@color/navigationBarColor"
+        app:cardUseCompatPadding="true"
+        >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:id="@+id/russian_card_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textAlignment="center"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMaxTextSize="40dp"
+            app:autoSizeMinTextSize="15dp"
+            />
+
+        <ImageView
+            android:id="@+id/star_front"
+            app:srcCompat="@drawable/ic_star_grey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            />
+    </com.flymr92gmail.sejonghangugeo.Utils.SquareCardView>
+</RelativeLayout>

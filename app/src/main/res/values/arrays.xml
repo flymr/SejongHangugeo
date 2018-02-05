@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="titles">
+        <item>Все</item>
+        <item>Избранное</item>
+
+    </string-array>
+
+</resources>

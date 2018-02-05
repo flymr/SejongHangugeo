@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SejongHangugeo</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="slovo">Слово</string>
+    <string name="perevod">Перевод</string>
+    <string name="dobavit_noviy_termin">Новый термин:</string>
+    <string name="uchebnik_kursa">учебник курса</string>
+    <string name="grammatika">грамматика</string>
+    <string name="uchebnie_moduli">учебные модули</string>
+    <string name="redaktirovanie">Редактирование</string>
+    <string name="unlearn">Неизученно</string>
+    <string name="learning">Изученно</string>
+    <string name="learned">Усвоено</string>
+    <string name="next_round">Следующий раунд</string>
+
+</resources>

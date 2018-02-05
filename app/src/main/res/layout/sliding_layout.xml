@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:id="@+id/rl_sliding_panel"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<ImageView android:id="@+id/ivNewWords"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    app:srcCompat="@drawable/ic_arrow_drop_down"
+    />
+<TextView android:id="@+id/tvNewWordsCount"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_toRightOf="@id/ivNewWords"
+    android:background="@color/colorPrimary"
+    android:textColor="@color/white"
+    />
+
+<Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:text="add all to lesson"
+
+    android:layout_below="@+id/ivNewWords"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:visibility="gone"
+    android:backgroundTint="@color/colorListBackground"
+    android:textColor="@color/white"
+    />
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/btn_add_all"
+        android:layout_below="@+id/ivNewWords"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardElevation="10dp"
+        android:layout_margin="10dp"
+        >
+    </android.support.v7.widget.CardView>
+
+
+<android.support.v7.widget.RecyclerView
+
+
+    android:id="@+id/new_words_recycler"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/btn_add_all"
+    android:background="@null"
+
+    />
+</RelativeLayout>

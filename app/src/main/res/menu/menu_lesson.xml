@@ -1,0 +1,43 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+tools:context="com.example.xyarim.koreanbook.Activities.Lessons.LessonActivity">
+
+
+    <item
+        android:id="@+id/actionDelete"
+        android:title="Удалить"
+        android:icon="@drawable/ic_delete_white_24dp"
+        app:showAsAction="always"
+        android:visible="true"
+        android:orderInCategory="100"
+        />
+
+    <item
+        android:id="@+id/actionAddNewWord"
+        android:title="Редактировать"
+        android:icon="@drawable/ic_edit_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        />
+
+
+    <item
+        android:id="@+id/actionCard"
+        android:title="Карточки"
+        android:icon="@drawable/ic_card_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+    />
+
+    <item
+        android:id="@+id/actionWrite"
+        android:title="Письмо"
+        android:icon="@drawable/ic_keyboard_24dp"
+        app:showAsAction="always"
+        android:visible="true"
+        android:orderInCategory="100"
+        />
+
+
+</menu>

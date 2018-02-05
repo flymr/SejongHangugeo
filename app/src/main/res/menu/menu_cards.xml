@@ -1,0 +1,18 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/cardChangeLanguage"
+        android:title="сменить язык"
+        android:icon="@drawable/ic_swap_vert_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/shuffleCard"
+        android:title="перемешать"
+        android:icon="@drawable/ic_shuffle_24dp"
+        app:showAsAction="always"
+        android:orderInCategory="100"
+        />
+</menu>

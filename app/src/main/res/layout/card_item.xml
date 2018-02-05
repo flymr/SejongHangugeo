@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
+
+        <eu.davidea.flipview.FlipView
+            android:id="@+id/mFlipView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:animateFirstView="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:outAnimation="@anim/shrink_to_middle_y_axis"
+            android:inAnimation="@anim/grow_from_middle_y_axis"
+            app:animateDesignLayoutOnly="true"
+            app:animationDuration="200"
+            app:initialLayoutAnimation="@anim/scale_up"
+            app:initialLayoutAnimationDuration="200">
+
+            <!-- Front Layout Goes Here -->
+            <include layout="@layout/layout_card_hoff" />
+
+            <!-- Back Layout Goes Here -->
+            <include layout="@layout/layout_card_hoff_back" />
+
+
+
+        </eu.davidea.flipview.FlipView>
+
+
+
+
+</RelativeLayout>
