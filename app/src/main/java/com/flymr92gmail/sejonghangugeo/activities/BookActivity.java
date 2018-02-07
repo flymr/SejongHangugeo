@@ -116,6 +116,7 @@ public class BookActivity extends AppCompatActivity {
 
     }
 
+
     private void setupNavBook(){
         bookMenu.hide();
         navBookRv = findViewById(R.id.nav_book_rv);
