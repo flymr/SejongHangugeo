@@ -99,9 +99,20 @@ public class BookActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(){
-        ArrayList<Word> words = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
-        recyclerView.setAdapter(new NewWordsRecyclerAdapter(words, this));
-        recyclerView.setHasFixedSize(true);
+        handlerPdf.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayList<Word> words = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
+                        recyclerView.setAdapter(new NewWordsRecyclerAdapter(words, getApplicationContext()));
+                        recyclerView.setHasFixedSize(true);
+                    }
+                });
+            }
+        }, 0);
+
 
     }
 

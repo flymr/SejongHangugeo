@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SejongHangugeo.iml" filepath="$PROJECT_DIR$/SejongHangugeo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SejongHangugeo.iml" filepath="$PROJECT_DIR$/.idea/SejongHangugeo.iml" />
+      <module fileurl="file://C:\Users\DELL\AndroidStudioProjects\SejongHangugeo\SejongHangugeo.iml" filepath="C:\Users\DELL\AndroidStudioProjects\SejongHangugeo\SejongHangugeo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\DELL\AndroidStudioProjects\SejongHangugeo\app\app.iml" filepath="C:\Users\DELL\AndroidStudioProjects\SejongHangugeo\app\app.iml" />
     </modules>
   </component>
 </project>
