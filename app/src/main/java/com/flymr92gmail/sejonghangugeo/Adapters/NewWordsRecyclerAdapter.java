@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,7 +53,16 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
             tvKorWord = itemView.findViewById(R.id.korean_word_tv);
             tvRusWord = itemView.findViewById(R.id.russian_word_tv);
             ivAdd = itemView.findViewById(R.id.iv_add);
-
+            final Animation plusToCross = AnimationUtils.loadAnimation(mContext, R.anim.plus_to_cross);
+            final Animation croosToPlus = AnimationUtils.loadAnimation(mContext, R.anim.cross_to_plus);
+            ivAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (ivAdd.getAnimation() == plusToCross){
+                        ivAdd.startAnimation(croosToPlus);
+                    }else ivAdd.startAnimation(plusToCross);
+                }
+            });
         }
 
     }

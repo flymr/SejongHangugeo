@@ -52,4 +52,6 @@ dependencies {
     compile 'com.sothree.slidinguppanel:library:3.3.1'
     compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
     compile 'io.github.yavski:fab-speed-dial:1.0.6'
+    compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
+    compile 'com.nineoldandroids:library:2.4.0'
 }

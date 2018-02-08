@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -70,7 +71,8 @@ public class BookActivity extends AppCompatActivity {
     private LinearLayoutManager llmanagerNav;
     private boolean navIsShow = false;
     private RecyclerItemClickListener navListener;
-
+    private Button addAll;
+    private Button addSelected;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +102,9 @@ public class BookActivity extends AppCompatActivity {
         playButton = findViewById(R.id.book_play_audio);
         controller_ll = findViewById(R.id.book_audio_control_ll);
         closeAudioBtn = findViewById(R.id.close_audio_btn);
+        addAll = findViewById(R.id.sliding_add_all_btn);
+        addSelected = findViewById(R.id.sliding_add_selected_btn);
+
     }
 
     private void setupRecyclerView(){
@@ -181,7 +186,11 @@ public class BookActivity extends AppCompatActivity {
         SearchView.OnQueryTextListener queryTextListener;
         final RecyclerView searchRv = findViewById(R.id.search_words_rv);
         searchRv.setLayoutManager(new LinearLayoutManager(this));
-        wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+       try{
+           wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+       }catch (NullPointerException n){
+
+       }
         queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(final String newText) {

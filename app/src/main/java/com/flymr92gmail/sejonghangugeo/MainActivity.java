@@ -6,11 +6,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
+import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -18,7 +21,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
-
+    private FlowingDrawer mDrawer;
 
 
 
@@ -30,7 +33,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
             ButterKnife.bind(this);
+        mDrawer = findViewById(R.id.drawerlayout);
+        mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
+        mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
+            @Override
+            public void onDrawerStateChange(int oldState, int newState) {
+                if (newState == ElasticDrawer.STATE_CLOSED) {
+                    Log.i("MainActivity", "Drawer STATE_CLOSED");
+                }
+            }
 
+            @Override
+            public void onDrawerSlide(float openRatio, int offsetPixels) {
+                Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
+            }
+        });
         //mRecyclerView.setAdapter(adapter);
         Toolbar toolbar = mViewPager.getToolbar();
 
@@ -46,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setTitle("");
 
         }
+
 
 
         mViewPager.setColor(R.color.colorFolder, 100);
@@ -113,4 +131,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
+
 }
