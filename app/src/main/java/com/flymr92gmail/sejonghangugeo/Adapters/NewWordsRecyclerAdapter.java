@@ -20,11 +20,11 @@ import java.util.ArrayList;
 public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecyclerAdapter.ViewHolder> {
     private ArrayList<Word> mWords;
     private Context mContext;
-
+    public boolean[] selects;
     public NewWordsRecyclerAdapter(ArrayList<Word> words, Context context) {
         mWords=words;
         mContext = context;
-
+       selects = new boolean[mWords.size()];
     }
 
     @Override
@@ -60,7 +60,11 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
                 public void onClick(View view) {
                     if (ivAdd.getAnimation() == plusToCross){
                         ivAdd.startAnimation(croosToPlus);
-                    }else ivAdd.startAnimation(plusToCross);
+                        selects[getAdapterPosition()] = false;
+                    }else {
+                        ivAdd.startAnimation(plusToCross);
+                        selects[getAdapterPosition()] = true;
+                    }
                 }
             });
         }

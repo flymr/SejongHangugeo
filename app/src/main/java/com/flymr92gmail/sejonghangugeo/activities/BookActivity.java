@@ -115,8 +115,15 @@ public class BookActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         ArrayList<Word> words = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
-                        recyclerView.setAdapter(new NewWordsRecyclerAdapter(words, getApplicationContext()));
+                        NewWordsRecyclerAdapter adapter = new NewWordsRecyclerAdapter(words, getApplicationContext());
+                        recyclerView.setAdapter(adapter);
                         recyclerView.setHasFixedSize(true);
+                        int selectedCount = 0;
+                        for (int i = 0; i < adapter.selects.length; i++){
+                            if (adapter.selects[i]) selectedCount++;
+                        }
+                        String s = "" + selectedCount;
+                        addSelected.setText(s);
                     }
                 });
             }
