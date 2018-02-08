@@ -47,11 +47,10 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
         Cursor cursorWord = null;
         String myQuery=null;
             if (language== Language.Russian){
-                myQuery = "SELECT * FROM words WHERE " + "russian" + " LIKE '"+ searchWord +"%' or " + "russian" + " LIKE '%" + " " + searchWord + "%'";
-
+                myQuery = "SELECT * FROM words WHERE " + "russian" + " LIKE '%"+ searchWord +"%'";
             }
             else {
-                myQuery = "SELECT * FROM words WHERE " + "korean" + " LIKE '" + searchWord + "%' or " + "korean" + " LIKE '%" + " " + searchWord + "%'";
+                myQuery = "SELECT * FROM words WHERE " + "korean" + " LIKE '%" + searchWord + "%'";
             }
         cursorWord=db.rawQuery(myQuery,null);
             while (cursorWord.moveToNext()){

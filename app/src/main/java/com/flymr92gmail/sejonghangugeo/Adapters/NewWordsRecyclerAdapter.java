@@ -27,7 +27,7 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.words_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_item_book,parent,false);
         return new ViewHolder(view);
     }
 
@@ -45,17 +45,11 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
     }
     public class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvKorWord,tvRusWord;
-        ImageView ivStar;
-        ImageView firstCircle;
-        ImageView secondCircle;
         ImageView ivAdd;
         public ViewHolder(View itemView) {
             super(itemView);
             tvKorWord = itemView.findViewById(R.id.korean_word_tv);
             tvRusWord = itemView.findViewById(R.id.russian_word_tv);
-            ivStar    = itemView.findViewById(R.id.star_iv);
-            firstCircle = itemView.findViewById(R.id.firstCircle);
-            secondCircle = itemView.findViewById(R.id.secondCircle);
             ivAdd = itemView.findViewById(R.id.iv_add);
 
         }

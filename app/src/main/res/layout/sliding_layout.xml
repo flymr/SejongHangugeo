@@ -3,7 +3,7 @@
 <RelativeLayout android:id="@+id/rl_sliding_panel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@null"
+    android:background="@color/colorListBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -13,27 +13,9 @@
     android:layout_centerHorizontal="true"
     app:srcCompat="@drawable/ic_arrow_drop_down"
     />
-<TextView android:id="@+id/tvNewWordsCount"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_toRightOf="@id/ivNewWords"
-    android:background="@color/colorPrimary"
-    android:textColor="@color/white"
-    />
 
-<Button
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
 
-    android:text="add all to lesson"
 
-    android:layout_below="@+id/ivNewWords"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true"
-    android:visibility="gone"
-    android:backgroundTint="@color/colorListBackground"
-    android:textColor="@color/white"
-    />
 
 
     <android.support.v7.widget.CardView

@@ -38,7 +38,8 @@
             android:name=".activities.LearnFinalResult"
             android:configChanges="orientation|screenSize"
             android:theme="@style/LessonTheme" />
-        <activity android:name=".activities.BookActivity"></activity>
+        <activity android:name=".activities.BookActivity"
+            android:theme="@style/AppThemeWhite"/>
     </application>
 
 </manifest>

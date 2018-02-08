@@ -90,4 +90,36 @@
         <item name="android:textStyle">bold|italic</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+
+
+    <style name="AppThemeWhite" parent="AppBaseTheme">
+
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
+
+        <item name="android:windowContentOverlay">@color/white</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlActivated">@color/redM</item>
+        <!-- Toolbar Theme / Apply white arrow -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
+
+        <!-- Material Theme -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/navigationBarColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorControlActivated" tools:targetApi="21">@color/white</item>
+        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
+
+        <item name="android:textColorHint">@color/hintColor</item>
+        <item name="android:windowBackground">@color/white</item>
+
+        <item name="android:textColor">@color/navigationBarColor</item>
+        <item name="android:alertDialogTheme">@style/AppAlertTheme</item>
+        <item name="android:dialogTheme">@style/AppDialogTheme</item>
+    </style>
 </resources>

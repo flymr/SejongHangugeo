@@ -1,6 +1,8 @@
 package com.flymr92gmail.sejonghangugeo.activities;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
@@ -10,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -23,10 +27,12 @@ import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.NavBookAdapter;
 import com.flymr92gmail.sejonghangugeo.Adapters.NewWordsRecyclerAdapter;
+import com.flymr92gmail.sejonghangugeo.Adapters.SearchWordsAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.RecyclerItemClickListener;
+import com.flymr92gmail.sejonghangugeo.Utils.Constants;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
@@ -36,9 +42,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.wnafee.vector.MorphButton;
 
 import java.util.ArrayList;
-
-
-
+import java.util.Collections;
+import java.util.Comparator;
 
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
@@ -95,11 +100,10 @@ public class BookActivity extends AppCompatActivity {
         playButton = findViewById(R.id.book_play_audio);
         controller_ll = findViewById(R.id.book_audio_control_ll);
         closeAudioBtn = findViewById(R.id.close_audio_btn);
-
     }
 
     private void setupRecyclerView(){
-        handlerPdf.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
@@ -159,7 +163,6 @@ public class BookActivity extends AppCompatActivity {
                     navBookRv.setAdapter(null);
                     navBookRv.setLayoutManager(null);
                     navBookRv = null;
-
                 }
 
                 @Override
@@ -169,6 +172,54 @@ public class BookActivity extends AppCompatActivity {
             });
 
         }
+    }
+
+    private void setupSearcher(){
+        SearchView wordsSearcher = findViewById(R.id.search_words_sv);
+        wordsSearcher.setVisibility(View.VISIBLE);
+        SearchManager searchManager = (SearchManager) getApplicationContext().getSystemService(Context.SEARCH_SERVICE);
+        SearchView.OnQueryTextListener queryTextListener;
+        final RecyclerView searchRv = findViewById(R.id.search_words_rv);
+        searchRv.setLayoutManager(new LinearLayoutManager(this));
+        wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        queryTextListener = new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(final String newText) {
+                ArrayList<Word> wordArrayList;
+                Constants.Language language = Constants.Language.Russian;
+                wordArrayList = dataBase.getSearchResult(newText, language);
+                Collections.sort(wordArrayList, new Comparator<Word>() {
+                    @Override
+                    public int compare(Word o1, Word o2) {
+                        if (o1.getRussianWord().indexOf(newText)<0 || o2.getRussianWord().indexOf(newText)<0)
+                            return o1.getRussianWord().toLowerCase().indexOf(newText.toLowerCase())-o2.getRussianWord().toLowerCase().indexOf(newText.toLowerCase());
+                            return o1.getRussianWord().indexOf(newText)-o2.getRussianWord().indexOf(newText);
+                    }
+                });
+                if (wordArrayList.size()==0){
+                    language = Constants.Language.Korean;
+                    wordArrayList = dataBase.getSearchResult(newText, language);
+                    Collections.sort(wordArrayList, new Comparator<Word>() {
+                        @Override
+                        public int compare(Word o1, Word o2) {
+                            return o1.getKoreanWord().indexOf(newText)-o2.getKoreanWord().indexOf(newText);
+                        }
+                    });
+                }
+                if (newText.equals(""))
+                    wordArrayList = new ArrayList<>();
+
+                searchRv.setAdapter(new SearchWordsAdapter(wordArrayList, getApplicationContext(), newText, language));
+                return true;
+            }
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                return true;
+            }
+        };
+        wordsSearcher.setOnQueryTextListener(queryTextListener);
+        wordsSearcher.setIconified(false);
     }
 
     private boolean orientationIsHorizontal(){
@@ -209,7 +260,7 @@ public class BookActivity extends AppCompatActivity {
                                         if (controller_ll.getVisibility() == View.VISIBLE)stopAudio();
                                         prefManager.saveLastBookPage(page);
                                        try {
-                                          clearNavBook();
+                                           clearNavBook();
                                         }catch (NullPointerException e){
 
                                        }
@@ -252,6 +303,9 @@ public class BookActivity extends AppCompatActivity {
                   case R.id.action_navigation:
                       navIsShow = true;
                       setupNavBook();
+                      break;
+                  case R.id.action_search:
+                      setupSearcher();
                       break;
               }
               return false;
