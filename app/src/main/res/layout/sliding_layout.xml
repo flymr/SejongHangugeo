@@ -7,65 +7,74 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-    app:srcCompat="@drawable/ic_arrow_drop_down"
-    />
-
-
     <android.support.v7.widget.CardView
-        android:id="@+id/btn_add_all"
+        android:id="@+id/sliding_add_cv"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:cardElevation="10dp"
-        android:layout_marginTop="35dp"
+        android:layout_height="50dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        android:layout_margin="10dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/sliding_add_tv"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.4"
-                android:textAlignment="center"
-                android:textColor="@color/black"/>
+            android:orientation="horizontal"
+            android:gravity="center">
 
             <LinearLayout
-                android:layout_weight="0.6"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                >
-                <Button
-                    android:id="@+id/sliding_add_all_btn"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="все"/>
-
-                <Button
-                    android:id="@+id/sliding_add_selected_btn"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                android:id="@+id/sliding_add_all_btn"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/colorAccent">
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    app:robotoTypeface="roboto_condensed_light"
+                    android:text="добавить все"
+                    android:textColor="@color/white"/>
             </LinearLayout>
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+            <LinearLayout
+                android:id="@+id/sliding_add_selected_btn"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@color/white">
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:id="@+id/selected_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    app:robotoTypeface="roboto_condensed_light"
+                    android:textColor="@color/lowBlue"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
 
-<android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/new_words_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sliding_add_cv"
+        />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_arrow_drop_down"
+        />
 
-    android:id="@+id/new_words_recycler"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/btn_add_all"
-
-    />
 </RelativeLayout>

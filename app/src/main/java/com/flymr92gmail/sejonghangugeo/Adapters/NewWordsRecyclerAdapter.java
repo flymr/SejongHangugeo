@@ -1,5 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,10 +23,20 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
     private ArrayList<Word> mWords;
     private Context mContext;
     public boolean[] selects;
-    public NewWordsRecyclerAdapter(ArrayList<Word> words, Context context) {
-        mWords=words;
-        mContext = context;
-       selects = new boolean[mWords.size()];
+    private Animation plusToCross;
+    private Animation croosToPlus;
+    public interface OnRecyclerViewItemClickListener {
+        void onAddClick(boolean[] selects, int position);
+    }
+    private OnRecyclerViewItemClickListener mClickListener;
+
+    public NewWordsRecyclerAdapter(ArrayList<Word> words, Context context, OnRecyclerViewItemClickListener clickListener) {
+        this.mWords=words;
+        this.mContext = context;
+        selects = new boolean[mWords.size()];
+        this.mClickListener = clickListener;
+        plusToCross = AnimationUtils.loadAnimation(mContext, R.anim.plus_to_cross);
+        croosToPlus = AnimationUtils.loadAnimation(mContext, R.anim.cross_to_plus);
     }
 
     @Override
@@ -53,21 +65,30 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
             tvKorWord = itemView.findViewById(R.id.korean_word_tv);
             tvRusWord = itemView.findViewById(R.id.russian_word_tv);
             ivAdd = itemView.findViewById(R.id.iv_add);
-            final Animation plusToCross = AnimationUtils.loadAnimation(mContext, R.anim.plus_to_cross);
-            final Animation croosToPlus = AnimationUtils.loadAnimation(mContext, R.anim.cross_to_plus);
+
             ivAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (ivAdd.getAnimation() == plusToCross){
-                        ivAdd.startAnimation(croosToPlus);
+                        colorAnimator(ivAdd, "colorFilter", R.color.redM,
+                                R.color.navigationBarColor, 300, croosToPlus);
                         selects[getAdapterPosition()] = false;
                     }else {
-                        ivAdd.startAnimation(plusToCross);
+                        colorAnimator(ivAdd, "colorFilter", R.color.navigationBarColor,
+                                R.color.redM, 300, plusToCross);
                         selects[getAdapterPosition()] = true;
+                    }
+                    if (mClickListener != null) {
+                        mClickListener.onAddClick(selects, getAdapterPosition());
                     }
                 }
             });
-        }
 
+        }
+        private void colorAnimator(View view, String propertyName, int firstColor, int secondColor, int duration, Animation anim){
+            ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), mContext.getResources().getColor(firstColor),
+                    mContext.getResources().getColor(secondColor)).setDuration(duration).start();
+            view.startAnimation(anim);
+        }
     }
 }

@@ -9,7 +9,8 @@
         android:clipToPadding="false"
         app:edPosition="1"
         app:edMenuSize="260dp"
-        app:edMenuBackground="#dddddd">
+        app:edMenuBackground="@color/colorAccent"
+    >
 
         <!--content-->
         <RelativeLayout

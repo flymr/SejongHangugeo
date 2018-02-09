@@ -88,16 +88,6 @@
                     android:visibility="gone"
                     />
 
-                <ImageView android:id="@+id/iv_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_add_black"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    android:visibility="gone"
-                    />
-
                 <include layout="@layout/circle_layout"
                     android:id="@+id/layout_circles"
                     android:layout_width="wrap_content"

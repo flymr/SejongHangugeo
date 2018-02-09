@@ -1,21 +1,26 @@
 package com.flymr92gmail.sejonghangugeo.activities;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.design.internal.NavigationMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -26,10 +31,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 
+import com.devspark.robototextview.widget.RobotoTextView;
 import com.flymr92gmail.sejonghangugeo.Adapters.NavBookAdapter;
 import com.flymr92gmail.sejonghangugeo.Adapters.NewWordsRecyclerAdapter;
 import com.flymr92gmail.sejonghangugeo.Adapters.SearchWordsAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
+import com.flymr92gmail.sejonghangugeo.Fragments.LessonsDialogAddFragment;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.RecyclerItemClickListener;
@@ -42,6 +49,7 @@ import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.wnafee.vector.MorphButton;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,7 +58,7 @@ import java.util.Comparator;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
-public class BookActivity extends AppCompatActivity {
+public class BookActivity extends AppCompatActivity implements NewWordsRecyclerAdapter.OnRecyclerViewItemClickListener{
     private PDFView pdfView;
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private PrefManager prefManager;
@@ -71,8 +79,12 @@ public class BookActivity extends AppCompatActivity {
     private LinearLayoutManager llmanagerNav;
     private boolean navIsShow = false;
     private RecyclerItemClickListener navListener;
-    private Button addAll;
-    private Button addSelected;
+    private LinearLayout addAll;
+    private LinearLayout addSelected;
+    private RobotoTextView selectedCountTv;
+    private ArrayList<Word> pageWords;
+    private ArrayList<Word> selectedWords;
+    private SearchView wordsSearcher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +93,7 @@ public class BookActivity extends AppCompatActivity {
         setupPdf();
         setupBookMenu();
         setupAudioPlayer();
-
+        setupSlidingPanelButtonListener();
     }
 
     private void initialization(){
@@ -104,34 +116,49 @@ public class BookActivity extends AppCompatActivity {
         closeAudioBtn = findViewById(R.id.close_audio_btn);
         addAll = findViewById(R.id.sliding_add_all_btn);
         addSelected = findViewById(R.id.sliding_add_selected_btn);
-
+        wordsSearcher = findViewById(R.id.search_words_sv);
+        selectedCountTv = findViewById(R.id.selected_count_tv);
+        pageWords = new ArrayList<>();
+        selectedWords = new ArrayList<>();
     }
 
     private void setupRecyclerView(){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ArrayList<Word> words = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
-                        NewWordsRecyclerAdapter adapter = new NewWordsRecyclerAdapter(words, getApplicationContext());
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setHasFixedSize(true);
-                        int selectedCount = 0;
-                        for (int i = 0; i < adapter.selects.length; i++){
-                            if (adapter.selects[i]) selectedCount++;
-                        }
-                        String s = "" + selectedCount;
-                        addSelected.setText(s);
-                    }
-                });
-            }
-        }, 0);
-
-
+        String s = "выбранные(0)";
+        selectedCountTv.setText(s);
+        selectedWords.clear();
+        pageWords.clear();
+        pageWords = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
+        NewWordsRecyclerAdapter adapter = new NewWordsRecyclerAdapter(pageWords, getApplicationContext(), this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
     }
 
+    private void setupSlidingPanelButtonListener(){
+        addAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
+                lessonsDialogAddFragment.setWords(pageWords);
+                lessonsDialogAddFragment.show(getSupportFragmentManager(),"Choise Lesson");
+
+            }
+        });
+        addSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
+                lessonsDialogAddFragment.setWords(selectedWords);
+                lessonsDialogAddFragment.show(getSupportFragmentManager(),"Choise Lesson");
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!closeSearcher()&&!clearNavBook()&&!stopAudio()) {
+            super.onBackPressed();
+        }
+    }
 
     private void setupNavBook(){
         bookMenu.hide();
@@ -157,7 +184,7 @@ public class BookActivity extends AppCompatActivity {
         navBookRv.addOnItemTouchListener(navListener);
     }
 
-    private void clearNavBook(){
+    private boolean clearNavBook(){
         if (navIsShow) {
             navIsShow = false;
             navBookRv.removeOnItemTouchListener(navListener);
@@ -182,22 +209,21 @@ public class BookActivity extends AppCompatActivity {
 
                 }
             });
-
-        }
+return true;
+        }else return false;
     }
 
     private void setupSearcher(){
-        SearchView wordsSearcher = findViewById(R.id.search_words_sv);
         wordsSearcher.setVisibility(View.VISIBLE);
         SearchManager searchManager = (SearchManager) getApplicationContext().getSystemService(Context.SEARCH_SERVICE);
-        SearchView.OnQueryTextListener queryTextListener;
+        final SearchView.OnQueryTextListener queryTextListener;
         final RecyclerView searchRv = findViewById(R.id.search_words_rv);
         searchRv.setLayoutManager(new LinearLayoutManager(this));
-       try{
-           wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-       }catch (NullPointerException n){
+        try{
+            wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }catch (NullPointerException n){
 
-       }
+        }
         queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(final String newText) {
@@ -236,6 +262,21 @@ public class BookActivity extends AppCompatActivity {
         };
         wordsSearcher.setOnQueryTextListener(queryTextListener);
         wordsSearcher.setIconified(false);
+        wordsSearcher.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (wordsSearcher.getQuery().equals("")) closeSearcher();
+                return false;
+            }
+        });
+    }
+
+    private boolean closeSearcher(){
+        if (wordsSearcher.getVisibility() == View.VISIBLE){
+            wordsSearcher.setQuery("", false);
+            wordsSearcher.setVisibility(View.GONE);
+            return true;
+        }else return false;
     }
 
     private boolean orientationIsHorizontal(){
@@ -273,7 +314,7 @@ public class BookActivity extends AppCompatActivity {
                                 .onPageChange(new OnPageChangeListener() {
                                     @Override
                                     public void onPageChanged(int page, int pageCount) {
-                                        if (controller_ll.getVisibility() == View.VISIBLE)stopAudio();
+                                        stopAudio();
                                         prefManager.saveLastBookPage(page);
                                        try {
                                            clearNavBook();
@@ -287,6 +328,7 @@ public class BookActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 clearNavBook();
+                                closeSearcher();
                             }
                         });
                     }
@@ -421,23 +463,27 @@ public class BookActivity extends AppCompatActivity {
             getAudioStats();
             initializeSeekBar();
         } catch (Exception e) {
-            e.printStackTrace();
+
         }
     }
 
-    protected void stopAudio(){
-        if(mp!=null){
-            mp.stop();
-            mp.release();
-            mp = null;
-            if(handlerAudio!=null){
-                handlerAudio.removeCallbacks(audioRun);
+    protected boolean stopAudio(){
+        if (controller_ll.getVisibility() == View.VISIBLE){
+            if(mp!=null){
+                mp.stop();
+                mp.release();
+                mp = null;
+                if(handlerAudio!=null){
+                    handlerAudio.removeCallbacks(audioRun);
+                }
             }
-        }
-        audioSeekBar.setProgress(0);
-        controller_ll.setVisibility(View.GONE);
-        if (playButton.getState() == MorphButton.MorphState.END) playButton.setState(MorphButton.MorphState.START);
-        bookMenu.show();
+            audioSeekBar.setProgress(0);
+            controller_ll.setVisibility(View.GONE);
+            if (playButton.getState() == MorphButton.MorphState.END) playButton.setState(MorphButton.MorphState.START);
+            bookMenu.show();
+            return true;
+        }else return false;
+
     }
 
 
@@ -484,5 +530,44 @@ public class BookActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onAddClick(boolean[] selects, int position) {
+        selectedWords.clear();
+        int selected = 0;
+        for (boolean b : selects){
+            if (b){
+                selected++;
+                selectedWords.add(pageWords.get(position));
+            }
+        }
+        if (1 == selected){
+                colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, true);
+                colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, true);
+        }else if (0 == selected){
+            colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, false);
+            colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, false);
+        }
+
+        String s = "выбранные(" + selected + ")";
+        selectedCountTv.setText(s);
+
+    }
+
+    private boolean wordIsAlreadyDone(Word checkingWord, ArrayList<Word> words){
+        String rusWord = checkingWord.getRussianWord();
+        String korWord = checkingWord.getKoreanWord();
+        for (Word word:words){
+            if (rusWord.equals(word.getRussianWord())
+                    &&korWord.equals(word.getKoreanWord())) return true;
+        }
+        return false;
+    }
+
+    private void colorAnimator(View view, String propertyName, int firstColor, int secondColor, int duration, boolean isStart){
+       if(isStart) ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), getResources().getColor(firstColor),
+                getResources().getColor(secondColor)).setDuration(duration).start();
+       else ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), getResources().getColor(secondColor),
+               getResources().getColor(firstColor)).setDuration(duration).start();
+    }
 
 }
