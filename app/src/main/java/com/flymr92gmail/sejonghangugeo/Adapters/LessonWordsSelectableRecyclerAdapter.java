@@ -17,6 +17,8 @@ import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
+import com.flymr92gmail.sejonghangugeo.Utils.WordsSpeech;
 
 
 import java.util.ArrayList;
@@ -31,12 +33,14 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
     private UserDataBase dataBase;
     private Lesson lesson;
     private boolean deleteMod = false;
+    private SpeechActionListener speechActionListener;
 
-    public LessonWordsSelectableRecyclerAdapter(ArrayList<Word> words, Context context, Lesson lesson) {
+    public LessonWordsSelectableRecyclerAdapter(ArrayList<Word> words, Context context, Lesson lesson, SpeechActionListener speechActionListener) {
         this.mWords=words;
         this.mContext = context;
         dataBase = new UserDataBase(context);
         this.lesson = lesson;
+        this.speechActionListener = speechActionListener;
 
     }
 
@@ -77,6 +81,7 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
                     viewHolder.ivDelete.setVisibility(View.GONE);
                     viewHolder.ivStar.setVisibility(View.VISIBLE);
                 }
+                viewHolder.ivSpeech.setVisibility(View.VISIBLE);
                 viewHolder.tvKorWord.setText(word.getKoreanWord());
                 viewHolder.tvRusWord.setText(word.getRussianWord());
                 if (word.isSelected()==0){
@@ -107,7 +112,7 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
         TextView tvKorWord, tvRusWord;
         ImageView ivStar;
         ImageView ivDelete;
-
+        ImageView ivSpeech;
         @Override
         public String toString() {
             return super.toString();
@@ -119,6 +124,8 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
                 tvRusWord = itemView.findViewById(R.id.russian_word_tv);
                 ivStar = itemView.findViewById(R.id.star_iv);
                 ivDelete = itemView.findViewById(R.id.delete_iv);
+                ivSpeech = itemView.findViewById(R.id.speech_iv);
+                ivSpeech.setOnClickListener(this);
                 ivStar.setOnClickListener(this);
                 ivDelete.setOnClickListener(this);
 
@@ -129,7 +136,13 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
         public void onClick(View view) {
             int position = getAdapterPosition();
             switch (view.getId()) {
+                case R.id.speech_iv:
+                    if (speechActionListener != null){
+                        speechActionListener.onSpeechClick(getAdapterPosition());
+                    }
+                    break;
                 case R.id.star_iv:
+
                     Word word = mWords.get(position);
                     if (word.isSelected() == 0) {
                         ivStar.setColorFilter(mContext.getResources().getColor(R.color.yellow));

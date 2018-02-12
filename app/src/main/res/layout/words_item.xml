@@ -75,7 +75,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="50dp"
+                android:layout_width="70dp"
                 android:layout_height="50dp">
 
                 <ImageView android:id="@+id/star_iv"
@@ -106,6 +106,16 @@
                     android:layout_centerVertical="true"
                     android:visibility="gone"
 
+                    />
+
+                <ImageView android:id="@+id/speech_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_volume_24dp"
+                    android:layout_toLeftOf="@+id/star_iv"
+                    android:layout_marginRight="10dp"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone"
                     />
             </RelativeLayout>
 

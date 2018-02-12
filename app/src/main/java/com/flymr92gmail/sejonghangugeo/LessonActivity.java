@@ -5,19 +5,23 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Toast;
 
 
+import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
 import com.flymr92gmail.sejonghangugeo.activities.CardActivity;
 import com.flymr92gmail.sejonghangugeo.activities.LearnActivity;
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonWordsSelectableRecyclerAdapter;
@@ -29,9 +33,10 @@ import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
-public class LessonActivity extends AppCompatActivity {
+public class LessonActivity extends AppCompatActivity implements SpeechActionListener{
 
     private UserDataBase dataBase;
     private RecyclerView recyclerView;
@@ -49,7 +54,7 @@ public class LessonActivity extends AppCompatActivity {
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private int lastFirstVisiblePosition;
     private Animation plusToCross, croosToPlus;
-    private Handler mUiHandler = new Handler();
+    private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +69,7 @@ public class LessonActivity extends AppCompatActivity {
         setupFloatingToolbarListener();
         setupTabStrip();
         setupRecyclerView();
-
+       setupSpeechWord();
     }
 
     @Override
@@ -116,6 +121,25 @@ public class LessonActivity extends AppCompatActivity {
         }
     }
 
+    private void setupSpeechWord(){
+        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if (status == TextToSpeech.SUCCESS){
+                    int result = textToSpeech.setLanguage(Locale.KOREAN);
+
+                    if (result == TextToSpeech.LANG_MISSING_DATA
+                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("TTS", "This Language is not supported");
+                    }
+                         Log.e("TTS", "All right");
+
+
+                }
+            }
+        });
+    }
+
     private Lesson getLesson(Intent intent){
         intent.getStringExtra("lessonId");
         Lesson lesson = dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
@@ -125,7 +149,7 @@ public class LessonActivity extends AppCompatActivity {
     private void setupAdapter(Lesson lesson){
         if (lesson.getLessonTabIndex() == 1) words = dataBase.getSelectedWordsInLesson(lesson);
         else words = dataBase.getWordsInLesson(lesson.getLessonTable());
-        adapter = new LessonWordsSelectableRecyclerAdapter(words,this,lesson);
+        adapter = new LessonWordsSelectableRecyclerAdapter(words,this,lesson, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -366,6 +390,17 @@ public class LessonActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public void onSpeechClick(int position) {
+        String kor = words.get(position).getKoreanWord();
+        String rus = words.get(position).getRussianWord();
+        textToSpeech.speak(kor, TextToSpeech.QUEUE_FLUSH, null);
+        Toast.makeText(this,kor, Toast.LENGTH_SHORT).show();
+
+
+    }
+
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
