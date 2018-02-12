@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -126,13 +127,14 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS){
-                    int result = textToSpeech.setLanguage(Locale.KOREAN);
+                    int result = textToSpeech.setLanguage(Locale.US);
 
                     if (result == TextToSpeech.LANG_MISSING_DATA
                             || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         Log.e("TTS", "This Language is not supported");
+
                     }
-                         Log.e("TTS", "All right");
+                        Log.e("TTS", "All right");
 
 
                 }
@@ -395,10 +397,30 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     public void onSpeechClick(int position) {
         String kor = words.get(position).getKoreanWord();
         String rus = words.get(position).getRussianWord();
-        textToSpeech.speak(kor, TextToSpeech.QUEUE_FLUSH, null);
-        Toast.makeText(this,kor, Toast.LENGTH_SHORT).show();
+        View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
+        final ImageView imageView = view.findViewById(R.id.speech_iv);
+        imageView.setColorFilter(getResources().getColor(R.color.yellow));
+        textToSpeech.speak("Apple", TextToSpeech.QUEUE_FLUSH, null);
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < 1; i++){
+                            i--;
+                            if (!textToSpeech.isSpeaking()){
+                                imageView.setColorFilter(getResources().getColor(R.color.white));
+                                i = 1;
+                            }
+                        }
+                    }
+                });
+                // mBottomNavigationTabStrip.setTabIndex(tabIndex);
 
+            }
+        }, 100);
     }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
