@@ -358,6 +358,8 @@ public class CardActivity extends AppCompatActivity {
             final Word word = words.get(position);
             holder.ivStar.setVisibility(View.VISIBLE);
             holder.ivStar2.setVisibility(View.VISIBLE);
+            word.setPositionInCardAction(position);
+            dataBase.editWordPositionInCardAction(lesson, word);
             if (lesson.getCurrentLanguageCards()==1){
                 holder.tvKorWord.setText(word.getKoreanWord());
                 holder.tvRusWord.setText(word.getRussianWord());

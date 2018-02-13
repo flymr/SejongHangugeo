@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.media.SoundPool;
 
 
+import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Test;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 
@@ -68,6 +69,7 @@ public class Helper {
     public void wordComponentEditor(String userAnswer, String correctAnswer, int index){
 
     }
+
 
 
 }

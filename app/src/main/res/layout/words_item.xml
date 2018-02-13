@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.40"
@@ -45,10 +45,12 @@
                 <TextView android:id="@+id/korean_word_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:id="@+id/word_separate"
@@ -60,7 +62,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.60"
@@ -70,21 +72,32 @@
                 <TextView android:id="@+id/russian_word_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
                     />
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="70dp"
+            <LinearLayout
+                android:layout_width="60dp"
                 android:layout_height="50dp">
+
+                <ImageView android:id="@+id/speech_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_volume_24dp"
+                    android:layout_toLeftOf="@+id/star_iv"
+                    android:layout_marginRight="5dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    />
 
                 <ImageView android:id="@+id/star_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_star_grey"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
                     android:visibility="gone"
                     />
 
@@ -92,8 +105,7 @@
                     android:id="@+id/layout_circles"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
                     android:visibility="gone"
                     />
 
@@ -101,23 +113,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_remove_24dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_gravity="center"
                     android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
+
                     android:visibility="gone"
 
                     />
 
-                <ImageView android:id="@+id/speech_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_volume_24dp"
-                    android:layout_toLeftOf="@+id/star_iv"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"
-                    android:visibility="gone"
-                    />
-            </RelativeLayout>
+            </LinearLayout>
 
 
         </LinearLayout>

@@ -12,6 +12,7 @@ public class Word implements Serializable {
     private int mIsSelected = 0;
     private int mMissCount = 0;
     private int mIsLearning = 0;
+    private int positionInCardAction = 0;
 
     public int isSelected() {
         return mIsSelected;
@@ -75,5 +76,13 @@ public class Word implements Serializable {
 
     public void setmIsLearning(int mIsLearning) {
         this.mIsLearning = mIsLearning;
+    }
+
+    public void setPositionInCardAction(int positionInCardAction){
+        this.positionInCardAction = positionInCardAction;
+    }
+
+    public int getPositionInCardAction(){
+        return positionInCardAction;
     }
 }

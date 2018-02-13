@@ -1,5 +1,7 @@
 package com.flymr92gmail.sejonghangugeo;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -13,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 
 
 import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
+import com.flymr92gmail.sejonghangugeo.Utils.WordsSpeech;
 import com.flymr92gmail.sejonghangugeo.activities.CardActivity;
 import com.flymr92gmail.sejonghangugeo.activities.LearnActivity;
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonWordsSelectableRecyclerAdapter;
@@ -30,6 +34,7 @@ import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
+import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 
 
@@ -55,7 +60,10 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private int lastFirstVisiblePosition;
     private Animation plusToCross, croosToPlus;
-    private TextToSpeech textToSpeech;
+    private WordsSpeech wordsSpeech;
+    private ArcProgress arcProgress;
+    private View progressLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +78,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         setupFloatingToolbarListener();
         setupTabStrip();
         setupRecyclerView();
-       setupSpeechWord();
+
     }
 
     @Override
@@ -78,6 +86,8 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         super.onResume();
         setupAdapter(lesson);
         linearLayoutManager.scrollToPositionWithOffset(lastFirstVisiblePosition,0);
+        arcProgress.setProgress(lesson.getLessonProgress());
+
     }
 
     @Override
@@ -92,7 +102,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         floatingToolbar = findViewById(R.id.floatingToolbar);
         fab = findViewById(R.id.fabLesson);
         floatingToolbar.attachFab(fab);
-        toolbar = findViewById(R.id.toolbar_lesson);
+
         dataBase = new UserDataBase(this);
         recyclerView = findViewById(R.id.lesson_rv);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -100,9 +110,14 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         lastFirstVisiblePosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
         plusToCross = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.plus_to_cross);
         croosToPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.cross_to_plus);
+        wordsSpeech = new WordsSpeech(this);
+        progressLayout = getLayoutInflater().inflate(R.layout.arc_progress, null);
+        arcProgress = progressLayout.findViewById(R.id.lesson_progress);
+
     }
 
     private void setupToolbar(){
+        toolbar = findViewById(R.id.toolbar_lesson);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -119,28 +134,13 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_24dp);
             upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             getSupportActionBar().setHomeAsUpIndicator(upArrow);
+            arcProgress.setProgress(lesson.getLessonProgress());
+            toolbar.addView(progressLayout ,  new Toolbar.LayoutParams(Gravity.END));
+
         }
     }
 
-    private void setupSpeechWord(){
-        textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if (status == TextToSpeech.SUCCESS){
-                    int result = textToSpeech.setLanguage(Locale.US);
 
-                    if (result == TextToSpeech.LANG_MISSING_DATA
-                            || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Log.e("TTS", "This Language is not supported");
-
-                    }
-                        Log.e("TTS", "All right");
-
-
-                }
-            }
-        });
-    }
 
     private Lesson getLesson(Intent intent){
         intent.getStringExtra("lessonId");
@@ -158,8 +158,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     @Override
     protected void onRestart() {
         super.onRestart();
-        setupAdapter(lesson);
-        ((LinearLayoutManager)recyclerView.getLayoutManager()).scrollToPositionWithOffset(lastFirstVisiblePosition,0);
+
     }
 
     private void editLessonAction(){
@@ -274,7 +273,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             public void onStartTabSelected(final String title, final int index) {
                 linearLayoutManager.scrollToPositionWithOffset(lastFirstVisiblePosition,0);
                 runTabChange(index);
-
             }
             @Override
             public void onEndTabSelected(final String title, final int index) {
@@ -396,23 +394,22 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     @Override
     public void onSpeechClick(int position) {
         String kor = words.get(position).getKoreanWord();
-        String rus = words.get(position).getRussianWord();
         View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
         final ImageView imageView = view.findViewById(R.id.speech_iv);
-        imageView.setColorFilter(getResources().getColor(R.color.yellow));
-        textToSpeech.speak("Apple", TextToSpeech.QUEUE_FLUSH, null);
-
+        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.grayM),
+                getResources().getColor(R.color.yellow)).setDuration(100).start();
+        wordsSpeech.speechWord(kor);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        for (int i = 0; i < 1; i++){
-                            i--;
-                            if (!textToSpeech.isSpeaking()){
-                                imageView.setColorFilter(getResources().getColor(R.color.white));
-                                i = 1;
+                        while (words.size() != 0){
+                            if (!wordsSpeech.wordIsSpeech()){
+                                ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.yellow),
+                                        getResources().getColor(R.color.grayM)).setDuration(300).start();
+                                return;
                             }
                         }
                     }
@@ -422,6 +419,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             }
         }, 100);
     }
+
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override

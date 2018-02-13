@@ -25,8 +25,8 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private ArrayList<Lesson> mLessonArrayList;
     private UserDataBase dataBase;
     private Context mContext;
-    static final int TYPE_HEADER = 0;
-    static final int TYPE_CELL = 1;
+    private final int TYPE_HEADER = 0;
+    private final int TYPE_CELL = 1;
 
     public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext) {
         this.mLessonArrayList = mLessonArrayList;
@@ -63,7 +63,8 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Lesson lesson = mLessonArrayList.get(position);
                     lesson.setPositionIndex(position);
                     dataBase.editLessonsPositionInArray(lesson);
-                    lessonHolder.tvLessonName.setText(mLessonArrayList.get(position).getLessonName());
+                    lessonHolder.tvLessonName.setText(lesson.getLessonName());
+                    lessonHolder.dateOfCreated.setText(lesson.getDateOfCreated());
                     break;
         }
 
@@ -140,12 +141,12 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     public class LessonViewHolder extends RecyclerView.ViewHolder {
-        RobotoTextView tvLessonName;
+        RobotoTextView tvLessonName, dateOfCreated;
 
         public LessonViewHolder(View itemView) {
             super(itemView);
             tvLessonName = itemView.findViewById(R.id.lesson_name_tv);
-
+            dateOfCreated = itemView.findViewById(R.id.date_of_created_lesson);
         }
 
         }

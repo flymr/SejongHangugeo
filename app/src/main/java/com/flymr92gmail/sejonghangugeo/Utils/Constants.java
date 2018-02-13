@@ -20,9 +20,11 @@ public interface Constants {
             "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
             "lessonName TEXT," +
             "lessonTable TEXT,"+
+            "dateOfCreated TEXT,"+
             "lessonTabIndex INTEGER,"+
             "currentLanguage INTEGER,"+
             "currentLanguageCards INTEGER,"+
+            "lessonProgress INTEGER,"+
             "positionIndex INTEGER);";
     //Dictionary
     public enum Language{

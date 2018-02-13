@@ -30,6 +30,8 @@ import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.Helper;
+import com.flymr92gmail.sejonghangugeo.Utils.WordsHelper;
 import com.github.lzyzsd.circleprogress.ArcProgress;
 
 import java.util.ArrayList;
@@ -64,8 +66,6 @@ public class LearnFinalResult extends AppCompatActivity {
         words = dataBase.getLearningWord(lesson);
         recyclerView = findViewById(R.id.rv_learn_final);
         toolbar = findViewById(R.id.toolbar_learn_final);
-
-
         layoutManager = new LinearLayoutManager(this);
     }
 
@@ -108,6 +108,8 @@ public class LearnFinalResult extends AppCompatActivity {
             i = i + (2.0f/(word.getMissCount()+2.0f));
         }
         progress = i/words.size()*100;
+        lesson.setLessonProgress((int)progress);
+        dataBase.editLessonProgress(lesson);
     }
 
 

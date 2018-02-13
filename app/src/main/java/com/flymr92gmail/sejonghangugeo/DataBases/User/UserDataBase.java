@@ -5,10 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
+import android.text.format.DateFormat;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
@@ -36,6 +37,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
                 "correctCount INTEGER," +
                 "isSelected INTEGER," +
                 "isLearning INTEGER," +
+                "positionInCardAction INTEGER," +
                 "missCount INTEGER);");
     }
     private void deleteLessonTable(String tableName){
@@ -64,9 +66,11 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
            lesson.setLessonId(cursor.getInt(cursor.getColumnIndex("_id")));
            lesson.setLessonName(cursor.getString(cursor.getColumnIndex("lessonName")));
            lesson.setLessonTable(cursor.getString(cursor.getColumnIndex("lessonTable")));
+           lesson.setDateOfCreated(cursor.getString(cursor.getColumnIndex("dateOfCreated")));
            lesson.setLessonTabIndex(cursor.getInt(cursor.getColumnIndex("lessonTabIndex")));
            lesson.setCurrentLanguage(cursor.getInt(cursor.getColumnIndex("currentLanguage")));
            lesson.setCurrentLanguageCards(cursor.getInt(cursor.getColumnIndex("currentLanguageCards")));
+           lesson.setLessonProgress(cursor.getInt(cursor.getColumnIndex("lessonProgress")));
            lesson.setPositionIndex(cursor.getInt(cursor.getColumnIndex("positionIndex")));
            lessons.add(lesson);
        }
@@ -81,10 +85,13 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
             lesson.setLessonId(cursor.getInt(cursor.getColumnIndex("_id")));
             lesson.setLessonName(cursor.getString(cursor.getColumnIndex("lessonName")));
             lesson.setLessonTable(cursor.getString(cursor.getColumnIndex("lessonTable")));
+            lesson.setDateOfCreated(cursor.getString(cursor.getColumnIndex("dateOfCreated")));
             lesson.setLessonTabIndex(cursor.getInt(cursor.getColumnIndex("lessonTabIndex")));
             lesson.setCurrentLanguage(cursor.getInt(cursor.getColumnIndex("currentLanguage")));
             lesson.setCurrentLanguageCards(cursor.getInt(cursor.getColumnIndex("currentLanguageCards")));
+            lesson.setLessonProgress(cursor.getInt(cursor.getColumnIndex("lessonProgress")));
             lesson.setPositionIndex(cursor.getInt(cursor.getColumnIndex("positionIndex")));
+
         }
         cursor.close();
         return lesson;
@@ -98,12 +105,15 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         //создаем таблицу со словами
         createNewLessonTable(lessonTableName);
         //добавляем название таблици урока в таблицу с уроками
+        String currentDateTimeString = (String) DateFormat.format("yyyy-MM-dd kk:mm:ss",new Date());
         ContentValues contentValues = new ContentValues();
         contentValues.put("lessonName",lessonName);
         contentValues.put("lessonTable",lessonTableName);
+        contentValues.put("dateOfCreated", currentDateTimeString);
         contentValues.put("lessonTabIndex", 0);
         contentValues.put("currentLanguage", 0);
         contentValues.put("currentLanguageCards", 0);
+        contentValues.put("lessonProgress", 0);
         contentValues.put("positionIndex", getAllLessons().size());
         db.insertWithOnConflict(USER_LESSONS_TABLE,null,contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
@@ -129,6 +139,13 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         ContentValues cv = new ContentValues();
         cv.put("currentLanguageCards", lesson.getCurrentLanguageCards());
         db.update(USER_LESSONS_TABLE,cv,"_id="+lesson.getLessonId(),null);
+    }
+
+    public void editLessonProgress(Lesson lesson){
+        ContentValues cv = new ContentValues();
+        cv.put("lessonProgress", lesson.getLessonProgress());
+        db.update(USER_LESSONS_TABLE,cv,"_id="+lesson.getLessonId(),null);
+
     }
 
     public void addNewWord(String tableName, Word word){
@@ -173,6 +190,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
             word.setCorrectCount(cursor.getInt(cursor.getColumnIndex("correctCount")));
             word.setSelected(cursor.getInt(cursor.getColumnIndex("isSelected")));
             word.setmIsLearning(cursor.getInt(cursor.getColumnIndex("isLearning")));
+            word.setPositionInCardAction(cursor.getInt(cursor.getColumnIndex("positionInCardAction")));
             word.setMissCount(cursor.getInt(cursor.getColumnIndex("missCount")));
             words.add(word);
         }
@@ -205,7 +223,12 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         db.update(lesson.getLessonTable(),cv,"_id="+word.getId(),null);
     }
 
+   public void editWordPositionInCardAction(Lesson lesson, Word word){
+       ContentValues cv = new ContentValues();
+       cv.put("positionInCardAction", word.getPositionInCardAction());
+       db.update(lesson.getLessonTable(),cv,"_id="+word.getId(),null);
 
+   }
 
     public void editWordSelect(Lesson lesson, Word word){
         ContentValues cv = new ContentValues();
@@ -239,6 +262,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
             word.setCorrectCount(cursor.getInt(cursor.getColumnIndex("correctCount")));
             word.setSelected(cursor.getInt(cursor.getColumnIndex("isSelected")));
             word.setmIsLearning(cursor.getInt(cursor.getColumnIndex("isLearning")));
+            word.setPositionInCardAction(cursor.getInt(cursor.getColumnIndex("positionInCardAction")));
             word.setMissCount(cursor.getInt(cursor.getColumnIndex("missCount")));
             if (word.isSelected()==1)
             words.add(word);
@@ -266,6 +290,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
             word.setCorrectCount(cursor.getInt(cursor.getColumnIndex("correctCount")));
             word.setSelected(cursor.getInt(cursor.getColumnIndex("isSelected")));
             word.setmIsLearning(cursor.getInt(cursor.getColumnIndex("isLearning")));
+            word.setPositionInCardAction(cursor.getInt(cursor.getColumnIndex("positionInCardAction")));
             word.setMissCount(cursor.getInt(cursor.getColumnIndex("missCount")));
             if (word.getmIsLearning()==1)
                 words.add(word);

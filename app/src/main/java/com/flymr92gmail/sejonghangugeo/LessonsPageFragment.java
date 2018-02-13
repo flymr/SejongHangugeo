@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,11 +72,7 @@ public class LessonsPageFragment extends Fragment{
         lessonsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), lessonsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-               /* for(int a =0; a < userDataBase.getAllLessons().size();a++){
-                    Lesson lesson = userDataBase.getAllLessons().get(a);
-                    lesson.setPositionIndex(position);
-                    userDataBase.editLessonsPositionInArray(lesson);
-                }*/
+
                if (position!=0) {
                    Intent intent = new Intent(getActivity(), LessonActivity.class);
                    intent.putExtra("lessonId", lessonArrayList.get(position).getLessonId());
@@ -84,30 +82,6 @@ public class LessonsPageFragment extends Fragment{
 
             @Override
             public void onLongItemClick(View view, final int position) {
-               /* final String[] items = {"Удалить","Переименовать"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(LessonsActivity.this);
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which){
-                                    case 0:
-                                        userDataBase.deleteLesson(lessonArrayList.get(position));
-                                        lessonArrayList = userDataBase.getAllLessons();
-                                        lessonsAdapter = new LessonsAdapter(lessonArrayList,LessonsActivity.this);
-                                        lessonsRecyclerView.setAdapter(lessonsAdapter);
-                                        break;
-                                    case 1:
-                                        LessonsDialogCreateFragment lessonsDialogCreateFragment = new LessonsDialogCreateFragment();
-                                        lessonsDialogCreateFragment.setmLesson(lessonArrayList.get(position));
-                                        lessonsDialogCreateFragment.show(getSupportFragmentManager(),"more");
-
-                                        break;
-                                }
-                            }
-                        })
-                        .setCancelable(true);
-                AlertDialog alert = builder.create();
-                alert.show();*/
             }
         }));
         fab.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +99,13 @@ public class LessonsPageFragment extends Fragment{
                     public void onDismiss(DialogInterface dialogInterface) {
                         //setupLessonsAdapter();
                         if (userDataBase.getAllLessons().size()!=lessonArrayList.size()) {
-                            int newItem = userDataBase.getAllLessons().size()-1;
-                            lessonArrayList.add(userDataBase.getAllLessons().get(newItem));
-                            lessonsAdapter.notifyItemInserted(newItem);
-                            lessonsRecyclerView.smoothScrollToPosition(lessonsRecyclerView.getAdapter().getItemCount() - 1);
-                            lessonArrayList.clear();
+
                             lessonArrayList = userDataBase.getAllLessons();
+                            lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity());
+                            lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                            lessonsRecyclerView.setAdapter(lessonsAdapter);
+                            lessonsRecyclerView.smoothScrollToPosition(lessonsAdapter.getItemCount());
+
                         }
                     }
                 });

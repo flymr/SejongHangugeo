@@ -11,6 +11,8 @@ public class Lesson  implements Serializable {
     private int mLessonTabIndex;
     private int currentLanguage=0;
     private int currentLanguageCards = 0;
+    private int lessonProgress = 0;
+    private String dateOfCreated;
     public String getLessonName() {
         return mLessonName;
     }
@@ -51,10 +53,20 @@ public class Lesson  implements Serializable {
         this.currentLanguage = currentLanguage;
     }
 
-public void setCurrentLanguageCards(int currentLanguageCards){
+    public void setCurrentLanguageCards(int currentLanguageCards){
         this.currentLanguageCards = currentLanguageCards;
-}
+    }
 
-public int getCurrentLanguageCards(){return currentLanguageCards;}
+    public int getCurrentLanguageCards(){return currentLanguageCards;}
+
+    public void setLessonProgress(int lessonProgress){this.lessonProgress = lessonProgress;}
+
+    public int getLessonProgress(){
+        return lessonProgress;
+    }
+
+    public void setDateOfCreated(String dateOfCreated){this.dateOfCreated = dateOfCreated;}
+
+    public String getDateOfCreated(){return dateOfCreated;}
 
 }
