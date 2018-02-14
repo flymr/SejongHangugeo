@@ -42,6 +42,7 @@ import com.wnafee.vector.MorphButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 import eu.davidea.flipview.FlipView;
 
@@ -95,10 +96,12 @@ public class CardActivity extends AppCompatActivity {
     private void initialization(){
         Intent intent = getIntent();
         lesson = (Lesson)intent.getSerializableExtra("lesson");
+        dataBase = new UserDataBase(this);
         words = (ArrayList<Word>)intent.getSerializableExtra("words");
         playButton = findViewById(R.id.play_card_vertical);
         playButtonHoriz = findViewById(R.id.play_card_horizontal);
         recyclerView = findViewById(R.id.rv_lesson_card);
+        sortWords();
         adapter = new CardRecyclerAdapter(words, this);
         recyclerView.setAdapter(adapter);
         toolbar = findViewById(R.id.toolbar_card);
@@ -106,11 +109,22 @@ public class CardActivity extends AppCompatActivity {
         recyclerNextHandler = new Handler();
         setSnapHelperMode();
         recyclerView.setLayoutManager(linearLayoutManager);
-        dataBase = new UserDataBase(this);
         recyclerView.setHasFixedSize(true);
 
     }
 
+    private void sortWords(){
+        Collections.sort(words, new Comparator<Word>() {
+            @Override
+            public int compare(Word o1, Word o2) {
+                return o1.getPositionInCardAction()-o2.getPositionInCardAction();
+            }
+        });
+    }
+
+    private void checkChangeInLesson(){
+
+    }
 
     @Override
     protected void onStop() {
@@ -318,26 +332,35 @@ public class CardActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.cardChangeLanguage:
+                stopAnimItem();
                 if (lesson.getCurrentLanguageCards()==0){
                     lesson.setCurrentLanguageCards(1);
                 }else  {
                     lesson.setCurrentLanguageCards(0);
                 }
                 dataBase.editCurrentLanguagCards(lesson);
-                adapter.notifyDataSetChanged();
-                stopAnimItem();
-
-
-                // recyclerView.smoothScrollToPosition(linearLayoutManager.findFirstCompletelyVisibleItemPosition()+1);
+                int lastPos = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                recyclerView.setAdapter(adapter);
+                linearLayoutManager.scrollToPositionWithOffset(lastPos, 0);
+                changePosInDB();
                 break;
             case R.id.shuffleCard:
+                stopAnimItem();
                 Collections.shuffle(words);
                 recyclerView.setAdapter(adapter);
-                stopAnimItem();
+                changePosInDB();
                 break;
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void changePosInDB(){
+        for (int i = 0; i < words.size(); i ++){
+            Word word = words.get(i);
+            word.setPositionInCardAction(i);
+            dataBase.editWordPositionInCardAction(lesson, word);
+        }
     }
 
     class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapter.CardViewHolder>{
@@ -358,7 +381,7 @@ public class CardActivity extends AppCompatActivity {
             final Word word = words.get(position);
             holder.ivStar.setVisibility(View.VISIBLE);
             holder.ivStar2.setVisibility(View.VISIBLE);
-            word.setPositionInCardAction(position);
+            //word.setPositionInCardAction(position);
             dataBase.editWordPositionInCardAction(lesson, word);
             if (lesson.getCurrentLanguageCards()==1){
                 holder.tvKorWord.setText(word.getKoreanWord());

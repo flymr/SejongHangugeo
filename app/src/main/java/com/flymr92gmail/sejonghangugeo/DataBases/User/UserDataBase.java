@@ -105,7 +105,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         //создаем таблицу со словами
         createNewLessonTable(lessonTableName);
         //добавляем название таблици урока в таблицу с уроками
-        String currentDateTimeString = (String) DateFormat.format("yyyy-MM-dd kk:mm:ss",new Date());
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
         ContentValues contentValues = new ContentValues();
         contentValues.put("lessonName",lessonName);
         contentValues.put("lessonTable",lessonTableName);
@@ -179,7 +179,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
     }
     public ArrayList<Word> getWordsInLesson(String tableName){
         ArrayList<Word> words = new ArrayList<>();
-        String[] columns = {"_id", "korean", "russian","primaryId","correctCount","isSelected","isLearning","missCount"};
+        String[] columns = {"_id", "korean", "russian","primaryId","correctCount","isSelected","isLearning","positionInCardAction","missCount"};
         Cursor cursor = db.query(tableName, columns, null, null, null, null, null);
         while (cursor.moveToNext()) {
             Word word = new Word();
@@ -251,7 +251,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
 
     public ArrayList<Word> getSelectedWordsInLesson(Lesson lesson){
         ArrayList<Word> words = new ArrayList<>();
-        String[] columns = {"_id", "korean", "russian","primaryId","correctCount","isSelected","isLearning","missCount"};
+        String[] columns = {"_id", "korean", "russian","primaryId","correctCount","isSelected","isLearning","positionInCardAction","missCount"};
         Cursor cursor = db.query(lesson.getLessonTable(), columns, null, null, null, null, null);
         while (cursor.moveToNext()) {
             Word word = new Word();
@@ -279,7 +279,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
 
     public ArrayList<Word> getLearningWord(Lesson lesson){
         ArrayList<Word> words = new ArrayList<>();
-        String[] columns = {"_id", "korean", "russian","primaryId","correctCount","isSelected","isLearning","missCount"};
+        String[] columns = {"_id", "korean", "russian","primaryId","correctCount","isSelected","isLearning","positionInCardAction","missCount"};
         Cursor cursor = db.query(lesson.getLessonTable(), columns, null, null, null, null, null);
         while (cursor.moveToNext()) {
             Word word = new Word();
