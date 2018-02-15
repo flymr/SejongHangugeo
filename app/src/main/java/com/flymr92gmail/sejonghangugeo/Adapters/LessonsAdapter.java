@@ -2,12 +2,21 @@ package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.devspark.robototextview.widget.RobotoTextView;
@@ -17,8 +26,14 @@ import com.flymr92gmail.sejonghangugeo.LessonsCreateFolder;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.net.ssl.HttpsURLConnection;
 
 
 public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
@@ -150,12 +165,15 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         }
-    public class HeaderViewHolder extends RecyclerView.ViewHolder{
-
+    public class HeaderViewHolder extends RecyclerView.ViewHolder {
         public HeaderViewHolder(View itemView) {
             super(itemView);
         }
+
     }
+
+
+
     @Override
     public int getItemViewType(int position) {
         switch (position) {
