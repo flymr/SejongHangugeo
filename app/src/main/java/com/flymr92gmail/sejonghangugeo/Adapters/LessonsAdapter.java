@@ -5,24 +5,25 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.ItemTouchHelperAdapter;
 import com.flymr92gmail.sejonghangugeo.LessonsCreateFolder;
+import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.R;
 
@@ -72,6 +73,14 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (getItemViewType(position)) {
                 case TYPE_HEADER:
                     HeaderViewHolder viewHolder = (HeaderViewHolder)holder;
+                    String header = viewHolder.legend.getNameTranslate() + ". " + viewHolder.legend.getName();
+                    viewHolder.legendName.setText(header);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        viewHolder.legendText.setText(Html.fromHtml(viewHolder.legend.getLegendText(), Html.FROM_HTML_MODE_LEGACY));
+                    } else {
+                        viewHolder.legendText.setText(Html.fromHtml(viewHolder.legend.getLegendText()));
+                    }
+                    //viewHolder.legendText.setText(setIndentToText(viewHolder.legend.getLegendText()));
                     break;
                 case TYPE_CELL:
                     LessonViewHolder lessonHolder = (LessonViewHolder)holder;
@@ -83,6 +92,11 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
         }
 
+    }
+
+    private String setIndentToText(String text){
+        String s = text.replaceAll("p", "    ");
+        return s.replaceAll("/p", "\n\n");
     }
 
     @Override
@@ -166,8 +180,18 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
     public class HeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView legendName;
+        TextView legendText;
+        ImageView iv_add;
+        AppDataBase appDataBase;
+        Legend legend;
         public HeaderViewHolder(View itemView) {
             super(itemView);
+            legendName = itemView.findViewById(R.id.legend_header);
+            legendText = itemView.findViewById(R.id.legend_text);
+            iv_add = itemView.findViewById(R.id.iv_add_legend);
+            appDataBase = new AppDataBase(mContext);
+            legend = appDataBase.getLegends().get(2);
         }
 
     }

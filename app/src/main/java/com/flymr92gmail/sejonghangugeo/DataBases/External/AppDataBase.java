@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 
+import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Test;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.POJO.Audio;
@@ -22,6 +23,7 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
     private static final String TABLE_WORDS = "words";
     private static final String TABLE_TESTS = "exercise";
     private static final String TABLE_AUDIO = "audio";
+    private static final String TABLE_LEGENDS= "legends";
 
     public AppDataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -42,6 +44,23 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
         cursor.close();
         return arrayList;
     }
+
+    public ArrayList<Legend> getLegends(){
+        ArrayList<Legend> legends = new ArrayList<>();
+        String[] columns = {"_id", "header", "headerTranslate","legendText"};
+        Cursor cursor = db.query(TABLE_LEGENDS, columns, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            Legend legend = new Legend();
+            legend.setmId(cursor.getInt(cursor.getColumnIndex("_id")));
+            legend.setName(cursor.getString(cursor.getColumnIndex("header")));
+            legend.setNameTranslate(cursor.getString(cursor.getColumnIndex("headerTranslate")));
+            legend.setLegendText(cursor.getString(cursor.getColumnIndex("legendText")));
+            legends.add(legend);
+        }
+        cursor.close();
+        return legends;
+    }
+
     public ArrayList<Word> getSearchResult(String searchWord, Language language) {
         ArrayList<Word> words = new ArrayList<>();
         Cursor cursorWord = null;
@@ -130,4 +149,6 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
         cursor.close();
         return tests;
     }
+
+
 }
