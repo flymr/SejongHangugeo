@@ -1,7 +1,9 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flymr92gmail.sejonghangugeo.Fragments.LessonsDialogAddFragment;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.Constants;
@@ -29,12 +32,14 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
     private Context mContext;
     private String searchingText;
     private Constants.Language language;
+    private FragmentManager fragmentManager;
 
-    public SearchWordsAdapter(ArrayList<Word> words, Context context, String searchingText, Constants.Language language) {
+    public SearchWordsAdapter(ArrayList<Word> words, Context context, String searchingText, Constants.Language language, FragmentManager fragmentManager) {
         this.mWords=words;
         this.mContext = context;
         this.searchingText = searchingText;
         this.language = language;
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
@@ -84,7 +89,14 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
             ivAdd = itemView.findViewById(R.id.iv_add);
             cardView = itemView.findViewById(R.id.word_item_cv);
             cardView.setCardBackgroundColor(Color.WHITE);
-
+            ivAdd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
+                    lessonsDialogAddFragment.setWord(mWords.get(getAdapterPosition()));
+                    lessonsDialogAddFragment.show(fragmentManager,"Choise Lesson");
+                }
+            });
         }
 
     }

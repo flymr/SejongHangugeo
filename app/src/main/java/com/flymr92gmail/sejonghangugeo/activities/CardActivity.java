@@ -60,7 +60,7 @@ public class CardActivity extends AppCompatActivity {
     private Handler flipNextHandler;
     private Handler recyclerNextHandler;
     private MorphButton playButton, playButtonHoriz;
-    private int lastFirstVisiblePosition;
+
 
 
     @Override

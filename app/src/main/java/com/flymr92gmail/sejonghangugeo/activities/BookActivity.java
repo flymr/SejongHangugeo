@@ -7,6 +7,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
+import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -15,8 +16,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.SnapHelper;
+import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -43,6 +48,7 @@ import com.flymr92gmail.sejonghangugeo.RecyclerItemClickListener;
 import com.flymr92gmail.sejonghangugeo.Utils.Constants;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
@@ -85,6 +91,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private ArrayList<Word> pageWords;
     private ArrayList<Word> selectedWords;
     private SearchView wordsSearcher;
+    private boolean firstWordIsSelected = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,6 +158,17 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                 lessonsDialogAddFragment.show(getSupportFragmentManager(),"Choise Lesson");
             }
         });
+        slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) bookMenu.show();
+            }
+        });
     }
 
     @Override
@@ -214,6 +232,7 @@ return true;
     }
 
     private void setupSearcher(){
+        bookMenu.hide();
         wordsSearcher.setVisibility(View.VISIBLE);
         SearchManager searchManager = (SearchManager) getApplicationContext().getSystemService(Context.SEARCH_SERVICE);
         final SearchView.OnQueryTextListener queryTextListener;
@@ -251,7 +270,7 @@ return true;
                 if (newText.equals(""))
                     wordArrayList = new ArrayList<>();
 
-                searchRv.setAdapter(new SearchWordsAdapter(wordArrayList, getApplicationContext(), newText, language));
+                searchRv.setAdapter(new SearchWordsAdapter(wordArrayList, getApplicationContext(), newText, language, getSupportFragmentManager()));
                 return true;
             }
             @Override
@@ -260,12 +279,13 @@ return true;
                 return true;
             }
         };
+        wordsSearcher.setQueryHint(Html.fromHtml("<font color = #ffffff>" + "Найти слово" + "</font>"));
         wordsSearcher.setOnQueryTextListener(queryTextListener);
         wordsSearcher.setIconified(false);
         wordsSearcher.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                if (wordsSearcher.getQuery().equals("")) closeSearcher();
+                closeSearcher();
                 return false;
             }
         });
@@ -275,6 +295,7 @@ return true;
         if (wordsSearcher.getVisibility() == View.VISIBLE){
             wordsSearcher.setQuery("", false);
             wordsSearcher.setVisibility(View.GONE);
+            bookMenu.show();
             return true;
         }else return false;
     }
@@ -298,18 +319,11 @@ return true;
                                 //.enableAnnotationRendering(true)
                                 .enableAntialiasing(true)
                                 .spacing(20)
-                                .onLoad(new OnLoadCompleteListener() {
-                                    @Override
-                                    public void loadComplete(int nbPages) {
-
-                                    }
-                                })
                                 .onPageScroll(new OnPageScrollListener() {
                                     @Override
                                     public void onPageScrolled(int page, float positionOffset) {
-
+                                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
                                     }
-
                                 })
                                 .onPageChange(new OnPageChangeListener() {
                                     @Override
@@ -323,6 +337,7 @@ return true;
                                        }
                                      }
                                 })
+
                                 .load();
                         pdfView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -354,6 +369,7 @@ return true;
               switch (menuItem.getItemId()){
                   case R.id.action_new_words:
                       slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                      bookMenu.hide();
                       break;
                   case R.id.action_play_audio:
                       playAudio();
@@ -540,10 +556,12 @@ return true;
                 selectedWords.add(pageWords.get(position));
             }
         }
-        if (1 == selected){
+        if (1 == selected&&firstWordIsSelected){
+                firstWordIsSelected = false;
                 colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, true);
                 colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, true);
         }else if (0 == selected){
+            firstWordIsSelected = true;
             colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, false);
             colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, false);
         }
