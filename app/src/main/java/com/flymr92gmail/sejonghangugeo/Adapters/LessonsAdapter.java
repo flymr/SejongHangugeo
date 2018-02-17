@@ -181,7 +181,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         AppDataBase appDataBase;
         Legend legend;
         FlipView flipView;
-        private boolean isViewExpanded = false;
+        boolean isViewExpanded = false;
         public HeaderViewHolder(View itemView) {
             super(itemView);
             legendName = itemView.findViewById(R.id.legend_header);

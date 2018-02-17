@@ -431,7 +431,7 @@ return true;
 
           @Override
           public void onStopTrackingTouch(SeekBar seekBar) {
-
+//
           }
       });
       playButton.setOnStateChangedListener(new MorphButton.OnStateChangedListener() {
