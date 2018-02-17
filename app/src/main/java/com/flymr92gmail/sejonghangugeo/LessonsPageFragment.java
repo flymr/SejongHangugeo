@@ -99,12 +99,10 @@ public class LessonsPageFragment extends Fragment{
                     public void onDismiss(DialogInterface dialogInterface) {
                         //setupLessonsAdapter();
                         if (userDataBase.getAllLessons().size()!=lessonArrayList.size()) {
-
-                            lessonArrayList = userDataBase.getAllLessons();
-                            lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity());
-                            lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                            lessonsRecyclerView.setAdapter(lessonsAdapter);
-                            lessonsRecyclerView.smoothScrollToPosition(lessonsAdapter.getItemCount());
+                            int dbLastItemPos = lessonArrayList.size();
+                            lessonArrayList.add(dbLastItemPos, userDataBase.getAllLessons().get(dbLastItemPos));
+                            lessonsAdapter.notifyItemInserted(dbLastItemPos);
+                            lessonsRecyclerView.smoothScrollToPosition(lessonsAdapter.getItemCount()-1);
 
                         }
                     }

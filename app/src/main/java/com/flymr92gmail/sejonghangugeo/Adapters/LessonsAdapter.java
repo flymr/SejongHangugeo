@@ -2,8 +2,9 @@ package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
+
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -11,30 +12,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import android.webkit.WebView;
-import android.widget.Button;
+import android.view.animation.Animation;
+import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.ItemTouchHelperAdapter;
-import com.flymr92gmail.sejonghangugeo.LessonsCreateFolder;
+
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.R;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
-import javax.net.ssl.HttpsURLConnection;
+import eu.davidea.flipview.FlipView;
 
 
 public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
@@ -42,7 +40,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private UserDataBase dataBase;
     private Context mContext;
     private final int TYPE_HEADER = 0;
-    private final int TYPE_CELL = 1;
+    private final int TYPE_LESSON = 1;
 
     public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext) {
         this.mLessonArrayList = mLessonArrayList;
@@ -80,9 +78,9 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         viewHolder.legendText.setText(Html.fromHtml(viewHolder.legend.getLegendText()));
                     }
-                    //viewHolder.legendText.setText(setIndentToText(viewHolder.legend.getLegendText()));
+
                     break;
-                case TYPE_CELL:
+                case TYPE_LESSON:
                     LessonViewHolder lessonHolder = (LessonViewHolder)holder;
                     Lesson lesson = mLessonArrayList.get(position);
                     lesson.setPositionIndex(position);
@@ -94,10 +92,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    private String setIndentToText(String text){
-        String s = text.replaceAll("p", "    ");
-        return s.replaceAll("/p", "\n\n");
-    }
+
 
     @Override
     public int getItemCount() {
@@ -179,20 +174,42 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         }
-    public class HeaderViewHolder extends RecyclerView.ViewHolder {
+    public class HeaderViewHolder extends RecyclerView.ViewHolder{
         TextView legendName;
         TextView legendText;
         ImageView iv_add;
         AppDataBase appDataBase;
         Legend legend;
+        FlipView flipView;
+        private boolean isViewExpanded = false;
         public HeaderViewHolder(View itemView) {
             super(itemView);
             legendName = itemView.findViewById(R.id.legend_header);
             legendText = itemView.findViewById(R.id.legend_text);
             iv_add = itemView.findViewById(R.id.iv_add_legend);
+            flipView = itemView.findViewById(R.id.drop_down_up);
             appDataBase = new AppDataBase(mContext);
             legend = appDataBase.getLegends().get(2);
+            flipView.setOnFlippingListener(new FlipView.OnFlippingListener() {
+                @Override
+                public void onFlipped(FlipView flipView, boolean checked) {
+                    if (checked){
+                        isViewExpanded = true;
+
+                        expand(legendText);
+                    }else {
+                        isViewExpanded = false;
+
+                        collapse(legendText);
+                    }
+                }
+            });
+            if (!isViewExpanded){
+                legendText.setVisibility(View.GONE);
+              //  legendText.setEnabled(false);
+            }
         }
+
 
     }
 
@@ -204,10 +221,62 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case 0:
                 return TYPE_HEADER;
             default:
-                return TYPE_CELL;
+                return TYPE_LESSON;
         }
     }
+    public static void expand(final View v) {
+        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final int targetHeight = v.getMeasuredHeight();
 
+        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+        v.getLayoutParams().height = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 1dp/ms
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+    public static void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+
+        // 1dp/ms
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
     }
 
 

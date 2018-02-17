@@ -6,10 +6,10 @@
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
+        android:id="@+id/card_view_legend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="200dp"
+
         android:layout_marginBottom="@dimen/cardMarginVertical"
         android:layout_marginLeft="@dimen/cardMarginHorizontal"
         android:layout_marginRight="@dimen/cardMarginHorizontal"
@@ -24,10 +24,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            >
             <TextView
                 android:id="@+id/legend_header"
                 android:layout_width="match_parent"
@@ -35,18 +37,54 @@
                 android:gravity="start"
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginRight="30dp"
+                android:layout_centerInParent="true"/>
 
             <ImageView android:id="@+id/iv_add_legend"
-                android:layout_width="wrap_content"
+                android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_add"
-                android:layout_gravity="center"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
                 />
-        </LinearLayout>
+            <eu.davidea.flipview.FlipView
+                android:id="@+id/drop_down_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentRight="true"
+                android:animateFirstView="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:outAnimation="@anim/shrink_to_middle_y_axis"
+                android:inAnimation="@anim/grow_from_middle_y_axis"
+                app:animateDesignLayoutOnly="true"
+                app:animationDuration="200"
+                app:initialLayoutAnimation="@anim/scale_up"
+                app:initialLayoutAnimationDuration="200"
+                >
+
+                <!-- Front Layout Goes Here -->
+                <ImageView
+                    android:id="@+id/drop_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/ic_arrow_drop_down"/>
+                <!-- Back Layout Goes Here -->
+                <ImageView
+                    android:id="@+id/drop_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:tint="@color/white"
+                    app:srcCompat="@drawable/ic_arrow_drop_up_30dp"/>
+            </eu.davidea.flipview.FlipView>
+        </RelativeLayout>
 
             <TextView
                 android:id="@+id/legend_text"
