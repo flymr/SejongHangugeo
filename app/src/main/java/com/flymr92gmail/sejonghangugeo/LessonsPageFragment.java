@@ -72,7 +72,7 @@ public class LessonsPageFragment extends Fragment{
             lessonArrayList = userDataBase.getAllLessons();
         }
         AppDataBase appDataBase = new AppDataBase(getActivity());
-        Legend legend = appDataBase.getDailyLegend(1);
+        Legend legend = appDataBase.getDailyLegend(0);
         lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity(), getDailyLegend());
         lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lessonsRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());

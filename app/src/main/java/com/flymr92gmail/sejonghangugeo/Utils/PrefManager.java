@@ -44,7 +44,7 @@ public class PrefManager implements Constants {
     }
 
     public void setAddedLegendsId(String addedArray){
-        editor.putString("added_legends_id", addedArray);
+        editor.putString(ADDED_LEGENDS_ID, addedArray);
         editor.apply();
         editor.commit();
     }
