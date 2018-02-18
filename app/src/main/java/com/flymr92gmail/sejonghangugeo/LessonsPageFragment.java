@@ -18,13 +18,21 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
+import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
+import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
+import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +49,7 @@ public class LessonsPageFragment extends Fragment{
     private UserDataBase userDataBase;
     private ArrayList<Lesson> lessonArrayList;
     private LessonsAdapter lessonsAdapter;
-
+    private PrefManager prefManager;
 
     public static LessonsPageFragment newInstance() {
         return new LessonsPageFragment();
@@ -56,13 +64,16 @@ public class LessonsPageFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        prefManager = new PrefManager(getActivity());
         userDataBase = new UserDataBase(getActivity());
         lessonArrayList = userDataBase.getAllLessons();
         if (lessonArrayList.size() == 0) {
             userDataBase.createNewLesson("title");
             lessonArrayList = userDataBase.getAllLessons();
         }
-        lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity());
+        AppDataBase appDataBase = new AppDataBase(getActivity());
+        Legend legend = appDataBase.getDailyLegend(1);
+        lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity(), getDailyLegend());
         lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lessonsRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         lessonsRecyclerView.setAdapter(lessonsAdapter);
@@ -125,20 +136,75 @@ public class LessonsPageFragment extends Fragment{
         //Use this now
 
     }
+    private Legend getDailyLegend(){
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
+        String json = prefManager.getAddedLegendsId();
+        AppDataBase appDataBase = new AppDataBase(getActivity());
+        if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString)){
+            prefManager.setDateOfAddedLegend(currentDateTimeString);
 
-   public void setupLessonsAdapter(){
-       userDataBase = new UserDataBase(getActivity());
-       lessonArrayList = userDataBase.getAllLessons();
-       lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity());
-       lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-       //lessonsRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
-       lessonsRecyclerView.setAdapter(lessonsAdapter);
-       ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(lessonsAdapter);
-       ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-       touchHelper.attachToRecyclerView(lessonsRecyclerView);
+            Legend legend;
+            if (!prefManager.getAddedLegendsId().equals("0")){
+                try{
+                    JSONObject jsonObject = new JSONObject(json);
+                    JSONArray jsonArray = jsonObject.getJSONArray("ids");
+                    JSONObject jsonObject1 = new JSONObject(appDataBase.getLegendsIds());
+                    JSONArray jsonArray1 = jsonObject1.getJSONArray("ids");
+                    ArrayList<Integer> allIds = new ArrayList<>();
+                    ArrayList<Integer> addedIds = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        addedIds.add(jsonArray.getInt(i));
+                    }
+                    for (int i = 0; i < jsonArray1.length(); i++){
+                        allIds.add(jsonArray1.getInt(i));
+                    }
+                    allIds.removeAll(addedIds);
+                    legend = appDataBase.getDailyLegend(getRandomInt(appDataBase, allIds));
+                    jsonArray.put(legend.getmId());
+                    jsonObject = new JSONObject();
+                    jsonObject.put("ids", jsonArray);
+                    json = jsonObject.toString();
+                    prefManager.setAddedLegendsId(json);
+                    return legend;
+                }catch (JSONException e){
 
+                }
+            }else {
+                JSONObject jsonObject = new JSONObject();
+                JSONArray jsonArray = new JSONArray();
+                try {
+                    jsonObject.put("ids", jsonArray);
+                    json = jsonObject.toString();
+                    prefManager.setAddedLegendsId(json);
+                    legend = appDataBase.getDailyLegend(getRandomInt(appDataBase, null));
+                    return legend;
+                }catch (JSONException e){
 
-   }
+                }
+            }
+
+        }else {
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                JSONArray jsonArray = jsonObject.getJSONArray("ids");
+                jsonArray.getInt(jsonArray.length()-1);
+                return appDataBase.getDailyLegend(jsonArray.getInt(jsonArray.length()-1));
+            }catch (JSONException e){
+
+            }
+        }
+        return null;
+
+    }
+
+    private int getRandomInt(AppDataBase appDataBase, ArrayList<Integer> idsArray){
+        int randomInt;
+        if (idsArray != null) randomInt  = new Random().nextInt(idsArray.size()-1);
+        else randomInt = new Random().nextInt(2);
+        String s = "\""+ appDataBase.getDailyLegend(randomInt).getmId()+"\",";
+        if (prefManager.getAddedLegendsId().contains(s))return getRandomInt(appDataBase, idsArray);
+        else return randomInt;
+    }
 
 
 

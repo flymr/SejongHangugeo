@@ -6,14 +6,28 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
+import com.flymr92gmail.sejonghangugeo.POJO.Legend;
+import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,10 +36,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
     private FlowingDrawer mDrawer;
-
-
-
-
+    private PrefManager prefManager;
 
 
     @Override
@@ -33,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
             ButterKnife.bind(this);
+            prefManager = new PrefManager(this);
         mDrawer = findViewById(R.id.drawerlayout);
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
@@ -131,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
+
 
 
 }

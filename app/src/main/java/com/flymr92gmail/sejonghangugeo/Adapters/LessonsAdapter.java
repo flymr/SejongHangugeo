@@ -27,6 +27,7 @@ import com.flymr92gmail.sejonghangugeo.ItemTouchHelperAdapter;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.ViewHolder.HeaderViewHolder;
 
 
 import java.util.ArrayList;
@@ -41,10 +42,12 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context mContext;
     private final int TYPE_HEADER = 0;
     private final int TYPE_LESSON = 1;
+    private Legend legend;
 
-    public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext) {
+    public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext, Legend legend) {
         this.mLessonArrayList = mLessonArrayList;
         this.mContext = mContext;
+        this.legend = legend;
         dataBase = new UserDataBase(mContext);
 
     }
@@ -71,12 +74,12 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (getItemViewType(position)) {
                 case TYPE_HEADER:
                     HeaderViewHolder viewHolder = (HeaderViewHolder)holder;
-                    String header = viewHolder.legend.getNameTranslate() + ". " + viewHolder.legend.getName();
+                    String header = legend.getNameTranslate() + ". " + legend.getName();
                     viewHolder.legendName.setText(header);
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                        viewHolder.legendText.setText(Html.fromHtml(viewHolder.legend.getLegendText(), Html.FROM_HTML_MODE_LEGACY));
+                        viewHolder.legendText.setText(Html.fromHtml(legend.getLegendText(), Html.FROM_HTML_MODE_LEGACY));
                     } else {
-                        viewHolder.legendText.setText(Html.fromHtml(viewHolder.legend.getLegendText()));
+                        viewHolder.legendText.setText(Html.fromHtml(legend.getLegendText()));
                     }
 
                     break;
@@ -174,44 +177,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         }
-    public class HeaderViewHolder extends RecyclerView.ViewHolder{
-        TextView legendName;
-        TextView legendText;
-        ImageView iv_add;
-        AppDataBase appDataBase;
-        Legend legend;
-        FlipView flipView;
-        boolean isViewExpanded = false;
-        public HeaderViewHolder(View itemView) {
-            super(itemView);
-            legendName = itemView.findViewById(R.id.legend_header);
-            legendText = itemView.findViewById(R.id.legend_text);
-            iv_add = itemView.findViewById(R.id.iv_add_legend);
-            flipView = itemView.findViewById(R.id.drop_down_up);
-            appDataBase = new AppDataBase(mContext);
-            legend = appDataBase.getLegends().get(2);
-            flipView.setOnFlippingListener(new FlipView.OnFlippingListener() {
-                @Override
-                public void onFlipped(FlipView flipView, boolean checked) {
-                    if (checked){
-                        isViewExpanded = true;
 
-                        expand(legendText);
-                    }else {
-                        isViewExpanded = false;
-
-                        collapse(legendText);
-                    }
-                }
-            });
-            if (!isViewExpanded){
-                legendText.setVisibility(View.GONE);
-              //  legendText.setEnabled(false);
-            }
-        }
-
-
-    }
 
 
 
@@ -224,59 +190,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return TYPE_LESSON;
         }
     }
-    public static void expand(final View v) {
-        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final int targetHeight = v.getMeasuredHeight();
 
-        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
-        v.getLayoutParams().height = 1;
-        v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().height = interpolatedTime == 1
-                        ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : (int)(targetHeight * interpolatedTime);
-                v.requestLayout();
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
-
-    public static void collapse(final View v) {
-        final int initialHeight = v.getMeasuredHeight();
-
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
-                    v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
-                    v.requestLayout();
-                }
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
     }
 
 

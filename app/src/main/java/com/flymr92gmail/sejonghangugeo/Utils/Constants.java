@@ -6,7 +6,8 @@ public interface Constants {
     String PREF_NAME = "koreanBookpref";
     String BOOK = "book_";
     String GRAM = "gram";
-    String IS_OPENED = "is_opened";
+    String DATE_LEGEND = "date_legend";
+    String ADDED_LEGENDS_ID = "added_legends_id";
     //Data Bases
     final String TABLE_FAVORITE = "favorite";
     final String CREATE_TABLE_FAVORITE = "CREATE TABLE "+TABLE_FAVORITE+" (" +

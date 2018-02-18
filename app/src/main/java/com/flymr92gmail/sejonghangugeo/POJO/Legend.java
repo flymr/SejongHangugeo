@@ -1,10 +1,12 @@
 package com.flymr92gmail.sejonghangugeo.POJO;
 
+import java.io.Serializable;
+
 /**
  * Created by hp on 16.02.2018.
  */
 
-public class Legend {
+public class Legend implements Serializable{
     private int mId;
     private String name;
     private String nameTranslate;

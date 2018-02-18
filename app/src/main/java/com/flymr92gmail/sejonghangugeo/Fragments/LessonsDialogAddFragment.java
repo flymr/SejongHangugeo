@@ -15,7 +15,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
+import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
+import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
@@ -113,7 +115,9 @@ public class LessonsDialogAddFragment extends DialogFragment {
     }
     private void setupAdapter(RecyclerView recyclerView){
         lessons = dataBase.getAllLessons();
-        lessonsAdapter = new LessonsAdapter(lessons,getContext());
+        AppDataBase appDataBase = new AppDataBase(getContext());
+        Legend legend = appDataBase.getDailyLegend(0);
+        lessonsAdapter = new LessonsAdapter(lessons,getContext(),legend);
         recyclerView.setAdapter(lessonsAdapter);
     }
 
