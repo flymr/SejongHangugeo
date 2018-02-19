@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,9 +34,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by hp on 09.12.2017.
@@ -71,8 +76,6 @@ public class LessonsPageFragment extends Fragment{
             userDataBase.createNewLesson("title");
             lessonArrayList = userDataBase.getAllLessons();
         }
-        AppDataBase appDataBase = new AppDataBase(getActivity());
-        Legend legend = appDataBase.getDailyLegend(0);
         lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity(), getDailyLegend());
         lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         lessonsRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
@@ -136,76 +139,78 @@ public class LessonsPageFragment extends Fragment{
         //Use this now
 
     }
+
     private Legend getDailyLegend(){
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
-        String json = prefManager.getAddedLegendsId();
         AppDataBase appDataBase = new AppDataBase(getActivity());
-        if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString)){
-            prefManager.setDateOfAddedLegend(currentDateTimeString);
+        Legend legend;
+        String json= prefManager.getAddedLegendsId();
+            try {
+                Log.d("lessons", "secondTry true");
 
-            Legend legend;
-            if (!prefManager.getAddedLegendsId().equals("0")){
-                try{
-                    JSONObject jsonObject = new JSONObject(json);
-                    JSONArray jsonArray = jsonObject.getJSONArray("ids");
-                    JSONObject jsonObject1 = new JSONObject(appDataBase.getLegendsIds());
-                    JSONArray jsonArray1 = jsonObject1.getJSONArray("ids");
-                    ArrayList<Integer> allIds = new ArrayList<>();
-                    ArrayList<Integer> addedIds = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i++){
-                        addedIds.add(jsonArray.getInt(i));
-                    }
-                    for (int i = 0; i < jsonArray1.length(); i++){
-                        allIds.add(jsonArray1.getInt(i));
-                    }
-                    allIds.removeAll(addedIds);
-                    legend = appDataBase.getDailyLegend(getRandomInt(appDataBase, allIds));
-                    jsonArray.put(legend.getmId());
-                    jsonObject = new JSONObject();
-                    jsonObject.put("ids", jsonArray);
-                    json = jsonObject.toString();
-                    prefManager.setAddedLegendsId(json);
-                    return legend;
-                }catch (JSONException e){
-
+                JSONObject jsonObject = new JSONObject(json);
+                JSONArray jsonArray = jsonObject.getJSONArray("ids");
+                JSONObject jsonObject1 = new JSONObject(appDataBase.getLegendsIds());
+                JSONArray jsonArray1 = jsonObject1.getJSONArray("ids");
+                ArrayList<Integer> allIds = new ArrayList<>();
+                ArrayList<Integer> addedIds = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    addedIds.add(jsonArray.getInt(i));
                 }
-            }else {
+                for (int i = 0; i < jsonArray1.length(); i++) {
+                    allIds.add(jsonArray1.getInt(i));
+                }
+                int randomInt;
+                if (addedIds.size() < allIds.size()) {
+                    allIds.removeAll(addedIds);
+                    randomInt = getRandomInt(allIds.size());
+                    allIds.get(randomInt);
+                }
+                else {
+                    jsonArray = new JSONArray();
+                    randomInt = getRandomInt(3);
+                }
+                legend = appDataBase.getLegendById(allIds.get(randomInt));
+                jsonArray.put(allIds.get(randomInt));
+                jsonObject = new JSONObject();
+                jsonObject.put("ids", jsonArray);
+                json = jsonObject.toString();
+                prefManager.setAddedLegendsId(json);
+                return legend;
+            } catch (JSONException e) {
+                Log.d("lessons", "secondTry false");
                 JSONObject jsonObject = new JSONObject();
                 JSONArray jsonArray = new JSONArray();
                 try {
+                    Log.d("lessons", "firstTry true");
+                    legend = appDataBase.getLegends().get(getRandomInt(3));
+                    jsonArray.put(legend.getmId());
                     jsonObject.put("ids", jsonArray);
                     json = jsonObject.toString();
                     prefManager.setAddedLegendsId(json);
-                    legend = appDataBase.getDailyLegend(getRandomInt(appDataBase, null));
                     return legend;
-                }catch (JSONException e){
+                }catch (JSONException e2){
+                    Log.d("lessons", "firstTry false");
 
                 }
             }
 
-        }else {
-            try {
-                JSONObject jsonObject = new JSONObject(json);
-                JSONArray jsonArray = jsonObject.getJSONArray("ids");
-                jsonArray.getInt(jsonArray.length()-1);
-                return appDataBase.getDailyLegend(jsonArray.getInt(jsonArray.length()-1));
-            }catch (JSONException e){
 
-            }
-        }
-        return null;
-
+        return appDataBase.getLegends().get(getRandomInt(3));
     }
 
-    private int getRandomInt(AppDataBase appDataBase, ArrayList<Integer> idsArray){
+
+    private int getRandomInt(int distance){
         int randomInt;
-        if (idsArray != null) randomInt  = new Random().nextInt(idsArray.size()-1);
-        else randomInt = new Random().nextInt(2);
-        String s = "\""+ appDataBase.getDailyLegend(randomInt).getmId()+"\",";
-        if (prefManager.getAddedLegendsId().contains(s))return getRandomInt(appDataBase, idsArray);
-        else return randomInt;
+        randomInt = new Random().nextInt(distance);
+        return randomInt;
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("onResume", "!!!!!!!!!!!!");
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
+        if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
+            lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity(), getDailyLegend());
+    }
 }

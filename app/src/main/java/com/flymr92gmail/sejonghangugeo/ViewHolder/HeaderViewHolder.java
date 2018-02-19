@@ -21,9 +21,9 @@ import eu.davidea.flipview.FlipView;
 public class HeaderViewHolder extends RecyclerView.ViewHolder{
    public TextView legendName;
     public TextView legendText;
-    public ImageView iv_add;
-    public FlipView flipView;
-    public boolean isViewExpanded = false;
+    private ImageView iv_add;
+    private FlipView flipView;
+    private boolean isViewExpanded = false;
     public HeaderViewHolder(View itemView) {
         super(itemView);
         legendName = itemView.findViewById(R.id.legend_header);
@@ -51,7 +51,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder{
         }
     }
 
-    public static void expand(final View v) {
+    private static void expand(final View v) {
         v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final int targetHeight = v.getMeasuredHeight();
 
@@ -79,7 +79,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder{
         v.startAnimation(a);
     }
 
-    public static void collapse(final View v) {
+    private static void collapse(final View v) {
         final int initialHeight = v.getMeasuredHeight();
 
         Animation a = new Animation()

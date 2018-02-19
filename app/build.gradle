@@ -54,6 +54,6 @@ dependencies {
     compile 'io.github.yavski:fab-speed-dial:1.0.6'
     compile 'com.mxn.soul:flowingdrawer-core:2.0.0'
     compile 'com.nineoldandroids:library:2.4.0'
-
+    compile 'com.github.john990:WaveView:v0.9'
 
 }

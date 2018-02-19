@@ -29,21 +29,24 @@ public class PrefManager implements Constants {
     }
 
     public String getDateOfAddedLegend(){
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
-        return preferences.getString(DATE_LEGEND, currentDateTimeString);
+        Log.d(TAG, "getDate "+preferences.getString(DATE_LEGEND, "0"));
+        return preferences.getString(DATE_LEGEND, "0");
     }
 
     public void setDateOfAddedLegend(String newDate){
+        Log.d(TAG, "setDate: "+ newDate);
         editor.putString(DATE_LEGEND, newDate);
         editor.apply();
         editor.commit();
     }
 
     public String getAddedLegendsId(){
+        Log.d(TAG, "getIds: "+preferences.getString(ADDED_LEGENDS_ID, "0"));
         return preferences.getString(ADDED_LEGENDS_ID, "0");
     }
 
     public void setAddedLegendsId(String addedArray){
+        Log.d(TAG, "setIds: "+ addedArray);
         editor.putString(ADDED_LEGENDS_ID, addedArray);
         editor.apply();
         editor.commit();

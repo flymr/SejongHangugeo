@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,15 +18,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.BookAdapter;
+import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
 import com.flymr92gmail.sejonghangugeo.Adapters.NewWordsRecyclerAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
+import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +46,8 @@ public class MainPageFragment extends Fragment {
 
     @BindView(R.id.main_rv)
     RecyclerView mRecyclerView;
-
+    private PrefManager prefManager;
+    private BookAdapter bookAdapter;
     public static MainPageFragment newInstance() {
         return new MainPageFragment();
     }
@@ -50,7 +62,7 @@ public class MainPageFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-
+        prefManager = new PrefManager(getActivity());
 
 
         //setup materialviewpager
@@ -61,7 +73,8 @@ public class MainPageFragment extends Fragment {
         //Use this now
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(new BookAdapter());
+        bookAdapter = new BookAdapter(getDailyLegend());
+        mRecyclerView.setAdapter(bookAdapter);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -77,4 +90,91 @@ public class MainPageFragment extends Fragment {
             }
         }));
     }
+    private Legend getDailyLegend(){
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
+        AppDataBase appDataBase = new AppDataBase(getActivity());
+        Legend legend;
+        String json= prefManager.getAddedLegendsId();
+        if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString)){
+            prefManager.setDateOfAddedLegend(currentDateTimeString);
+            try {
+                Log.d("main", "secondTry true");
+
+                JSONObject jsonObject = new JSONObject(json);
+                JSONArray jsonArray = jsonObject.getJSONArray("ids");
+                JSONObject jsonObject1 = new JSONObject(appDataBase.getLegendsIds());
+                JSONArray jsonArray1 = jsonObject1.getJSONArray("ids");
+                ArrayList<Integer> allIds = new ArrayList<>();
+                ArrayList<Integer> addedIds = new ArrayList<>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    addedIds.add(jsonArray.getInt(i));
+                }
+                for (int i = 0; i < jsonArray1.length(); i++) {
+                    allIds.add(jsonArray1.getInt(i));
+                }
+                int randomInt;
+                if (addedIds.size() < allIds.size()) {
+                    allIds.removeAll(addedIds);
+                    randomInt = getRandomInt(allIds.size());
+                    allIds.get(randomInt);
+                }
+                else {
+                    jsonArray = new JSONArray();
+                    randomInt = getRandomInt(3);
+                }
+                legend = appDataBase.getLegendById(allIds.get(randomInt));
+                jsonArray.put(allIds.get(randomInt));
+                jsonObject = new JSONObject();
+                jsonObject.put("ids", jsonArray);
+                json = jsonObject.toString();
+                prefManager.setAddedLegendsId(json);
+                return legend;
+            } catch (JSONException e) {
+                Log.d("main", "secondTry false");
+                JSONObject jsonObject = new JSONObject();
+                JSONArray jsonArray = new JSONArray();
+                try {
+                    Log.d("main", "firstTry true");
+                    legend = appDataBase.getDailyLegend(getRandomInt(3));
+                    jsonArray.put(legend.getmId());
+                    jsonObject.put("ids", jsonArray);
+                    json = jsonObject.toString();
+                    prefManager.setAddedLegendsId(json);
+                    return legend;
+                }catch (JSONException e2){
+                    Log.d("main", "firstTry false");
+
+                }
+            }
+
+        }else {
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                JSONArray jsonArray = jsonObject.getJSONArray("ids");
+                return appDataBase.getLegendById(jsonArray.getInt(jsonArray.length() - 1));
+            }catch (JSONException e){
+
+            }
+
         }
+       // return appDataBase.getLegends().get(getRandomInt(3));
+    return null;
+    }
+
+
+    private int getRandomInt(int distance){
+        int randomInt;
+        randomInt = new Random().nextInt(distance);
+        return randomInt;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("onResume", "************");
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
+        if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
+         bookAdapter = new BookAdapter(getDailyLegend());
+    }
+
+}

@@ -80,6 +80,20 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
         return legend;
     }
 
+    public Legend getLegendById(int id){
+        Legend legend = new Legend();
+        String query = "SELECT * FROM " + TABLE_LEGENDS+ " WHERE _id=" + id;
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.moveToNext()){
+            legend.setmId(cursor.getInt(cursor.getColumnIndex("_id")));
+            legend.setName(cursor.getString(cursor.getColumnIndex("header")));
+            legend.setNameTranslate(cursor.getString(cursor.getColumnIndex("headerTranslate")));
+            legend.setLegendText(cursor.getString(cursor.getColumnIndex("legendText")));
+        }
+        cursor.close();
+        return legend;
+    }
+
     public String getLegendsIds(){
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();

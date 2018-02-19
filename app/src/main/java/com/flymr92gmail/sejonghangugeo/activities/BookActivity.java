@@ -52,6 +52,7 @@ import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
+import com.john.waveview.WaveView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.wnafee.vector.MorphButton;
 
@@ -92,6 +93,8 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private ArrayList<Word> selectedWords;
     private SearchView wordsSearcher;
     private boolean firstWordIsSelected = true;
+    private WaveView waveView;
+    ObjectAnimator waveViewAnimator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,6 +128,8 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         addSelected = findViewById(R.id.sliding_add_selected_btn);
         wordsSearcher = findViewById(R.id.search_words_sv);
         selectedCountTv = findViewById(R.id.selected_count_tv);
+        waveView = findViewById(R.id.wave_view);
+        waveViewAnimator = new ObjectAnimator();
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
     }
@@ -416,11 +421,14 @@ return true;
     }
 
     private void setupAudioPlayer(){
-      audioSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        audioSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
           @Override
           public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
               if(mp!=null && b){
                   mp.seekTo(i*10);
+
+
+
               }
           }
 
@@ -461,6 +469,7 @@ return true;
     private void playAudio(){
         bookMenu.hide();
         try {
+
             controller_ll.setVisibility(View.VISIBLE);
             mp = new MediaPlayer();
             AssetFileDescriptor descriptor = getAssets().openFd("Audio/"+dataBase.getPageAudio(pdfView.getCurrentPage()+2).getmTrackId()+".wma");
@@ -476,6 +485,14 @@ return true;
             mp.setVolume(1f, 1f);
             mp.setLooping(true);
             mp.start();
+
+            waveViewAnimator.setObjectValues(waveView);
+            waveViewAnimator.setPropertyName("progress");
+            waveViewAnimator.setIntValues(0, 100);
+            waveViewAnimator.setDuration(mp.getDuration());
+            waveViewAnimator.start();
+
+
             getAudioStats();
             initializeSeekBar();
         } catch (Exception e) {
@@ -530,13 +547,15 @@ return true;
 
     private void initializeSeekBar(){
         audioSeekBar.setMax(mp.getDuration()/10);
-
         audioRun = new Runnable() {
             @Override
             public void run() {
                 if(mp!=null){
                     int mCurrentPosition = mp.getCurrentPosition()/10; // In milliseconds
                     audioSeekBar.setProgress(mCurrentPosition);
+                    float percentDuration =((float) mCurrentPosition/((float) mp.getDuration()/10));
+                    Log.d("book", "percentDuration " + percentDuration);
+                    waveView.setProgress((int)(percentDuration*100));
                     getAudioStats();
                 }
                 handlerAudio.postDelayed(audioRun,10);
