@@ -14,5 +14,6 @@
     <string name="learning">Изученно</string>
     <string name="learned">Усвоено</string>
     <string name="next_round">Следующий раунд</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>

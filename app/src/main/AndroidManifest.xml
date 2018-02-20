@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +42,15 @@
         <activity
             android:name=".activities.BookActivity"
             android:theme="@style/AppThemeWhite" />
-        <activity android:name=".activities.LegendsActivity"></activity>
+        <activity android:name=".activities.LegendsActivity"/>
+        <activity
+            android:name=".activities.TestActivity"
+            android:label="@string/title_activity_test"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.flymr92gmail.sejonghangugeo.activities.BookActivity" />
+        </activity>
     </application>
 
 </manifest>

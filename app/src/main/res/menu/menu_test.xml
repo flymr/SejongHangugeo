@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<item
+    android:id="@+id/actionBackTest"
+    android:icon="@drawable/ic_chevron_left"
+    app:showAsAction="always"
+    android:title="previous test"
+    android:visible="false"
+    />
+<item
+    android:id="@+id/actionPlayTrack"
+    android:icon="@drawable/ic_play_vector"
+    app:showAsAction="always"
+    android:title="nextTest"
+   />
+<item
+    android:id="@+id/actionNextTest"
+    android:icon="@drawable/ic_chevron_right"
+    android:visible="true"
+    app:showAsAction="always"
+    android:title="nextTest"
+    />
+
+</menu>

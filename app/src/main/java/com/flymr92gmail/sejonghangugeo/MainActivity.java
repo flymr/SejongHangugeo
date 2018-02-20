@@ -1,5 +1,11 @@
 package com.flymr92gmail.sejonghangugeo;
 
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
@@ -7,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -109,6 +117,15 @@ public class MainActivity extends AppCompatActivity {
                 return "";
             }
         });
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        final Drawable drawable2 = new BitmapDrawable(getResources(),
+                decodeSampledBitmapFromResource(getResources(), R.drawable.white_imtitle, metrics.widthPixels, 0));
+        final Drawable drawable1 = new BitmapDrawable(getResources(),
+                decodeSampledBitmapFromResource(getResources(), R.drawable.title2, metrics.widthPixels, 0));
+
+
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
             public HeaderDesign getHeaderDesign(int page) {
@@ -116,11 +133,13 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.navigationBarColor,
-                                getResources().getDrawable(R.drawable.title2));
+                                drawable1
+                                 );
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.navigationBarColor,
-                                getResources().getDrawable(R.drawable.white_imtitle));
+                                drawable2
+                        );
 
                 }
 
@@ -145,5 +164,47 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
+
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
+    private int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+
+
+
+
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
 
 }

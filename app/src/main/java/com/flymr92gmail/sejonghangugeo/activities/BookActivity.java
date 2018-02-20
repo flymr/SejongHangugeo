@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
@@ -30,6 +31,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -57,6 +59,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.wnafee.vector.MorphButton;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -80,7 +83,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private TextView tvAudioStart, tvAudioEnd;
     private Runnable audioRun;
     private MorphButton playButton;
-    private LinearLayout controller_ll;
+    private FrameLayout controller_ll;
     private ImageButton closeAudioBtn;
     private RecyclerView navBookRv;
     private LinearLayoutManager llmanagerNav;
@@ -94,16 +97,37 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private SearchView wordsSearcher;
     private boolean firstWordIsSelected = true;
     private WaveView waveView;
-    ObjectAnimator waveViewAnimator;
+    private Handler preLoader;
+    private LinearLayout llLoader;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
+        preLoaderStart();
         initialization();
         setupPdf();
         setupBookMenu();
         setupAudioPlayer();
         setupSlidingPanelButtonListener();
+    }
+
+    private void preLoaderStart(){
+        llLoader = findViewById(R.id.book_loader);
+        preLoader = new Handler();
+        preLoader.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        llLoader.setVisibility(View.VISIBLE);
+                    }
+                });
+                // mBottomNavigationTabStrip.setTabIndex(tabIndex);
+
+            }
+        }, 0);
+
     }
 
     private void initialization(){
@@ -129,7 +153,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         wordsSearcher = findViewById(R.id.search_words_sv);
         selectedCountTv = findViewById(R.id.selected_count_tv);
         waveView = findViewById(R.id.wave_view);
-        waveViewAnimator = new ObjectAnimator();
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
     }
@@ -284,7 +307,7 @@ return true;
                 return true;
             }
         };
-        wordsSearcher.setQueryHint(Html.fromHtml("<font color = #ffffff>" + "Найти слово" + "</font>"));
+        wordsSearcher.setQueryHint(Html.fromHtml("<font color = #ffffff>" + "Найти слово в словаре" + "</font>"));
         wordsSearcher.setOnQueryTextListener(queryTextListener);
         wordsSearcher.setIconified(false);
         wordsSearcher.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -342,7 +365,13 @@ return true;
                                        }
                                      }
                                 })
-
+                                .onLoad(new OnLoadCompleteListener() {
+                                    @Override
+                                    public void loadComplete(int nbPages) {
+                                        ObjectAnimator.ofFloat(llLoader, "alpha", 1f, 0)
+                                                .setDuration(500).start();
+                                    }
+                                })
                                 .load();
                         pdfView.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -386,6 +415,9 @@ return true;
                   case R.id.action_search:
                       setupSearcher();
                       break;
+                  case R.id.action_test:
+                      testAction();
+                      break;
               }
               return false;
           }
@@ -426,8 +458,7 @@ return true;
           public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
               if(mp!=null && b){
                   mp.seekTo(i*10);
-
-
+                  //if (i == mp.getDuration()/10) stopAudio();
 
               }
           }
@@ -483,14 +514,10 @@ return true;
             descriptor.close();
             mp.prepare();
             mp.setVolume(1f, 1f);
-            mp.setLooping(true);
+            mp.setLooping(false);
             mp.start();
 
-            waveViewAnimator.setObjectValues(waveView);
-            waveViewAnimator.setPropertyName("progress");
-            waveViewAnimator.setIntValues(0, 100);
-            waveViewAnimator.setDuration(mp.getDuration());
-            waveViewAnimator.start();
+
 
 
             getAudioStats();
@@ -557,6 +584,12 @@ return true;
                     Log.d("book", "percentDuration " + percentDuration);
                     waveView.setProgress((int)(percentDuration*100));
                     getAudioStats();
+                    if (mCurrentPosition == mp.getDuration()/10){
+                        playButton.setState(MorphButton.MorphState.END, true);
+                        //audioSeekBar.setProgress(0);
+                        mp.seekTo(0);
+
+                    }
                 }
                 handlerAudio.postDelayed(audioRun,10);
             }
@@ -605,6 +638,12 @@ return true;
                 getResources().getColor(secondColor)).setDuration(duration).start();
        else ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), getResources().getColor(secondColor),
                getResources().getColor(firstColor)).setDuration(duration).start();
+    }
+
+    private void testAction(){
+        Intent intent = new Intent(this, TestActivity.class);
+        intent.putExtra("page",pdfView.getCurrentPage()+differencePages);
+        startActivity(intent);
     }
 
 }

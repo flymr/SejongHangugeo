@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/learn_edit_text_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:textSize="29sp"
+        android:singleLine="true"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:visibility="gone"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="0dp"
+        />
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/learn_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        android:textSize="29sp"
+        android:singleLine="true"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        />
+
+
+    <Button
+        android:id="@+id/submit_btn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@color/colorPrimary"
+        android:text="ok"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
+</LinearLayout>
