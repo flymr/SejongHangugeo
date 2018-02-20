@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                                  );
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
-                                R.color.navigationBarColor,
+                                R.color.black,
                                 drawable2
                         );
 
@@ -185,9 +185,6 @@ public class MainActivity extends AppCompatActivity {
         // Raw height and width of image
         final int height = options.outHeight;
         final int width = options.outWidth;
-
-
-
 
         int inSampleSize = 1;
 

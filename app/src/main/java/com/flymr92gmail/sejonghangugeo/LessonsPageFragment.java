@@ -101,12 +101,6 @@ public class LessonsPageFragment extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /** Animation anim = android.view.animation.AnimationUtils.loadAnimation(fab.getContext(),  R.anim.myalpha);
-                 anim.setDuration(200L);
-                 fab.startAnimation(anim);*/
-
-                //Toast.makeText(getActivity(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
-
                 LessonsCreateFolder dialogCreateFragment = new LessonsCreateFolder();
                 dialogCreateFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
