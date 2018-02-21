@@ -23,7 +23,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_card_big, parent, false);
+                .inflate(R.layout.item_preview, parent, false);
 
         return new PreviewViewHolder(view);
     }
