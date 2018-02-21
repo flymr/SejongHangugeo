@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.flymr92gmail.sejonghangugeo.activities.PreviewActivity">
+    tools:context="com.flymr92gmail.sejonghangugeo.activities.PreviewActivity"
+    android:id="@+id/fl_preview">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_preview"
@@ -34,7 +35,7 @@
 
         <com.gigamole.navigationtabstrip.NavigationTabStrip
             android:id="@+id/nts_preview"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="42dp"
             android:layout_gravity="center"
             android:layout_marginEnd="30dp"
@@ -51,6 +52,7 @@
             app:nts_type="point"
             app:nts_typeface="fonts/moon.otf"
             app:nts_weight="7dp"
+
             />
 
         <ImageView

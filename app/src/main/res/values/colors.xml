@@ -27,11 +27,11 @@
     <color name="grayM">#dcdcdc</color>
     <color name="yellow">#ffe600</color>
     <color name="pinkAlpha">#D9FF4081</color>
-    <integer-array name="mycolors">
-        <item>@android:color/holo_blue_dark</item>
-        <item>@android:color/holo_orange_dark</item>
-        <item>@android:color/holo_green_dark</item>
-        <item>@android:color/holo_purple</item>
-        <item>@android:color/holo_red_dark</item>
+    <integer-array name="preview_color">
+        <item>@color/orange</item>
+        <item>@color/green</item>
+        <item>@color/blue</item>
+        <item>@color/violet</item>
+        <item>@color/colorAccent</item>
     </integer-array>
 </resources>
