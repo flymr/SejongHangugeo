@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.flymr92gmail.sejonghangugeo.activities.PreviewActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp">
+    </android.support.v7.widget.RecyclerView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="3dp"
+        android:background="#ff252e39">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#81ffffff"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="18dp"
+            android:background="#182128"/>
+
+        <com.gigamole.navigationtabstrip.NavigationTabStrip
+            android:id="@+id/nts_preview"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginStart="30dp"
+            app:nts_active_color="#fff"
+            app:nts_color="#3cdedd"
+            app:nts_corners_radius="3.5dp"
+            app:nts_factor="0.8"
+            app:nts_gravity="bottom"
+            app:nts_inactive_color="#81ffffff"
+            app:nts_titles="@array/preview_array"
+            app:nts_type="point"
+            app:nts_typeface="fonts/moon.otf"
+            app:nts_weight="7dp"
+            />
+
+        <ImageView
+            android:id="@+id/close_preview"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="3dp"
+            android:layout_gravity="start|center"
+            app:srcCompat="@drawable/ic_close_24dp"/>
+
+        <ImageView
+            android:id="@+id/next_page_preview"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="3dp"
+            android:layout_gravity="end|center"
+            app:srcCompat="@drawable/ic_chevron_right"/>
+
+    </FrameLayout>
+</FrameLayout>

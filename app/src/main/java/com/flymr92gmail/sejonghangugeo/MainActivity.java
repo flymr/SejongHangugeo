@@ -1,9 +1,9 @@
 package com.flymr92gmail.sejonghangugeo;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -12,47 +12,43 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
-import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
+import com.flymr92gmail.sejonghangugeo.activities.PreviewActivity;
+import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity {
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
     private FlowingDrawer mDrawer;
     private PrefManager prefManager;
+    private NavigationTabStrip navigationTabStrip; //exp
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-            ButterKnife.bind(this);
-            prefManager = new PrefManager(this);
+        prefManager = new PrefManager(this);
+
+        ButterKnife.bind(this);
+
+        navigationTabStrip = findViewById(R.id.nts_main);//exp
+
+
         mDrawer = findViewById(R.id.drawerlayout);
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
@@ -83,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setTitle("");
 
         }
-
 
 
         mViewPager.setColor(R.color.colorFolder, 100);
@@ -149,7 +144,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
-        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
+        navigationTabStrip.setViewPager(mViewPager.getViewPager()); // exp
+//        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
+
 
         final View logo = findViewById(R.id.logo_white);
         if (logo != null) {
@@ -160,6 +157,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+        if (prefManager.getIsFirstAppActivation()) {
+            Intent intent = new Intent(this, PreviewActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -203,5 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
         return inSampleSize;
     }
+
+
 
 }

@@ -8,6 +8,7 @@ public interface Constants {
     String GRAM = "gram";
     String DATE_LEGEND = "date_legend";
     String ADDED_LEGENDS_ID = "added_legends_id";
+    String FIRST_APP_ACTIVATION = "first_app_activation";
     //Data Bases
     final String TABLE_FAVORITE = "favorite";
     final String CREATE_TABLE_FAVORITE = "CREATE TABLE "+TABLE_FAVORITE+" (" +

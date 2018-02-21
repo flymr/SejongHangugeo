@@ -1,6 +1,10 @@
 package com.flymr92gmail.sejonghangugeo;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -16,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
@@ -55,6 +60,8 @@ public class LessonsPageFragment extends Fragment{
     private ArrayList<Lesson> lessonArrayList;
     private LessonsAdapter lessonsAdapter;
     private PrefManager prefManager;
+    private Context context;
+
 
     public static LessonsPageFragment newInstance() {
         return new LessonsPageFragment();
@@ -69,26 +76,29 @@ public class LessonsPageFragment extends Fragment{
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        prefManager = new PrefManager(getActivity());
-        userDataBase = new UserDataBase(getActivity());
+
+
+        context = getActivity();
+        prefManager = new PrefManager(context);
+        userDataBase = new UserDataBase(context);
         lessonArrayList = userDataBase.getAllLessons();
         if (lessonArrayList.size() == 0) {
             userDataBase.createNewLesson("title");
             lessonArrayList = userDataBase.getAllLessons();
         }
-        lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity(), getDailyLegend());
-        lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        lessonsAdapter = new LessonsAdapter(lessonArrayList, context, getDailyLegend());
+        lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         lessonsRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         lessonsRecyclerView.setAdapter(lessonsAdapter);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(lessonsAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(lessonsRecyclerView);
-        lessonsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), lessonsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        lessonsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, lessonsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 
                if (position!=0) {
-                   Intent intent = new Intent(getActivity(), LessonActivity.class);
+                   Intent intent = new Intent(context, LessonActivity.class);
                    intent.putExtra("lessonId", lessonArrayList.get(position).getLessonId());
                    startActivity(intent);
                }
@@ -135,7 +145,7 @@ public class LessonsPageFragment extends Fragment{
     }
 
     private Legend getDailyLegend(){
-        AppDataBase appDataBase = new AppDataBase(getActivity());
+        AppDataBase appDataBase = new AppDataBase(context);
         Legend legend;
         String json= prefManager.getAddedLegendsId();
             try {
@@ -192,12 +202,13 @@ public class LessonsPageFragment extends Fragment{
         return appDataBase.getLegends().get(getRandomInt(3));
     }
 
-
     private int getRandomInt(int distance){
         int randomInt;
         randomInt = new Random().nextInt(distance);
         return randomInt;
     }
+
+
 
     @Override
     public void onResume() {
@@ -205,6 +216,6 @@ public class LessonsPageFragment extends Fragment{
         Log.d("onResume", "!!!!!!!!!!!!");
         String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
         if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
-            lessonsAdapter = new LessonsAdapter(lessonArrayList, getActivity(), getDailyLegend());
+            lessonsAdapter = new LessonsAdapter(lessonArrayList, context, getDailyLegend());
     }
 }

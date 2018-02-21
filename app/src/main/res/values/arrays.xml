@@ -4,7 +4,17 @@
     <string-array name="titles">
         <item>Все</item>
         <item>Избранное</item>
-
+    </string-array>
+    <string-array name="titles_main">
+        <item>учебники</item>
+        <item>модули</item>
     </string-array>
 
+    <string-array name="preview_array">
+        <item>1</item>
+        <item>2</item>
+        <item>3 </item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 </resources>

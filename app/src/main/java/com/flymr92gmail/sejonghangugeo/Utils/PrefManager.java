@@ -72,6 +72,13 @@ public class PrefManager implements Constants {
         editor.commit();
     }
 
+   public boolean getIsFirstAppActivation(){
+        return preferences.getBoolean(FIRST_APP_ACTIVATION, true);
+   }
 
-
+   public void setIsFirstAppActivation(boolean b){
+       editor.putBoolean(FIRST_APP_ACTIVATION, b);
+       editor.apply();
+       editor.commit();
+   }
 }
