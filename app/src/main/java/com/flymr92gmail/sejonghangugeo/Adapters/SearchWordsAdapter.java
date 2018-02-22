@@ -23,6 +23,7 @@ import com.flymr92gmail.sejonghangugeo.Fragments.LessonsDialogAddFragment;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.Constants;
+import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
 
 import java.util.ArrayList;
 
@@ -33,13 +34,16 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
     private String searchingText;
     private Constants.Language language;
     private FragmentManager fragmentManager;
+    private SpeechActionListener speechActionListener;
 
-    public SearchWordsAdapter(ArrayList<Word> words, Context context, String searchingText, Constants.Language language, FragmentManager fragmentManager) {
+
+    public SearchWordsAdapter(ArrayList<Word> words, Context context, String searchingText, Constants.Language language, FragmentManager fragmentManager, SpeechActionListener speechActionListener) {
         this.mWords=words;
         this.mContext = context;
         this.searchingText = searchingText;
         this.language = language;
         this.fragmentManager = fragmentManager;
+        this.speechActionListener = speechActionListener;
     }
 
     @Override
@@ -78,27 +82,37 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
     public int getItemCount () {
         return mWords.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvKorWord,tvRusWord;
-        ImageView ivAdd;
+        ImageView ivAdd, ivSpeech;
         CardView cardView;
         public ViewHolder(View itemView) {
             super(itemView);
             tvKorWord = itemView.findViewById(R.id.korean_word_tv);
             tvRusWord = itemView.findViewById(R.id.russian_word_tv);
             ivAdd = itemView.findViewById(R.id.iv_add);
+            ivSpeech = itemView.findViewById(R.id.speech_iv);
             cardView = itemView.findViewById(R.id.word_item_cv);
             cardView.setCardBackgroundColor(Color.WHITE);
-            ivAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            ivAdd.setOnClickListener(this);
+            ivSpeech.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.iv_add:
                     LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
                     lessonsDialogAddFragment.setWord(mWords.get(getAdapterPosition()));
                     lessonsDialogAddFragment.show(fragmentManager,"Choise Lesson");
-                }
-            });
+                    break;
+                case R.id.speech_iv:
+                    if (speechActionListener != null){
+                        speechActionListener.onSpeechClick(getAdapterPosition(), v);
+                    }
+                    break;
+            }
         }
-
     }
 }
 

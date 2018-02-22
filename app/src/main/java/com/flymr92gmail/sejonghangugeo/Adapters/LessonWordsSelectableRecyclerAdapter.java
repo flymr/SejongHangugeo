@@ -138,7 +138,7 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
             switch (view.getId()) {
                 case R.id.speech_iv:
                     if (speechActionListener != null){
-                        speechActionListener.onSpeechClick(getAdapterPosition());
+                        speechActionListener.onSpeechClick(getAdapterPosition(), view);
                     }
                     break;
                 case R.id.star_iv:

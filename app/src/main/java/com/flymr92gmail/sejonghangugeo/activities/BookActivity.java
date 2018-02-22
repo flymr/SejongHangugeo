@@ -105,7 +105,8 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private Handler preLoader;
     private LinearLayout llLoader;
     private WordsSpeech wordsSpeech;
-
+    private RecyclerView searchRv;
+    private ArrayList<Word> searchedArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -273,7 +274,7 @@ return true;
         wordsSearcher.setVisibility(View.VISIBLE);
         SearchManager searchManager = (SearchManager) getApplicationContext().getSystemService(Context.SEARCH_SERVICE);
         final SearchView.OnQueryTextListener queryTextListener;
-        final RecyclerView searchRv = findViewById(R.id.search_words_rv);
+        searchRv = findViewById(R.id.search_words_rv);
         searchRv.setLayoutManager(new LinearLayoutManager(this));
         try{
             wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
@@ -283,10 +284,10 @@ return true;
         queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(final String newText) {
-                ArrayList<Word> wordArrayList;
+
                 Constants.Language language = Constants.Language.Russian;
-                wordArrayList = dataBase.getSearchResult(newText, language);
-                Collections.sort(wordArrayList, new Comparator<Word>() {
+                searchedArray = dataBase.getSearchResult(newText, language);
+                Collections.sort(searchedArray, new Comparator<Word>() {
                     @Override
                     public int compare(Word o1, Word o2) {
                         if (o1.getRussianWord().indexOf(newText)<0 || o2.getRussianWord().indexOf(newText)<0)
@@ -294,10 +295,10 @@ return true;
                             return o1.getRussianWord().indexOf(newText)-o2.getRussianWord().indexOf(newText);
                     }
                 });
-                if (wordArrayList.size()==0){
+                if (searchedArray.size()==0){
                     language = Constants.Language.Korean;
-                    wordArrayList = dataBase.getSearchResult(newText, language);
-                    Collections.sort(wordArrayList, new Comparator<Word>() {
+                    searchedArray = dataBase.getSearchResult(newText, language);
+                    Collections.sort(searchedArray, new Comparator<Word>() {
                         @Override
                         public int compare(Word o1, Word o2) {
                             return o1.getKoreanWord().indexOf(newText)-o2.getKoreanWord().indexOf(newText);
@@ -305,9 +306,9 @@ return true;
                     });
                 }
                 if (newText.equals(""))
-                    wordArrayList = new ArrayList<>();
+                    searchedArray = new ArrayList<>();
 
-                searchRv.setAdapter(new SearchWordsAdapter(wordArrayList, getApplicationContext(), newText, language, getSupportFragmentManager()));
+                searchRv.setAdapter(new SearchWordsAdapter(searchedArray, getApplicationContext(), newText, language, getSupportFragmentManager(),BookActivity.this));
                 return true;
             }
             @Override
@@ -657,9 +658,13 @@ return true;
     }
 
     @Override
-    public void onSpeechClick(int position) {
-        String kor = pageWords.get(position).getKoreanWord();
-        View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
+    public void onSpeechClick(int position, View view) {
+        String kor;
+        if (wordsSearcher.getVisibility() == View.GONE)kor = pageWords.get(position).getKoreanWord();
+        else kor = searchedArray.get(position).getKoreanWord();
+    //    View view;
+    //    if (whereFrom == 0)view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
+    //    else view = searchRv.findViewHolderForAdapterPosition(position).itemView;
         final ImageView imageView = view.findViewById(R.id.speech_iv);
         ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.grayM),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();

@@ -392,9 +392,9 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     }
 
     @Override
-    public void onSpeechClick(int position) {
+    public void onSpeechClick(int position, View view) {
         String kor = words.get(position).getKoreanWord();
-        View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
+      // View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
         final ImageView imageView = view.findViewById(R.id.speech_iv);
         ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.grayM),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();

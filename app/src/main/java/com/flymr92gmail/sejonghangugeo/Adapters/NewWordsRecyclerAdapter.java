@@ -99,7 +99,7 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
                     break;
                 case R.id.speech_iv:
                     if (speechActionListener != null){
-                        speechActionListener.onSpeechClick(getAdapterPosition());
+                        speechActionListener.onSpeechClick(getAdapterPosition(), view);
                     }
                     break;
             }
