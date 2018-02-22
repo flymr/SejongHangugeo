@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -33,7 +34,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -49,6 +52,8 @@ import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.RecyclerItemClickListener;
 import com.flymr92gmail.sejonghangugeo.Utils.Constants;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
+import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
+import com.flymr92gmail.sejonghangugeo.Utils.WordsSpeech;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
@@ -68,7 +73,7 @@ import java.util.Comparator;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
-public class BookActivity extends AppCompatActivity implements NewWordsRecyclerAdapter.OnRecyclerViewItemClickListener{
+public class BookActivity extends AppCompatActivity implements NewWordsRecyclerAdapter.OnRecyclerViewItemClickListener, SpeechActionListener{
     private PDFView pdfView;
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private PrefManager prefManager;
@@ -99,6 +104,8 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private WaveView waveView;
     private Handler preLoader;
     private LinearLayout llLoader;
+    private WordsSpeech wordsSpeech;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +162,9 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         waveView = findViewById(R.id.wave_view);
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
+        wordsSpeech = new WordsSpeech(this);
     }
+
 
     private void setupRecyclerView(){
         String s = "выбранные(0)";
@@ -163,7 +172,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         selectedWords.clear();
         pageWords.clear();
         pageWords = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
-        NewWordsRecyclerAdapter adapter = new NewWordsRecyclerAdapter(pageWords, getApplicationContext(), this);
+        NewWordsRecyclerAdapter adapter = new NewWordsRecyclerAdapter(pageWords, getApplicationContext(), this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
     }
@@ -395,6 +404,7 @@ return true;
           public boolean onPrepareMenu(NavigationMenu navigationMenu) {
               updateMenu(navigationMenu);
               setupRecyclerView();
+
               return true;
           }
 
@@ -646,4 +656,32 @@ return true;
         startActivity(intent);
     }
 
+    @Override
+    public void onSpeechClick(int position) {
+        String kor = pageWords.get(position).getKoreanWord();
+        View view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
+        final ImageView imageView = view.findViewById(R.id.speech_iv);
+        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.grayM),
+                getResources().getColor(R.color.yellow)).setDuration(100).start();
+        wordsSpeech.speechWord(kor);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (pageWords.size() != 0){
+                            if (!wordsSpeech.wordIsSpeech()){
+                                ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.yellow),
+                                        getResources().getColor(R.color.grayM)).setDuration(300).start();
+                                return;
+                            }
+                        }
+                    }
+                });
+                // mBottomNavigationTabStrip.setTabIndex(tabIndex);
+
+            }
+        }, 100);
+    }
 }

@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/cardMarginVertical"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
-        app:cardBackgroundColor="@color/navigationBarColor"
+        app:cardBackgroundColor="#182128"
         app:cardPreventCornerOverlap="false"
         app:contentPadding="0dp">
         <LinearLayout

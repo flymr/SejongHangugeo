@@ -17,4 +17,36 @@
         <item>4</item>
         <item>5</item>
     </string-array>
+
+    <string-array name="preview_page0">
+        <item>Изучайте Корейский Язык</item>
+        <item>По материалам одной из
+             лучших школ, с мировым именем - 세종학당.
+        </item>
+    </string-array>
+
+    <string-array name="preview_page1">
+        <item>Слушайте Диалоги</item>
+        <item>Идущие в комплекте с книгой 세종한국어</item>
+    </string-array>
+
+    <string-array name="preview_page2">
+        <item>Выполняйте Упражнения</item>
+        <item>Прямо на страницах книги,
+             письменные и аудио.</item>
+
+    </string-array>
+
+    <string-array name="preview_page3">
+        <item>Учите Слова Эффективно</item>
+        <item>С помощью карточек и упражнений</item>
+
+    </string-array>
+
+    <string-array name="preview_page4">
+        <item>Вперед к изучению!</item>
+        <item>Более подробно о возможностях
+             приложения</item>
+        <item>здесь</item>
+    </string-array>
 </resources>

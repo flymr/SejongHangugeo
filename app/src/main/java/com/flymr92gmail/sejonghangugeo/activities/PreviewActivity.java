@@ -31,6 +31,7 @@ public class PreviewActivity extends AppCompatActivity {
     private int[] colors;
     private ObjectAnimator objAnimator;
     private boolean scroolIsNext = true;
+    private int startIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +42,14 @@ public class PreviewActivity extends AppCompatActivity {
         fl = findViewById(R.id.fl_preview);
         recyclerView = findViewById(R.id.rv_preview);
         nts = findViewById(R.id.nts_preview);
-
+        getColorArray();
         setupRecyclerView();
         setupNts();
         setupIvClickListener();
+
+    }
+
+    private void getColorArray(){
         TypedArray ta = getResources().obtainTypedArray(R.array.preview_color);
         colors = new int[ta.length()];
         for (int i = 0; i < ta.length(); i++) {
@@ -57,7 +62,7 @@ public class PreviewActivity extends AppCompatActivity {
     private void setupRecyclerView(){
         llManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         recyclerView.setLayoutManager(llManager);
-        recyclerView.setAdapter(new PreviewAdapter());
+        recyclerView.setAdapter(new PreviewAdapter(this));
         SnapHelper helper = new PagerSnapHelper();
         helper.attachToRecyclerView(recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -65,7 +70,6 @@ public class PreviewActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                Log.d("onScrollRv      ", "x  " + dx + "  y" + dy);
                 if (dx > 0){
                     nts.setTabIndex(llManager.findLastVisibleItemPosition());
                     scroolIsNext = true;
@@ -83,8 +87,6 @@ public class PreviewActivity extends AppCompatActivity {
                 if (newState == 0){
                     nts.setTabIndex(llManager.findFirstCompletelyVisibleItemPosition());
                 }
-               // if (llManager.findFirstCompletelyVisibleItemPosition() == 4) scroolIsNext = false;
-              //  if (llManager.findFirstCompletelyVisibleItemPosition() ==0) scroolIsNext = true;
             }
         });
 
@@ -95,10 +97,9 @@ public class PreviewActivity extends AppCompatActivity {
         nts.setOnTabStripSelectedIndexListener(new NavigationTabStrip.OnTabStripSelectedIndexListener() {
             @Override
             public void onStartTabSelected(String title, int index) {
+                startIndex = llManager.findFirstVisibleItemPosition();
                 recyclerView.smoothScrollToPosition(index);
-                if(0 <= index - 1 && scroolIsNext)startObjAnimator(index-1, index);
-                else if (index +1 < colors.length) startObjAnimator(index+1, index);
-
+                startObjAnimator(startIndex, index);
 
             }
 
@@ -121,8 +122,6 @@ public class PreviewActivity extends AppCompatActivity {
             public void onClick(View view) {
                 recyclerView.smoothScrollToPosition(
                         llManager.findFirstCompletelyVisibleItemPosition()+1);
-               // startObjAnimator(colors[0], colors[1]);
-               // nts.setTabIndex(llManager.findLastVisibleItemPosition());
 
 
             }
@@ -135,6 +134,7 @@ public class PreviewActivity extends AppCompatActivity {
                 "backgroundColor", new ArgbEvaluator(), colors[start], colors[end]);
         objAnimator.setDuration(500);
         objAnimator.start();
+
     }
 
 }

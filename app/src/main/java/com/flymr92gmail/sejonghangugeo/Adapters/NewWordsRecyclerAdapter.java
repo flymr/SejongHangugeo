@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
 
 import java.util.ArrayList;
 
@@ -25,18 +26,20 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
     public boolean[] selects;
     private Animation plusToCross;
     private Animation croosToPlus;
+    private SpeechActionListener speechActionListener;
     public interface OnRecyclerViewItemClickListener {
         void onAddClick(boolean[] selects, int position);
     }
     private OnRecyclerViewItemClickListener mClickListener;
 
-    public NewWordsRecyclerAdapter(ArrayList<Word> words, Context context, OnRecyclerViewItemClickListener clickListener) {
+    public NewWordsRecyclerAdapter(ArrayList<Word> words, Context context, OnRecyclerViewItemClickListener clickListener, SpeechActionListener speechActionListener) {
         this.mWords=words;
         this.mContext = context;
         selects = new boolean[mWords.size()];
         this.mClickListener = clickListener;
         plusToCross = AnimationUtils.loadAnimation(mContext, R.anim.plus_to_cross);
         croosToPlus = AnimationUtils.loadAnimation(mContext, R.anim.cross_to_plus);
+        this.speechActionListener = speechActionListener;
     }
 
     @Override
@@ -57,18 +60,30 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
     public int getItemCount () {
         return mWords.size();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvKorWord,tvRusWord;
-        ImageView ivAdd;
+        ImageView ivAdd, ivSpeech;
         public ViewHolder(View itemView) {
             super(itemView);
             tvKorWord = itemView.findViewById(R.id.korean_word_tv);
             tvRusWord = itemView.findViewById(R.id.russian_word_tv);
             ivAdd = itemView.findViewById(R.id.iv_add);
+            ivSpeech = itemView.findViewById(R.id.speech_iv);
 
-            ivAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            ivAdd.setOnClickListener(this);
+            ivSpeech.setOnClickListener(this);
+
+        }
+        private void colorAnimator(View view, String propertyName, int firstColor, int secondColor, int duration, Animation anim){
+            ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), mContext.getResources().getColor(firstColor),
+                    mContext.getResources().getColor(secondColor)).setDuration(duration).start();
+            view.startAnimation(anim);
+        }
+
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.iv_add:
                     if (ivAdd.getAnimation() == plusToCross){
                         colorAnimator(ivAdd, "colorFilter", R.color.redM,
                                 R.color.navigationBarColor, 300, croosToPlus);
@@ -81,14 +96,13 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
                     if (mClickListener != null) {
                         mClickListener.onAddClick(selects, getAdapterPosition());
                     }
-                }
-            });
-
-        }
-        private void colorAnimator(View view, String propertyName, int firstColor, int secondColor, int duration, Animation anim){
-            ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), mContext.getResources().getColor(firstColor),
-                    mContext.getResources().getColor(secondColor)).setDuration(duration).start();
-            view.startAnimation(anim);
+                    break;
+                case R.id.speech_iv:
+                    if (speechActionListener != null){
+                        speechActionListener.onSpeechClick(getAdapterPosition());
+                    }
+                    break;
+            }
         }
     }
 }

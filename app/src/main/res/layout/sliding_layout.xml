@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout android:id="@+id/rl_sliding_panel"
+<com.flymr92gmail.sejonghangugeo.Utils.CustomRelativeLayout
+    android:id="@+id/rl_in_slid_panel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorListBackground"
@@ -79,4 +80,4 @@
         app:srcCompat="@drawable/ic_arrow_drop_down"
         />
 
-</RelativeLayout>
+</com.flymr92gmail.sejonghangugeo.Utils.CustomRelativeLayout>

@@ -16,32 +16,29 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="3dp"
         android:background="#ff252e39">
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#81ffffff"/>
+            android:background="@color/white"/>
 
         <View
-            android:layout_width="match_parent"
+            android:layout_width="170dp"
             android:layout_height="4dp"
             android:layout_gravity="center"
             android:layout_marginTop="18dp"
-            android:background="#182128"/>
+            android:background="#182128"
+            android:layout_marginBottom="3dp"/>
 
         <com.gigamole.navigationtabstrip.NavigationTabStrip
             android:id="@+id/nts_preview"
             android:layout_width="200dp"
             android:layout_height="42dp"
             android:layout_gravity="center"
-            android:layout_marginEnd="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginStart="30dp"
+            android:layout_marginBottom="3dp"
             app:nts_active_color="#fff"
             app:nts_color="#3cdedd"
             app:nts_corners_radius="3.5dp"
@@ -57,18 +54,22 @@
 
         <ImageView
             android:id="@+id/close_preview"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="3dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_gravity="start|center"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_close_24dp"/>
 
         <ImageView
             android:id="@+id/next_page_preview"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginRight="3dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:layout_gravity="end|center"
+            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_chevron_right"/>
 
     </FrameLayout>

@@ -40,9 +40,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        prefManager = new PrefManager(this);
+        if (prefManager.getIsFirstAppActivation()) {
+            Intent intent = new Intent(this, PreviewActivity.class);
+            startActivity(intent);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        prefManager = new PrefManager(this);
 
         ButterKnife.bind(this);
 
@@ -158,10 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        if (prefManager.getIsFirstAppActivation()) {
-            Intent intent = new Intent(this, PreviewActivity.class);
-            startActivity(intent);
-        }
+
     }
 
 
