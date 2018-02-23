@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/cardMarginVertical"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
-        app:cardBackgroundColor="#182128"
+        app:cardBackgroundColor="@color/darkBlue"
         app:cardPreventCornerOverlap="false"
         app:contentPadding="0dp">
         <LinearLayout
@@ -38,6 +38,8 @@
                 android:textStyle="bold"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="30dp"
                 android:layout_centerInParent="true"/>
 
             <ImageView android:id="@+id/iv_add_legend"
@@ -47,43 +49,26 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:visibility="gone"
                 />
-            <eu.davidea.flipview.FlipView
-                android:id="@+id/drop_down_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+            <com.github.zagum.expandicon.ExpandIconView
+                android:id="@+id/drop_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_alignParentRight="true"
-                android:animateFirstView="true"
-                android:clickable="true"
-                android:focusable="true"
-                android:outAnimation="@anim/shrink_to_middle_y_axis"
-                android:inAnimation="@anim/grow_from_middle_y_axis"
-                app:animateDesignLayoutOnly="true"
-                app:animationDuration="200"
-                app:initialLayoutAnimation="@anim/scale_up"
-                app:initialLayoutAnimationDuration="200"
-                >
-
-                <!-- Front Layout Goes Here -->
-                <ImageView
-                    android:id="@+id/drop_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/ic_arrow_drop_down"/>
-                <!-- Back Layout Goes Here -->
-                <ImageView
-                    android:id="@+id/drop_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/ic_arrow_drop_up_30dp"/>
-            </eu.davidea.flipview.FlipView>
+                android:layout_alignParentEnd="true"
+                app:eiv_animationDuration="300"
+                app:eiv_color="@color/white"
+                app:eiv_colorLess="@color/white"
+                app:eiv_colorMore="@color/white"
+                app:eiv_colorIntermediate="@color/white"
+                app:eiv_roundedCorners="false"
+                app:eiv_switchColor="true"
+                app:eiv_padding="8dp"/>
         </RelativeLayout>
 
             <TextView

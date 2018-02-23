@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.activities.PreviewActivity;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
@@ -158,12 +159,40 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     mViewPager.notifyHeaderChanged();
-                    Toast.makeText(getApplicationContext(), "Yes, the title is clickable", Toast.LENGTH_SHORT).show();
+                    String success = "Ваше письмо доставленно";
+                    String error = "Ошибка. Проверьте подключение к интернету";
+                    String sending = "Письмо отправляется...";
+                    BackgroundMail.newBuilder(MainActivity.this)
+                            .withUsername("appmailsejong@gmail.com")
+                            .withPassword("kanoxa94")
+                            .withMailto("flymr92@gmail.com")
+                            .withType(BackgroundMail.TYPE_PLAIN)
+                            .withSubject("this is the subject")
+                            .withBody("this is the body")
+                            .withProcessVisibility(true)
+                            .withSendingMessageSuccess(success)
+                            .withSendingMessageError(error)
+                            .withSendingMessage(sending)
+                            .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                                @Override
+                                public void onSuccess() {
+
+                                }
+                            })
+                            .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                                @Override
+                                public void onFail() {
+                                    //do some magic
+
+                                }
+                            })
+                            .send();
                 }
             });
         }
 
     }
+
 
 
     private Bitmap decodeSampledBitmapFromResource(Resources res, int resId,

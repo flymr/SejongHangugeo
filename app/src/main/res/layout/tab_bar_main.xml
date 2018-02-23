@@ -13,13 +13,13 @@
         android:layout_gravity="center"
         android:padding="50dp"
         app:nts_active_color="@color/white"
-        app:nts_color="#ff1748"
+        app:nts_color="@color/md_blue"
         app:nts_factor="2.8"
         app:nts_corners_radius="1.5dp"
         app:nts_inactive_color="#81ffffff"
         app:nts_titles="@array/titles_main"
         app:nts_type="line"
-        app:nts_typeface="fonts/uniSans2.otf"
+        app:nts_typeface="fonts/uniSans.otf"
         app:nts_weight="3dp"
         />
 

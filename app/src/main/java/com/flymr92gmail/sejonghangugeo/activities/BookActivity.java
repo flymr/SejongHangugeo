@@ -104,7 +104,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private WaveView waveView;
     private Handler preLoader;
     private LinearLayout llLoader;
-    private WordsSpeech wordsSpeech;
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
     @Override
@@ -163,7 +162,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         waveView = findViewById(R.id.wave_view);
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
-        wordsSpeech = new WordsSpeech(this);
+
     }
 
 
@@ -568,6 +567,7 @@ return true;
         tvAudioEnd.setText(getDuration(due));
     }
 
+
     private String getDuration(int duration){
         int seconds;
         int minutes = 0;
@@ -582,6 +582,8 @@ return true;
         if (seconds < 10) return minutes + ":0" + seconds;
         return minutes + ":" + seconds;
     }
+
+
 
     private void initializeSeekBar(){
         audioSeekBar.setMax(mp.getDuration()/10);
@@ -659,6 +661,7 @@ return true;
 
     @Override
     public void onSpeechClick(int position, View view) {
+        final WordsSpeech wordsSpeech = new WordsSpeech(this);
         String kor;
         if (wordsSearcher.getVisibility() == View.GONE)kor = pageWords.get(position).getKoreanWord();
         else kor = searchedArray.get(position).getKoreanWord();
@@ -666,7 +669,7 @@ return true;
     //    if (whereFrom == 0)view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
     //    else view = searchRv.findViewHolderForAdapterPosition(position).itemView;
         final ImageView imageView = view.findViewById(R.id.speech_iv);
-        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.grayM),
+        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.black),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();
         wordsSpeech.speechWord(kor);
         new Handler().postDelayed(new Runnable() {
@@ -678,7 +681,7 @@ return true;
                         while (pageWords.size() != 0){
                             if (!wordsSpeech.wordIsSpeech()){
                                 ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.yellow),
-                                        getResources().getColor(R.color.grayM)).setDuration(300).start();
+                                        getResources().getColor(R.color.black)).setDuration(300).start();
                                 return;
                             }
                         }

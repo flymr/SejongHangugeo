@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.github.zagum.expandicon.ExpandIconView;
 
 import eu.davidea.flipview.FlipView;
 
@@ -18,33 +19,19 @@ import eu.davidea.flipview.FlipView;
  * Created by DELL on 2/18/2018.
  */
 
-public class HeaderViewHolder extends RecyclerView.ViewHolder{
+public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
    public TextView legendName;
     public TextView legendText;
     private ImageView iv_add;
-    private FlipView flipView;
+    private ExpandIconView dropBtn;
     private boolean isViewExpanded = false;
     public HeaderViewHolder(View itemView) {
         super(itemView);
         legendName = itemView.findViewById(R.id.legend_header);
         legendText = itemView.findViewById(R.id.legend_text);
         iv_add = itemView.findViewById(R.id.iv_add_legend);
-        flipView = itemView.findViewById(R.id.drop_down_up);
-
-        flipView.setOnFlippingListener(new FlipView.OnFlippingListener() {
-            @Override
-            public void onFlipped(FlipView flipView, boolean checked) {
-                if (checked){
-                    isViewExpanded = true;
-
-                    expand(legendText);
-                }else {
-                    isViewExpanded = false;
-
-                    collapse(legendText);
-                }
-            }
-        });
+        dropBtn = itemView.findViewById(R.id.drop_button);
+        dropBtn.setOnClickListener(this);
         if (!isViewExpanded){
             legendText.setVisibility(View.GONE);
             //  legendText.setEnabled(false);
@@ -103,5 +90,19 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder{
         // 1dp/ms
         a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+    }
+
+    @Override
+    public void onClick(View view) {
+        dropBtn.switchState();
+        if (isViewExpanded){
+            isViewExpanded = false;
+            dropBtn.setState(ExpandIconView.MORE, true);
+            collapse(legendText);
+        }else {
+            isViewExpanded = true;
+            dropBtn.setState(ExpandIconView.LESS, true);
+            expand(legendText);
+        }
     }
 }

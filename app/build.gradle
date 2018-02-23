@@ -58,4 +58,6 @@ dependencies {
     compile('com.github.ozodrukh:CircularReveal:2.0.1@aar') {
         transitive = true
     }
+    compile 'com.github.yesidlazaro:GmailBackground:1.2.0'
+    compile 'com.github.zagum:Android-ExpandIcon:1.2.1'
 }

@@ -2,13 +2,17 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#2196F3</color>
     <color name="white">#FFF</color>
     <color name="colorListBackground">#e3e3e3</color>
-    <color name="colorListBackgroundHigh">#3cd3de</color>
+    <color name="colorListBackgroundHigh">#FF4081</color>
     <color name="colorFolder">#FECA28</color>
     <color name="black">#ff252e39</color>
     <color name="blackAlpha">#802b2828</color>
+    <color name="drawerColor">#FF2B588F</color>
+    <color name="darkBlue">#182128</color>
+    <color name="ntsColor">#ff252e39</color>
+    <color name="md_blue">#2196F3</color>
 
     <color name="orange">#FEC10F</color>
     <color name="green">#8DC640</color>

@@ -11,7 +11,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class org.apache.** { *; }
+-dontwarn org.apache.**
 
+-keep class com.sun.mail.** { *; }
+-dontwarn com.sun.mail.**
+
+-keep class java.beans.** { *; }
+-dontwarn java.beans.**
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable

@@ -32,21 +32,27 @@ public class PreviewActivity extends AppCompatActivity {
     private ObjectAnimator objAnimator;
     private boolean scroolIsNext = true;
     private int startIndex;
+    private FrameLayout flNts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
-        iv_close = findViewById(R.id.close_preview);
-        iv_next = findViewById(R.id.next_page_preview);
-        fl = findViewById(R.id.fl_preview);
-        recyclerView = findViewById(R.id.rv_preview);
-        nts = findViewById(R.id.nts_preview);
+        initUi();
         getColorArray();
         setupRecyclerView();
         setupNts();
         setupIvClickListener();
 
+    }
+
+    private void initUi(){
+        iv_close = findViewById(R.id.close_preview);
+        iv_next = findViewById(R.id.next_page_preview);
+        fl = findViewById(R.id.fl_preview);
+        recyclerView = findViewById(R.id.rv_preview);
+        nts = findViewById(R.id.nts_preview);
+        flNts = findViewById(R.id.fl_nts);
     }
 
     private void getColorArray(){
@@ -99,7 +105,8 @@ public class PreviewActivity extends AppCompatActivity {
             public void onStartTabSelected(String title, int index) {
                 startIndex = llManager.findFirstVisibleItemPosition();
                 recyclerView.smoothScrollToPosition(index);
-                startObjAnimator(startIndex, index);
+                startObjAnimator(fl, startIndex, index);
+                startObjAnimator(flNts, startIndex, index);
 
             }
 
@@ -128,9 +135,9 @@ public class PreviewActivity extends AppCompatActivity {
         });
     }
 
-    private void startObjAnimator(int start, int end){
+    private void startObjAnimator(View view, int start, int end){
 
-        objAnimator = ObjectAnimator.ofObject(fl,
+        objAnimator = ObjectAnimator.ofObject(view,
                 "backgroundColor", new ArgbEvaluator(), colors[start], colors[end]);
         objAnimator.setDuration(500);
         objAnimator.start();
