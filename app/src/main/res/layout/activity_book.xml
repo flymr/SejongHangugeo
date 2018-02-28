@@ -153,22 +153,23 @@
             android:layout_height="wrap_content"
             android:background="@color/whiteAlpha"/>
 
-        <LinearLayout
+    <io.codetail.widget.RevealFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <!-- Put more views here if you want, it's stock frame layout  -->
+        <ImageView
             android:id="@+id/book_loader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:background="@color/black"
-            android:gravity="center"
-            >
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/white_imtitle"
-                android:scaleType="fitCenter"
-                />
-
-        </LinearLayout>
+            app:srcCompat = "@drawable/white_imtitle"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            />
+    </io.codetail.widget.RevealFrameLayout>
 
     </RelativeLayout>
 

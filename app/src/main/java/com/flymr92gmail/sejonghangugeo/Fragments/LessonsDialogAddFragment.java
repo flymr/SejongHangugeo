@@ -56,11 +56,9 @@ public class LessonsDialogAddFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = null;
         dataBase = new UserDataBase(getContext());
-        form= getActivity().getLayoutInflater()
-                .inflate(R.layout.lessons_dialog, null);
-        Log.d("myDialog", "onCreateDialog: "
-         );
-        addNewLessonCardView = (CardView)form.findViewById(R.id.add_new_lesson_dialog_card_view);
+            form= getActivity().getLayoutInflater()
+                    .inflate(R.layout.lessons_dialog, null);
+        addNewLessonCardView = form.findViewById(R.id.add_new_lesson_dialog_card_view);
         addNewLessonCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,17 +67,17 @@ public class LessonsDialogAddFragment extends DialogFragment {
                     lessonsDialogCreateFragment.setWord(mWord);
                 if (words!=null)
                     lessonsDialogCreateFragment.setWords(words);
-                lessonsDialogCreateFragment.show(getFragmentManager(),"create lesson");
+               if (getFragmentManager()!=null)lessonsDialogCreateFragment.show(getFragmentManager(),"create lesson");
                 dialog.dismiss();
 
             }
         });
-        recyclerView = (RecyclerView)form.findViewById(R.id.lessons_dialog_recycler_view);
+        recyclerView = form.findViewById(R.id.lessons_dialog_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         setupAdapter(recyclerView);
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position, float x, float y) {
                 Lesson lesson = lessons.get(position);
                 if (mWord != null) {
                     dataBase.addNewWord(lesson.getLessonTable(), mWord);

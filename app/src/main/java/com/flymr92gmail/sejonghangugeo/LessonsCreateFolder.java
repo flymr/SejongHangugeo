@@ -61,7 +61,7 @@ public class LessonsCreateFolder extends DialogFragment {
         dataBase = new UserDataBase(getContext());
         form= getActivity().getLayoutInflater()
                 .inflate(R.layout.create_lesson_dialog, null);
-        final EditText editText = (EditText)form.findViewById(R.id.lessonName_et);
+        final EditText editText = form.findViewById(R.id.lessonName_et);
         if (mLesson!=null){
             editText.setText(mLesson.getLessonName());
         }

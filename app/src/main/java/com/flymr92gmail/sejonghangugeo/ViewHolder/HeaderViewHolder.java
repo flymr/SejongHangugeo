@@ -62,7 +62,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
         };
 
         // 1dp/ms
-        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int)(targetHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 

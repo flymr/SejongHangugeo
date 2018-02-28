@@ -95,12 +95,13 @@ public class LessonsPageFragment extends Fragment{
         touchHelper.attachToRecyclerView(lessonsRecyclerView);
         lessonsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, lessonsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position, float x, float y) {
 
                if (position!=0) {
                    Intent intent = new Intent(context, LessonActivity.class);
                    intent.putExtra("lessonId", lessonArrayList.get(position).getLessonId());
                    startActivity(intent);
+                   prefManager.saveLastLessonID(lessonArrayList.get(position).getLessonId());
                }
             }
 

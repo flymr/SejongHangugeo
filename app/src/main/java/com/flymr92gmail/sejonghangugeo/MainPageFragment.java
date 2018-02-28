@@ -1,6 +1,7 @@
 package com.flymr92gmail.sejonghangugeo;
 
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.BookAdapter;
@@ -39,6 +42,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.codetail.animation.ViewAnimationUtils;
 
 public class MainPageFragment extends Fragment {
 
@@ -46,6 +50,7 @@ public class MainPageFragment extends Fragment {
 
     @BindView(R.id.main_rv)
     RecyclerView mRecyclerView;
+
     private PrefManager prefManager;
     private BookAdapter bookAdapter;
     public static MainPageFragment newInstance() {
@@ -77,10 +82,16 @@ public class MainPageFragment extends Fragment {
         mRecyclerView.setAdapter(bookAdapter);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position, float x, float y) {
                 if (position!=0){
-                    Intent intent = new Intent(getActivity(), BookActivity.class);
-                    startActivity(intent);
+                    MainActivity ma = (MainActivity)getActivity();
+                    try {
+                        ma.startPreloadAnim(position, (int) x, (int) y);
+                    }catch (NullPointerException e){
+
+                    }
+
+
                 }
             }
 
@@ -90,6 +101,9 @@ public class MainPageFragment extends Fragment {
             }
         }));
     }
+
+
+
     private Legend getDailyLegend(){
         String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
         AppDataBase appDataBase = new AppDataBase(getActivity());
@@ -171,7 +185,6 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("onResume", "************");
         String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
         if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
          bookAdapter = new BookAdapter(getDailyLegend());

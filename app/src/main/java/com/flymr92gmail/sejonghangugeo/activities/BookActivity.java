@@ -1,5 +1,6 @@
 package com.flymr92gmail.sejonghangugeo.activities;
 
+import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
@@ -28,6 +29,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -70,6 +72,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
+import io.codetail.animation.ViewAnimationUtils;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
@@ -103,7 +106,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private boolean firstWordIsSelected = true;
     private WaveView waveView;
     private Handler preLoader;
-    private LinearLayout llLoader;
+    private ImageView llLoader;
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
     @Override
@@ -135,6 +138,43 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             }
         }, 0);
 
+    }
+
+    public void startPreloadAnim(){
+        // get the final radius for the clipping circle
+        int cx = llLoader.getWidth()/2;
+        int cy = llLoader.getHeight()/2;
+        int dx = Math.max(cx, llLoader.getWidth() - cx);
+        int dy = Math.max(cy, llLoader.getHeight() - cy);
+        float finalRadius = (float) Math.hypot(dx, dy);
+
+        // Android native animator
+        Animator animator =
+                ViewAnimationUtils.createCircularReveal(llLoader, cx, cy, finalRadius, 0);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                llLoader.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.setInterpolator(new AccelerateDecelerateInterpolator());
+        animator.setDuration(500);
+        animator.start();
     }
 
     private void initialization(){
@@ -228,7 +268,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         navBookRv.startAnimation(anim);
         navListener = new RecyclerItemClickListener(this, navBookRv, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, int position, float x, float y) {
                 pdfView.jumpTo(position, true);
             }
             @Override
@@ -316,7 +356,7 @@ return true;
                 return true;
             }
         };
-        wordsSearcher.setQueryHint(Html.fromHtml("<font color = #ffffff>" + "Найти слово в словаре" + "</font>"));
+        wordsSearcher.setQueryHint(Html.fromHtml("<font color = #ffffff>" + "Поиск в словаре" + "</font>"));
         wordsSearcher.setOnQueryTextListener(queryTextListener);
         wordsSearcher.setIconified(false);
         wordsSearcher.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -377,8 +417,8 @@ return true;
                                 .onLoad(new OnLoadCompleteListener() {
                                     @Override
                                     public void loadComplete(int nbPages) {
-                                        ObjectAnimator.ofFloat(llLoader, "alpha", 1f, 0)
-                                                .setDuration(500).start();
+                                       // ObjectAnimator.ofFloat(llLoader, "alpha", 1f, 0).setDuration(500).start();
+                                    startPreloadAnim();
                                     }
                                 })
                                 .load();

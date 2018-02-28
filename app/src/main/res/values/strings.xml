@@ -15,5 +15,20 @@
     <string name="learned">Усвоено</string>
     <string name="next_round">Следующий раунд</string>
     <string name="title_activity_test">TestActivity</string>
+    <!--for mail dialog -->
+    <string name="your_mail">Ваш mail</string>
+    <string name="massage_title">Тема сообщения</string>
+    <string name="massage_body">Текст сообщения</string>
+    <string name="send">Отправить</string>
+    <string name="cancel">Отмена</string>
+    <string name="app_mail">appmailsejong@gmail.com</string>
+    <string name="app_mail_pass">kanoxa94</string>
+    <string name="app_mail_outbox">flymr92@gmail.com</string>
+    <string name="send_success">Ваше сообщение доставленно</string>
+    <string name="send_error">Ошибка. Нет подключения к интернету</string>
+    <string name="sending">Сообщение отправляется...</string>
+    <string name="send_massage">Отправить сообщение</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

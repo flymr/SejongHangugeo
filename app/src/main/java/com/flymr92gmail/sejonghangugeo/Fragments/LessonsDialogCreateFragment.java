@@ -53,8 +53,7 @@ public class LessonsDialogCreateFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         dialog = null;
         dataBase = new UserDataBase(getContext());
-        form= getActivity().getLayoutInflater()
-                .inflate(R.layout.create_lesson_dialog, null);
+        form= getActivity().getLayoutInflater().inflate(R.layout.create_lesson_dialog, null);
         final EditText editText = (EditText)form.findViewById(R.id.lessonName_et);
         if (mLesson!=null){
             editText.setText(mLesson.getLessonName());

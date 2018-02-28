@@ -86,11 +86,6 @@ public class CardActivity extends AppCompatActivity {
 
 
 
-        //SnapHelper mSnapHelper = new PagerSnapHelper();
-        //mSnapHelper.attachToRecyclerView(recyclerView);
-        //helper = new LinearSnapHelper();
-       // helper.attachToRecyclerView(recyclerView);
-
     }
 
     private void initialization(){

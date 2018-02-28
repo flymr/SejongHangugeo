@@ -8,7 +8,7 @@
         android:clipChildren="false"
         android:clipToPadding="false"
         app:edPosition="1"
-        app:edMenuSize="200dp"
+        app:edMenuSize="250dp"
         app:edMenuBackground="@color/colorAccent"
     >
 
@@ -38,7 +38,23 @@
                 app:viewpager_animatedHeaderImage="true"
                 app:viewpager_disableToolbar="false"
                 />
+            <io.codetail.widget.RevealFrameLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
+                <!-- Put more views here if you want, it's stock frame layout  -->
+                <ImageView
+                    android:id="@+id/iv_loader"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"
+                    app:srcCompat = "@drawable/white_imtitle"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    />
+            </io.codetail.widget.RevealFrameLayout>
         </RelativeLayout>
 
         <!--menu-->
@@ -46,7 +62,9 @@
             android:id="@+id/menulayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+           <ScrollView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent">
             <RelativeLayout
                 android:id="@+id/container_menu_main"
                 android:layout_width="match_parent"
@@ -66,24 +84,28 @@
                     android:background="@color/whiteAlpha"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_below="@+id/iv_menu_main"
                     android:layout_marginTop="20dp"
-                    android:layout_marginLeft="25dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginStart="25dp"
-                    android:gravity="bottom">
+                    >
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:orientation="vertical"
                         android:layout_marginTop="15dp"
-                        android:layout_gravity="top"
                         >
+                        <LinearLayout
+                            android:id="@+id/last_places"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|start"
+                            android:layout_gravity="center"
                             app:srcCompat="@drawable/ic_folder_open_24dp"
                             />
 
@@ -92,43 +114,208 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_gravity="center"
                             android:text="Последнии места"/>
+
+                        <com.github.zagum.expandicon.ExpandIconView
+                            android:id="@+id/expand_btn"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="center"
+                            app:eiv_animationDuration="300"
+                            app:eiv_color="@color/white"
+                            app:eiv_colorLess="@color/white"
+                            app:eiv_colorMore="@color/white"
+                            app:eiv_colorIntermediate="@color/white"
+                            app:eiv_roundedCorners="false"
+                            app:eiv_switchColor="true"
+                            app:eiv_padding="8dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/expand_last_places"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:visibility="gone"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:id="@+id/last_lesson"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_folder_24dp"
+                                    />
+                                <TextView
+                                    android:id="@+id/tv_last_lesson"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:text="Simple text"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/last_book"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/tv_last_book"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="Simple text"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/last_gramm"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/tv_last_gramm"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="Simple text"/>
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/theme_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="10dp"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                app:srcCompat="@drawable/ic_day_night_24dp"
+                                />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_gravity="center"
+                                android:text="Темы"/>
+
+                            <com.github.zagum.expandicon.ExpandIconView
+                                android:id="@+id/expand_themes"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_gravity="center"
+                                app:eiv_animationDuration="300"
+                                app:eiv_color="@color/white"
+                                app:eiv_colorLess="@color/white"
+                                app:eiv_colorMore="@color/white"
+                                app:eiv_colorIntermediate="@color/white"
+                                app:eiv_roundedCorners="false"
+                                app:eiv_switchColor="true"
+                                app:eiv_padding="8dp"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/expand_theme_settings"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:visibility="gone"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:id="@+id/theme_day"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_sun_24dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:text="День"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_night_24dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:text="Ночь"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/ic_day_night_24dp"
+                                    />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginRight="10dp"
+                                    android:text="Авто"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/send_massage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
-                        android:layout_gravity="top"
+                        android:layout_marginTop="10dp"
                         >
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|start"
-                            app:srcCompat="@drawable/ic_day_night_24dp"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_gravity="center_horizontal"
-                            android:text="Темы"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
-                        >
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|start"
+                            android:layout_gravity="center"
                             app:srcCompat="@drawable/ic_mail_outline_24dp"
                             />
 
@@ -137,11 +324,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_gravity="center"
                             android:text="Обратная связь"/>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/favorites"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -150,7 +338,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|start"
+                            android:layout_gravity="center"
                             app:srcCompat="@drawable/ic_favorite_border_24dp"
                             />
 
@@ -159,11 +347,35 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_gravity="center"
                             android:text="Благодарности"/>
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/share"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_share_24dp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_gravity="center"
+                            android:text="Поделиться"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/help"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -173,7 +385,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal|start"
+                            android:layout_gravity="center"
                             app:srcCompat="@drawable/ic_help_outline_24dp"
                             />
 
@@ -182,12 +394,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
-                            android:layout_gravity="center_horizontal"
+                            android:layout_gravity="center"
                             android:text="Помощь"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
-
+           </ScrollView>
         </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
 
     </com.mxn.soul.flowingdrawer_core.FlowingDrawer>
