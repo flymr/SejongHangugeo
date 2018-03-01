@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.flymr92gmail.sejonghangugeo.Adapters.NewWordsRecyclerAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.R;
@@ -28,6 +29,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
     private ExpandIconView dropBtn;
     private boolean isViewExpanded = false;
     public Button showAllBtn;
+
     public HeaderViewHolder(View itemView) {
         super(itemView);
         legendName = itemView.findViewById(R.id.legend_header);
@@ -101,17 +103,17 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
 
     @Override
     public void onClick(View view) {
-        dropBtn.switchState();
-        if (isViewExpanded){
-            isViewExpanded = false;
-            dropBtn.setState(ExpandIconView.MORE, true);
-            collapse(legendText);
-            showAllBtn.setVisibility(View.GONE);
-        }else {
-            isViewExpanded = true;
-            dropBtn.setState(ExpandIconView.LESS, true);
-            expand(legendText);
-            showAllBtn.setVisibility(View.VISIBLE);
-        }
+                dropBtn.switchState();
+                if (isViewExpanded){
+                    isViewExpanded = false;
+                    dropBtn.setState(ExpandIconView.MORE, true);
+                    collapse(legendText);
+                    showAllBtn.setVisibility(View.GONE);
+                }else {
+                    isViewExpanded = true;
+                    dropBtn.setState(ExpandIconView.LESS, true);
+                    expand(legendText);
+                    showAllBtn.setVisibility(View.VISIBLE);
+                }
     }
 }

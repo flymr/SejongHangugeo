@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -42,7 +44,7 @@ import butterknife.ButterKnife;
 import io.codetail.animation.ViewAnimationUtils;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
     @BindView(R.id.iv_loader)
@@ -69,6 +71,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout lastGram;
     @BindView(R.id.expand_theme_settings)
     LinearLayout expandThemeSettings;
+    @BindView(R.id.rb_day)
+    AppCompatRadioButton rbDay;
+    @BindView(R.id.rb_night)
+    AppCompatRadioButton rbNight;
+    @BindView(R.id.rb_auto)
+    AppCompatRadioButton rbAuto;
 
     private UserDataBase dataBase;
     private FlowingDrawer mDrawer;
@@ -83,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, PreviewActivity.class);
             startActivity(intent);
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -91,6 +100,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lastLesson.setOnClickListener(this);
         lastBook.setOnClickListener(this);
         llSendMassage.setOnClickListener(this);
+
+        rbNight.setOnCheckedChangeListener(this);
+        rbDay.setOnCheckedChangeListener(this);
+        rbAuto.setOnCheckedChangeListener(this);
 
         dataBase = new UserDataBase(this);
 
@@ -230,6 +243,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .send();
                 }
             });
+        }
+
+
+        switch (prefManager.getAppTheme()){
+            case 1:
+                rbDay.setChecked(true);
+                break;
+            case 2:
+                rbNight.setChecked(true);
+                break;
+            case 3:
+                rbAuto.setChecked(true);
         }
 
     }
@@ -434,6 +459,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.help:
 
                 break;
+
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+       if (isChecked){
+           if (buttonView.getId() == R.id.rb_auto){
+               rbDay.setChecked(false);
+               rbNight.setChecked(false);
+           }else if (buttonView.getId() == R.id.rb_night){
+               rbDay.setChecked(false);
+               rbAuto.setChecked(false);
+           }else if (buttonView.getId() == R.id.rb_day){
+               rbAuto.setChecked(false);
+               rbNight.setChecked(false);
+           }
+       }
     }
 }

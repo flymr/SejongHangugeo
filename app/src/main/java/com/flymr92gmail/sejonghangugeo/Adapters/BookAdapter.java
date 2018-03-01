@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.ViewHolder.HeaderViewHolder;
 
 import java.util.List;
@@ -21,12 +22,13 @@ import java.util.List;
 public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Legend legend;
-
+    private ViewClickListener viewClickListener;
     private final int TYPE_HEADER = 0;
     private final int TYPE_BOOK = 1;
 
 
-    public BookAdapter(Legend legend) {
+    public BookAdapter(Legend legend, ViewClickListener viewClickListener) {
+        this.viewClickListener = viewClickListener;
         this.legend = legend;
     }
 
@@ -80,7 +82,12 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 } else {
                     viewHolder.legendText.setText(Html.fromHtml(legend.getLegendText()));
                 }
-
+                viewHolder.showAllBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        viewClickListener.onViewClicked();
+                    }
+                });
                 break;
             case TYPE_BOOK:
                 BookViewHolder bookViewHolder = (BookViewHolder)holder;

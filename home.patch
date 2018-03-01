@@ -1,0 +1,16 @@
+Index: app/src/main/java/com/flymr92gmail/sejonghangugeo/activities/BookActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/flymr92gmail/sejonghangugeo/activities/BookActivity.java	(date 1518885772000)
++++ app/src/main/java/com/flymr92gmail/sejonghangugeo/activities/BookActivity.java	(revision )
+@@ -431,7 +431,7 @@
+ 
+           @Override
+           public void onStopTrackingTouch(SeekBar seekBar) {
+-
++//
+           }
+       });
+       playButton.setOnStateChangedListener(new MorphButton.OnStateChangedListener() {

@@ -28,7 +28,9 @@ import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
+import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
+import com.flymr92gmail.sejonghangugeo.activities.LegendsActivity;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
 import org.json.JSONArray;
@@ -44,7 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.codetail.animation.ViewAnimationUtils;
 
-public class MainPageFragment extends Fragment {
+public class MainPageFragment extends Fragment implements ViewClickListener{
 
 
 
@@ -78,7 +80,7 @@ public class MainPageFragment extends Fragment {
         //Use this now
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         mRecyclerView.setHasFixedSize(true);
-        bookAdapter = new BookAdapter(getDailyLegend());
+        bookAdapter = new BookAdapter(getDailyLegend(), this);
         mRecyclerView.setAdapter(bookAdapter);
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -187,7 +189,11 @@ public class MainPageFragment extends Fragment {
         super.onResume();
         String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
         if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
-         bookAdapter = new BookAdapter(getDailyLegend());
+         bookAdapter = new BookAdapter(getDailyLegend(), this);
     }
 
+    @Override
+    public void onViewClicked() {
+       startActivity(new Intent(getActivity(), LegendsActivity.class));
+    }
 }
