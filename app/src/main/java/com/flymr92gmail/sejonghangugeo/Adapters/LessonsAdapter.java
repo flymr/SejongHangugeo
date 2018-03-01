@@ -74,6 +74,8 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (getItemViewType(position)) {
                 case TYPE_HEADER:
                     HeaderViewHolder viewHolder = (HeaderViewHolder)holder;
+                    String category = "Категория: " + legend.getLegendCategory();
+                    viewHolder.legendCategory.setText(category);
                     String header = legend.getNameTranslate() + ". " + legend.getName();
                     viewHolder.legendName.setText(header);
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {

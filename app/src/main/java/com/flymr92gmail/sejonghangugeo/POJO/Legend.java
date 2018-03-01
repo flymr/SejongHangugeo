@@ -11,6 +11,15 @@ public class Legend implements Serializable{
     private String name;
     private String nameTranslate;
     private String legendText;
+    private String legendCategory;
+
+    public String getLegendCategory() {
+        return legendCategory;
+    }
+
+    public void setLegendCategory(String legendCategory) {
+        this.legendCategory = legendCategory;
+    }
 
     public void setmId(int mId) {
         this.mId = mId;

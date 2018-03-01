@@ -20,8 +20,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Legend legend;
 
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_BOOK = 1;
+    private final int TYPE_HEADER = 0;
+    private final int TYPE_BOOK = 1;
+
 
     public BookAdapter(Legend legend) {
         this.legend = legend;
@@ -67,8 +68,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_HEADER:
-                HeaderViewHolder headerViewHolder = (HeaderViewHolder)holder;
                 HeaderViewHolder viewHolder = (HeaderViewHolder)holder;
+                String category = "Категория: " + legend.getLegendCategory();
+                viewHolder.legendCategory.setText(category);
                 String header = legend.getNameTranslate() + ". " + legend.getName();
                 viewHolder.legendName.setText(header);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
