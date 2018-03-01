@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,18 +23,23 @@ import eu.davidea.flipview.FlipView;
 public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
    public TextView legendName;
     public TextView legendText;
+    public TextView legendCategory;
     private ImageView iv_add;
     private ExpandIconView dropBtn;
     private boolean isViewExpanded = false;
+    public Button showAllBtn;
     public HeaderViewHolder(View itemView) {
         super(itemView);
         legendName = itemView.findViewById(R.id.legend_header);
         legendText = itemView.findViewById(R.id.legend_text);
+        legendCategory = itemView.findViewById(R.id.legend_category);
         iv_add = itemView.findViewById(R.id.iv_add_legend);
+        showAllBtn = itemView.findViewById(R.id.show_all_btn);
         dropBtn = itemView.findViewById(R.id.drop_button);
         dropBtn.setOnClickListener(this);
         if (!isViewExpanded){
             legendText.setVisibility(View.GONE);
+            showAllBtn.setVisibility(View.GONE);
             //  legendText.setEnabled(false);
         }
     }
@@ -90,6 +96,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
         // 1dp/ms
         a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
+
     }
 
     @Override
@@ -99,10 +106,12 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
             isViewExpanded = false;
             dropBtn.setState(ExpandIconView.MORE, true);
             collapse(legendText);
+            showAllBtn.setVisibility(View.GONE);
         }else {
             isViewExpanded = true;
             dropBtn.setState(ExpandIconView.LESS, true);
             expand(legendText);
+            showAllBtn.setVisibility(View.VISIBLE);
         }
     }
 }

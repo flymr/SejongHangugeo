@@ -51,7 +51,7 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
 
     public ArrayList<Legend> getLegends(){
         ArrayList<Legend> legends = new ArrayList<>();
-        String[] columns = {"_id", "header", "headerTranslate","legendText"};
+        String[] columns = {"_id", "header", "headerTranslate","legendText", "category"};
         Cursor cursor = db.query(TABLE_LEGENDS, columns, null, null, null, null, null);
         while (cursor.moveToNext()) {
             Legend legend = new Legend();
@@ -59,6 +59,7 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
             legend.setName(cursor.getString(cursor.getColumnIndex("header")));
             legend.setNameTranslate(cursor.getString(cursor.getColumnIndex("headerTranslate")));
             legend.setLegendText(cursor.getString(cursor.getColumnIndex("legendText")));
+            legend.setLegendCategory(cursor.getString(cursor.getColumnIndex("category")));
             legends.add(legend);
         }
         cursor.close();
@@ -67,13 +68,15 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
 
     public Legend getDailyLegend (int position){
         Legend legend = new Legend();
-        String[] columns = {"_id", "header", "headerTranslate","legendText"};
+        String[] columns = {"_id", "header", "headerTranslate","legendText", "category"};
         Cursor cursor = db.query(TABLE_LEGENDS, columns, null, null, null, null, null);
          cursor.moveToPosition(position);
             legend.setmId(cursor.getInt(cursor.getColumnIndex("_id")));
             legend.setName(cursor.getString(cursor.getColumnIndex("header")));
             legend.setNameTranslate(cursor.getString(cursor.getColumnIndex("headerTranslate")));
             legend.setLegendText(cursor.getString(cursor.getColumnIndex("legendText")));
+            legend.setLegendCategory(cursor.getString(cursor.getColumnIndex("category")));
+
 
 
         cursor.close();
@@ -89,6 +92,8 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
             legend.setName(cursor.getString(cursor.getColumnIndex("header")));
             legend.setNameTranslate(cursor.getString(cursor.getColumnIndex("headerTranslate")));
             legend.setLegendText(cursor.getString(cursor.getColumnIndex("legendText")));
+            legend.setLegendCategory(cursor.getString(cursor.getColumnIndex("category")));
+
         }
         cursor.close();
         return legend;
@@ -97,7 +102,7 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
     public String getLegendsIds(){
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
-        String[] columns = {"_id", "header", "headerTranslate","legendText"};
+        String[] columns = {"_id", "header", "headerTranslate","legendText", "category"};
         Cursor cursor = db.query(TABLE_LEGENDS, columns, null, null, null, null, null);
         while (cursor.moveToNext()){
             jsonArray.put(cursor.getInt(cursor.getColumnIndex("_id")));

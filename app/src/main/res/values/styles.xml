@@ -122,4 +122,9 @@
         <item name="android:alertDialogTheme">@style/AppAlertTheme</item>
         <item name="android:dialogTheme">@style/AppDialogTheme</item>
     </style>
+
+    <style name="MyButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/redM</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
 </resources>
