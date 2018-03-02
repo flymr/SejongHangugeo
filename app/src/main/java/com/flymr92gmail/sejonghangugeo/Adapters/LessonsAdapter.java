@@ -42,6 +42,9 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context mContext;
     private final int TYPE_HEADER = 0;
     private final int TYPE_LESSON = 1;
+    private final int FROM_ACTIVITY= 0;
+    private final int FROM_FRAGMENT = 1;
+    private  int from;
     private Legend legend;
 
     public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext, Legend legend) {
@@ -49,7 +52,14 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mContext = mContext;
         this.legend = legend;
         dataBase = new UserDataBase(mContext);
+        from = FROM_ACTIVITY;
+    }
 
+    public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext) {
+        this.mLessonArrayList = mLessonArrayList;
+        this.mContext = mContext;
+        dataBase = new UserDataBase(mContext);
+        from = FROM_FRAGMENT;
     }
 
     @Override
@@ -185,12 +195,14 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        switch (position) {
-            case 0:
-                return TYPE_HEADER;
-            default:
-                return TYPE_LESSON;
-        }
+        if (from == FROM_ACTIVITY){
+            switch (position) {
+                case 0:
+                    return TYPE_HEADER;
+                default:
+                    return TYPE_LESSON;
+            }
+        }else return TYPE_LESSON;
     }
 
     }

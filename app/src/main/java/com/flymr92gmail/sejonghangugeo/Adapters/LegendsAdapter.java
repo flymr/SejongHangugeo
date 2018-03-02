@@ -1,8 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +17,12 @@ import java.util.ArrayList;
  */
 
 public class LegendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private Context context;
+    private ArrayList<Legend> legends;
+    private final int TITLE_ITEM = 1;
+    private final int NORMAL_ITEM = 0;
 
-    public LegendsAdapter(Context context) {
-        this.context = context;
+    public LegendsAdapter(ArrayList<Legend> legends) {
+        this.legends = legends;
     }
 
     @Override
@@ -33,16 +34,35 @@ public class LegendsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+           HeaderViewHolder viewHolder = (HeaderViewHolder)holder;
+           Legend legend = legends.get(position);
+           viewHolder.legendCategory.setVisibility(View.GONE);
+           viewHolder.showAllBtn.setVisibility(View.GONE);
+           if (getItemViewType(position)==TITLE_ITEM){
+               viewHolder.categoryForGroup.setVisibility(View.VISIBLE);
+               viewHolder.categoryForGroup.setText(legend.getLegendCategory());
+           }
+           String header = legend.getNameTranslate() + ". " + legend.getName();
+           viewHolder.legendName.setText(header);
+           if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+               viewHolder.legendText.setText(Html.fromHtml(legend.getLegendText(), Html.FROM_HTML_MODE_LEGACY));
+           } else {
+               viewHolder.legendText.setText(Html.fromHtml(legend.getLegendText()));
+           }
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return legends.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return super.getItemViewType(position);
+        if (position == 0) return TITLE_ITEM;
+        if (!legends.get(position).getLegendCategory()
+                .equals(legends.get(position-1).getLegendCategory())) return TITLE_ITEM;
+        else return NORMAL_ITEM;
     }
 }

@@ -28,7 +28,26 @@
     <string name="send_error">Ошибка. Нет подключения к интернету</string>
     <string name="sending">Сообщение отправляется...</string>
     <string name="send_massage">Отправить сообщение</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- legends -->
+    <string name="culture">Культура</string>
+    <string name="category">Категория: </string>
+    <string name="show_other">Смотреть другие</string>
+    <!-- mainActivity -->
+    <string name="share">Поделиться</string>
+    <string name="sejongHangugeo1">세종한국어 1</string>
+    <string name="ikhimchek">익힘책</string>
+    <string name="help">Помощь</string>
+    <string name="last_places">Последнии места</string>
+    <string name="thems">Темы</string>
+    <string name="favorites">Благодарности</string>
+    <string name="preview">Превью</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="day">День</string>
+    <string name="night">Ночь</string>
+    <string name="auto">Авто</string>
+
+    <!-- lessons -->
+    <string name="add_to_folder">Добавить в папку</string>
+    <string name="new_folder">Новая папка</string>
 
 </resources>

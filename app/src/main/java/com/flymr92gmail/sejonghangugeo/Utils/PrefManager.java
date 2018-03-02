@@ -19,6 +19,16 @@ public class PrefManager implements Constants {
         editor = preferences.edit();
     }
 
+    public int getLastLegendsPoss(){
+        return  preferences.getInt(LAST_LEGEND_POSS, 0);
+    }
+
+    public void setLastLegendsPoss(int position){
+        editor.putInt(LAST_LEGEND_POSS, position);
+        editor.apply();
+        editor.commit();
+    }
+
     public String getMailTitle(){
         return preferences.getString(MAIL_TITLE, "");
     }
@@ -77,7 +87,7 @@ public class PrefManager implements Constants {
     }
     public int getLastBookPage(){
         Log.d(TAG, "getLastBookPage: "+preferences.getInt(BOOK,32));
-        return preferences.getInt(BOOK,34);
+        return preferences.getInt(BOOK,36);
     }
 
     public String getDateOfAddedLegend(){

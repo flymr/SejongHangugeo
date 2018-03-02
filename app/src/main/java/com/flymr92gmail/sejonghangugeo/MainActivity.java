@@ -25,6 +25,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatRadioButton rbNight;
     @BindView(R.id.rb_auto)
     AppCompatRadioButton rbAuto;
+    @BindView(R.id.share)
+    LinearLayout shareBtn;
 
     private UserDataBase dataBase;
     private FlowingDrawer mDrawer;
@@ -87,11 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefManager = new PrefManager(this);
-        if (prefManager.getIsFirstAppActivation()) {
-            Intent intent = new Intent(this, PreviewActivity.class);
-            startActivity(intent);
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -100,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lastLesson.setOnClickListener(this);
         lastBook.setOnClickListener(this);
         llSendMassage.setOnClickListener(this);
+        shareBtn.setOnClickListener(this);
 
         rbNight.setOnCheckedChangeListener(this);
         rbDay.setOnCheckedChangeListener(this);
@@ -213,34 +212,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void onClick(View v) {
                     mViewPager.notifyHeaderChanged();
-                    String success = "Ваше письмо доставленно";
-                    String error = "Ошибка. Проверьте подключение к интернету";
-                    String sending = "Письмо отправляется...";
-                    BackgroundMail.newBuilder(MainActivity.this)
-                            .withUsername("appmailsejong@gmail.com")
-                            .withPassword("kanoxa94")
-                            .withMailto("flymr92@gmail.com")
-                            .withType(BackgroundMail.TYPE_PLAIN)
-                            .withSubject("this is the subject")
-                            .withBody("this is the body")
-                            .withProcessVisibility(true)
-                            .withSendingMessageSuccess(success)
-                            .withSendingMessageError(error)
-                            .withSendingMessage(sending)
-                            .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
-                                @Override
-                                public void onSuccess() {
 
-                                }
-                            })
-                            .withOnFailCallback(new BackgroundMail.OnFailCallback() {
-                                @Override
-                                public void onFail() {
-                                    //do some magic
-
-                                }
-                            })
-                            .send();
                 }
             });
         }
@@ -256,6 +228,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case 3:
                 rbAuto.setChecked(true);
         }
+
+
+        if (prefManager.getIsFirstAppActivation()) {
+            Intent intent = new Intent(this, PreviewActivity.class);
+            startActivity(intent);
+        }
+
 
     }
 
@@ -301,47 +280,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return inSampleSize;
     }
 
-    public void startPreloadAnim(int position, int cx, int cy){
-        ivLoader.setVisibility(View.VISIBLE);
-        // get the final radius for the clipping circle
-        int dx = Math.max(cx, ivLoader.getWidth() - cx);
-        int dy = Math.max(cy, ivLoader.getHeight() - cy);
-        float finalRadius = (float) Math.hypot(dx, dy);
-
-        // Android native animator
-        Animator animator =
-                ViewAnimationUtils.createCircularReveal(ivLoader, cx, cy, 0, finalRadius);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setDuration(500);
-        animator.start();
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                Intent intent = new Intent(MainActivity.this, BookActivity.class);
-                startActivity(intent);
-                try{
-                   overridePendingTransition(0,0);
-                }catch (NullPointerException e){
-
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-    }
 
     private static void expand(final View v) {
         v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -411,8 +349,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView lastBookTv = findViewById(R.id.tv_last_book);
                 TextView lastGramTv = findViewById(R.id.tv_last_gramm);
                 lastLessonTv.setText(dataBase.getLessonByPrimaryId(prefManager.getLastLessonID()).getLessonName());
-                lastBookTv.setText("SejongHangugeo 1 (с" + prefManager.getLastBookPage() + ")");
-                lastGramTv.setText("Ikhimcheg (с" + prefManager.getLastGramPage() + ")");
+                String sejong = getResources().getString(R.string.sejongHangugeo1) + " (с" + prefManager.getLastBookPage() + ")";
+                lastBookTv.setText(sejong);
+                String ikhimcheg = getResources().getString(R.string.ikhimchek) + " (с" + prefManager.getLastGramPage() + ")";
+                lastGramTv.setText(ikhimcheg);
                 ExpandIconView expandBtn = findViewById(R.id.expand_btn);
                 if (llExpandLP.getVisibility() == View.GONE){
                     expandBtn.setState(ExpandIconView.LESS, true);
@@ -431,7 +371,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.last_book:
                 startActivity(new Intent(this, BookActivity.class));
                 mDrawer.closeMenu(false);
-               // startPreloadAnim(lastBook.getWidth()/2, lastBook.getHeight()/2);
                 break;
             case R.id.last_gramm:
 
@@ -454,12 +393,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.share:
-
+                shareAppLink();
                 break;
             case R.id.help:
 
                 break;
 
+        }
+    }
+
+    private void shareAppLink(){
+        final Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        String textToSend="link for my app";
+        intent.putExtra(Intent.EXTRA_TEXT, textToSend);
+        try
+        {
+            startActivity(Intent.createChooser(intent, getResources().getString(R.string.share)));
+        }
+        catch (android.content.ActivityNotFoundException ex)
+        {
+            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -469,12 +423,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            if (buttonView.getId() == R.id.rb_auto){
                rbDay.setChecked(false);
                rbNight.setChecked(false);
+               prefManager.setAppTheme(1);
            }else if (buttonView.getId() == R.id.rb_night){
                rbDay.setChecked(false);
                rbAuto.setChecked(false);
+               prefManager.setAppTheme(2);
            }else if (buttonView.getId() == R.id.rb_day){
                rbAuto.setChecked(false);
                rbNight.setChecked(false);
+               prefManager.setAppTheme(3);
            }
        }
     }

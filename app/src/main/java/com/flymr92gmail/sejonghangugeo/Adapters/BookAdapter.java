@@ -96,9 +96,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
 
-    public class BookViewHolder extends RecyclerView.ViewHolder{
+    private class BookViewHolder extends RecyclerView.ViewHolder{
 
-        public BookViewHolder(View itemView) {
+        private BookViewHolder(View itemView) {
             super(itemView);
         }
 

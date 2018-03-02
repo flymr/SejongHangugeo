@@ -96,7 +96,7 @@ public class LessonsDialogAddFragment extends DialogFragment {
             }
         }));
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-        dialog = (builder.setTitle("Добавить в урок").setView(form)
+        dialog = (builder.setTitle(R.string.add_to_folder).setView(form)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -113,9 +113,7 @@ public class LessonsDialogAddFragment extends DialogFragment {
     }
     private void setupAdapter(RecyclerView recyclerView){
         lessons = dataBase.getAllLessons();
-        AppDataBase appDataBase = new AppDataBase(getContext());
-        Legend legend = appDataBase.getDailyLegend(0);
-        lessonsAdapter = new LessonsAdapter(lessons,getContext(),legend);
+        lessonsAdapter = new LessonsAdapter(lessons,getContext());
         recyclerView.setAdapter(lessonsAdapter);
     }
 

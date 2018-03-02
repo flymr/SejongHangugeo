@@ -86,12 +86,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
             @Override
             public void onItemClick(View view, int position, float x, float y) {
                 if (position!=0){
-                    MainActivity ma = (MainActivity)getActivity();
-                    try {
-                        ma.startPreloadAnim(position, (int) x, (int) y);
-                    }catch (NullPointerException e){
-
-                    }
+                    startActivity(new Intent(getActivity(), BookActivity.class));
 
 
                 }
@@ -107,7 +102,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
 
 
     private Legend getDailyLegend(){
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
         AppDataBase appDataBase = new AppDataBase(getActivity());
         Legend legend;
         String json= prefManager.getAddedLegendsId();
@@ -187,7 +182,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
         if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
          bookAdapter = new BookAdapter(getDailyLegend(), this);
     }

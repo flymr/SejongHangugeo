@@ -115,7 +115,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
-                            android:text="Последнии места"/>
+                            android:text="@string/last_places"/>
 
                         <com.github.zagum.expandicon.ExpandIconView
                             android:id="@+id/expand_btn"
@@ -124,6 +124,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_marginEnd="10dp"
                             android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
                             android:layout_gravity="center"
                             app:eiv_animationDuration="300"
                             app:eiv_color="@color/white"
@@ -139,6 +140,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:visibility="gone"
                             android:orientation="vertical">
                             <LinearLayout
@@ -161,31 +163,51 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
-                                    android:text="Simple text"/>
+                                    />
                             </LinearLayout>
                             <LinearLayout
                                 android:id="@+id/last_book"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/book_icon1"
+                                    />
                             <TextView
                                 android:id="@+id/tv_last_book"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Simple text"/>
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                />
                             </LinearLayout>
                             <LinearLayout
                                 android:id="@+id/last_gramm"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="18dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    app:srcCompat="@drawable/book_icon2"
+                                    />
                             <TextView
                                 android:id="@+id/tv_last_gramm"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Simple text"/>
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginRight="10dp"
+                                />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -214,7 +236,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginStart="10dp"
                                 android:layout_gravity="center"
-                                android:text="Темы"/>
+                                android:text="@string/thems"/>
 
                             <com.github.zagum.expandicon.ExpandIconView
                                 android:id="@+id/expand_themes"
@@ -237,6 +259,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:visibility="gone"
                             android:orientation="vertical">
                             <LinearLayout
@@ -259,12 +282,13 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
-                                    android:text="День"/>
+                                    android:text="@string/day"/>
                                 <android.support.v7.widget.AppCompatRadioButton
                                     android:id="@+id/rb_day"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center|end"
+                                    android:theme="@style/MyRadioButton"
                                     android:scaleX="0.75"
                                     android:scaleY="0.75"/>
                             </LinearLayout>
@@ -286,12 +310,13 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
-                                    android:text="Ночь"/>
+                                    android:text="@string/night"/>
                                 <android.support.v7.widget.AppCompatRadioButton
                                     android:id="@+id/rb_night"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center|end"
+                                    android:theme="@style/MyRadioButton"
                                     android:scaleX="0.75"
                                     android:scaleY="0.75"/>
                             </LinearLayout>
@@ -313,12 +338,13 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
-                                    android:text="Авто"/>
+                                    android:text="@string/auto"/>
                                 <android.support.v7.widget.AppCompatRadioButton
                                     android:id="@+id/rb_auto"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center|end"
+                                    android:theme="@style/MyRadioButton"
                                     android:scaleX="0.75"
                                     android:scaleY="0.75"/>
                             </LinearLayout>
@@ -347,7 +373,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
-                            android:text="Обратная связь"/>
+                            android:text="@string/feedback"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -370,7 +396,30 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
-                            android:text="Благодарности"/>
+                            android:text="@string/favorites"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/preview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="15dp"
+                        >
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_crop_original_24dp"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_gravity="center"
+                            android:text="@string/preview"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -393,7 +442,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
-                            android:text="Поделиться"/>
+                            android:text="@string/share"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -417,7 +466,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
-                            android:text="Помощь"/>
+                            android:text="@string/help"/>
                     </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>

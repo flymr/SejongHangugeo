@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/action_play_audio"
-        android:icon="@drawable/ic_play_vector"
+        android:icon="@drawable/ic_headset_24dp"
         android:title="слушать диалог"
         app:showAsAction="never"
         android:orderInCategory="3"

@@ -214,7 +214,7 @@ public class TestActivity extends AppCompatActivity {
     private void showSnackbar(boolean wordIsCorrect, String word, View view){
         Snackbar snackbar = Snackbar.make(view, word, Snackbar.LENGTH_SHORT);
         View sbView = snackbar.getView();
-        TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
         ImageView imageView = new ImageView(this);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
         textView.setTextColor(Color.WHITE);

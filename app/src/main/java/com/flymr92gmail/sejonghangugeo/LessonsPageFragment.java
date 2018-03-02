@@ -129,19 +129,10 @@ public class LessonsPageFragment extends Fragment{
                 dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"Новый урок");
 
 
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                       // .setAction("Action", null).show();
+
             }
         });
 
-
-
-        //setup materialviewpager
-
-
-
-
-        //Use this now
 
     }
 
@@ -214,8 +205,7 @@ public class LessonsPageFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("onResume", "!!!!!!!!!!!!");
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
         if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
             lessonsAdapter = new LessonsAdapter(lessonArrayList, context, getDailyLegend());
     }

@@ -31,6 +31,8 @@
                 android:layout_height="wrap_content"
                 android:background="#ff1a1e23"
                 android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="13dp"
                 android:paddingLeft="13dp">
 
                 <com.gigamole.navigationtabstrip.NavigationTabStrip
@@ -64,6 +66,7 @@
         app:floatingMenu="@menu/menu_lesson"
         android:layout_alignParentBottom = "true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         />
 
     <android.support.design.widget.FloatingActionButton
@@ -74,6 +77,7 @@
         app:srcCompat="@drawable/ic_add"
         android:layout_alignParentBottom = "true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_margin="16dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

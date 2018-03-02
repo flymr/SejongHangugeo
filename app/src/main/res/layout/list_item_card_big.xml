@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/group_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:visibility="gone"/>
+    <android.support.v7.widget.CardView
         android:id="@+id/card_view_legend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,6 +86,7 @@
                 android:layout_marginEnd="5dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 app:eiv_animationDuration="300"
                 app:eiv_color="@color/white"
                 app:eiv_colorLess="@color/white"
@@ -84,20 +96,28 @@
                 app:eiv_switchColor="true"
                 app:eiv_padding="8dp"/>
         </RelativeLayout>
-
+        <LinearLayout
+            android:id="@+id/expand_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <TextView
                 android:id="@+id/legend_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="-20dp"/>
             <Button
                 android:id="@+id/show_all_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="СМОТРЕТЬ ДРУГИЕ"
+                android:text="@string/show_other"
                 android:theme="@style/MyButton"/>
+
+        </LinearLayout>
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-</FrameLayout>
+</LinearLayout>

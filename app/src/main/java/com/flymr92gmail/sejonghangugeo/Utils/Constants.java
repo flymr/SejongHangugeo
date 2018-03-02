@@ -14,6 +14,7 @@ public interface Constants {
     String USER_MAIL = "user_mail";
     String MAIL_BODY = "mail_body";
     String MAIL_TITLE = "mail_title";
+    String LAST_LEGEND_POSS = "last_legends_poss";
     //Data Bases
     final String TABLE_FAVORITE = "favorite";
     final String CREATE_TABLE_FAVORITE = "CREATE TABLE "+TABLE_FAVORITE+" (" +

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.flymr92gmail.sejonghangugeo">
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -44,7 +46,9 @@
         <activity
             android:name=".activities.BookActivity"
             android:theme="@style/AppThemeWhite" />
-        <activity android:name=".activities.LegendsActivity" />
+        <activity
+            android:name=".activities.LegendsActivity"
+            android:theme="@style/LessonTheme" />
         <activity
             android:name=".activities.TestActivity"
             android:label="@string/title_activity_test"
@@ -53,7 +57,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.flymr92gmail.sejonghangugeo.activities.BookActivity" />
         </activity>
-        <activity android:name=".activities.PreviewActivity"></activity>
+        <activity android:name=".activities.PreviewActivity" />
     </application>
 
 </manifest>

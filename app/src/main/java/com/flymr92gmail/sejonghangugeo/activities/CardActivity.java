@@ -117,9 +117,6 @@ public class CardActivity extends AppCompatActivity {
         });
     }
 
-    private void checkChangeInLesson(){
-
-    }
 
     @Override
     protected void onStop() {
@@ -269,7 +266,7 @@ public class CardActivity extends AppCompatActivity {
                     }
                 });
             }
-        }, 1500);
+        }, 2000);
         if (words.size()-1 <= linearLayoutManager.findFirstCompletelyVisibleItemPosition()) return;
         recyclerNextHandler.postDelayed(new Runnable() {
             @Override
@@ -284,7 +281,7 @@ public class CardActivity extends AppCompatActivity {
                 });
                 if (words.size()-1 != linearLayoutManager.findFirstCompletelyVisibleItemPosition()) startAnimItems();
             }
-        }, 3000);
+        }, 4000);
     }
 
     private void stopAnimItem(){
@@ -460,16 +457,6 @@ public class CardActivity extends AppCompatActivity {
 
         @Override
         public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-          //  int resourceId = getApplicationContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
-         //   int statusBarHeight =   getApplicationContext().getResources().getDimensionPixelSize(resourceId);
-         //   Display display = getWindowManager().getDefaultDisplay();
-          //  Point size = new Point();
-          //  display.getSize(size);
-           // int height = size.y;
-           // SquareCardView squareCardView = (SquareCardView)findViewById(R.id.card_holf);
-            // вычисление пикселей по DP. Здесь отступ будет *8dp*
-
-
             int marginBot = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, view.getResources().getDisplayMetrics());
             int marginTop = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, view.getResources().getDisplayMetrics());
             if(parent.getChildAdapterPosition(view) == 0){
