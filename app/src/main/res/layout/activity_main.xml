@@ -139,14 +139,15 @@
                             android:id="@+id/expand_last_places"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginStart="35dp"
                             android:visibility="gone"
                             android:orientation="vertical">
                             <LinearLayout
                                 android:id="@+id/last_lesson"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
                                 android:orientation="horizontal">
                                 <ImageView
                                     android:layout_width="18dp"
@@ -169,6 +170,7 @@
                                 android:id="@+id/last_book"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
                                 android:orientation="horizontal">
                                 <ImageView
                                     android:layout_width="18dp"
@@ -191,6 +193,7 @@
                                 android:id="@+id/last_gramm"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="15dp"
                                 android:orientation="horizontal">
                                 <ImageView
                                     android:layout_width="18dp"
@@ -258,8 +261,8 @@
                             android:id="@+id/expand_theme_settings"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginStart="15dp"
+                            android:layout_marginLeft="35dp"
+                            android:layout_marginStart="35dp"
                             android:visibility="gone"
                             android:orientation="vertical">
                             <LinearLayout
@@ -295,7 +298,8 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:orientation="horizontal"
+                                >
                                 <ImageView
                                     android:layout_width="18dp"
                                     android:layout_height="18dp"
