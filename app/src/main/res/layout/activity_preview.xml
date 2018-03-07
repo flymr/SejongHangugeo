@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="18dp"
             app:cardBackgroundColor="#40FFFFFF"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="7dp"
             app:cardElevation="0dp"
             />
         <com.gigamole.navigationtabstrip.NavigationTabStrip
@@ -42,16 +42,17 @@
             android:layout_height="42dp"
             android:layout_gravity="center"
             android:layout_marginBottom="3dp"
+            app:nts_size="16dp"
             app:nts_active_color="#fff"
             app:nts_color="#3cdedd"
-            app:nts_corners_radius="3.5dp"
+            app:nts_corners_radius="7dp"
             app:nts_factor="0.8"
             app:nts_gravity="bottom"
             app:nts_inactive_color="#81ffffff"
             app:nts_titles="@array/preview_array"
             app:nts_type="point"
             app:nts_typeface="fonts/moon.otf"
-            app:nts_weight="7dp"
+            app:nts_weight="14dp"
             />
 
         <ImageView
