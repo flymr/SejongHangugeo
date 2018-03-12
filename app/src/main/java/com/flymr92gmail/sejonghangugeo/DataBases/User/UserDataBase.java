@@ -105,7 +105,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         //создаем таблицу со словами
         createNewLessonTable(lessonTableName);
         //добавляем название таблици урока в таблицу с уроками
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm:ss",new Date());
+        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm",new Date());
         ContentValues contentValues = new ContentValues();
         contentValues.put("lessonName",lessonName);
         contentValues.put("lessonTable",lessonTableName);

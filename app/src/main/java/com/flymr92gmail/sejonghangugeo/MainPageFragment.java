@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.BookAdapter;
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
@@ -30,6 +32,7 @@ import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
+import com.flymr92gmail.sejonghangugeo.activities.GramBookActivity;
 import com.flymr92gmail.sejonghangugeo.activities.LegendsActivity;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
@@ -85,10 +88,14 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, float x, float y) {
-                if (position!=0){
+                if (position == 0){
+
+                }else if (position == 1){
                     startActivity(new Intent(getActivity(), BookActivity.class));
-
-
+                }else if (position == 2){
+                    startActivity(new Intent(getActivity(), GramBookActivity.class));
+                }else {
+                    Toast.makeText(getActivity(),"Еще не готово :(", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -154,7 +161,6 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
                     return legend;
                 }catch (JSONException e2){
                     Log.d("main", "firstTry false");
-
                 }
             }
 

@@ -1,5 +1,6 @@
 package com.flymr92gmail.sejonghangugeo.ViewHolder;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
     public Button showAllBtn;
     public TextView categoryForGroup;
     private LinearLayout llExpand;
+    public CardView cardView;
     public HeaderViewHolder(View itemView) {
         super(itemView);
         legendName = itemView.findViewById(R.id.legend_header);
@@ -42,6 +44,7 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
         showAllBtn = itemView.findViewById(R.id.show_all_btn);
         dropBtn = itemView.findViewById(R.id.drop_button);
         llExpand = itemView.findViewById(R.id.expand_ll);
+        cardView = itemView.findViewById(R.id.card_view_legend);
         dropBtn.setOnClickListener(this);
         if (!isViewExpanded){
             llExpand.setVisibility(View.GONE);

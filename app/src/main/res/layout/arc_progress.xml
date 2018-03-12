@@ -17,6 +17,6 @@
         custom:arc_text_color="@color/white"
         custom:arc_finished_color="@color/green"
         custom:arc_unfinished_color="@color/redM"
-        custom:arc_bottom_text="УСВОЕННО"
+        custom:arc_bottom_text=""
         android:layout_gravity="center"/>
 </LinearLayout>

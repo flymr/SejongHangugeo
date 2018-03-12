@@ -115,6 +115,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
                             android:text="@string/last_places"/>
 
                         <com.github.zagum.expandicon.ExpandIconView
@@ -164,6 +165,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
+                                    android:textColor="@color/white"
                                     />
                             </LinearLayout>
                             <LinearLayout
@@ -187,6 +189,7 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_marginRight="10dp"
+                                android:textColor="@color/white"
                                 />
                             </LinearLayout>
                             <LinearLayout
@@ -210,6 +213,7 @@
                                 android:layout_marginStart="10dp"
                                 android:layout_marginEnd="10dp"
                                 android:layout_marginRight="10dp"
+                                android:textColor="@color/white"
                                 />
                             </LinearLayout>
                         </LinearLayout>
@@ -239,6 +243,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_marginStart="10dp"
                                 android:layout_gravity="center"
+                                android:textColor="@color/white"
                                 android:text="@string/thems"/>
 
                             <com.github.zagum.expandicon.ExpandIconView
@@ -285,6 +290,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
+                                    android:textColor="@color/white"
                                     android:text="@string/day"/>
                                 <android.support.v7.widget.AppCompatRadioButton
                                     android:id="@+id/rb_day"
@@ -314,6 +320,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
+                                    android:textColor="@color/white"
                                     android:text="@string/night"/>
                                 <android.support.v7.widget.AppCompatRadioButton
                                     android:id="@+id/rb_night"
@@ -342,6 +349,7 @@
                                     android:layout_marginStart="10dp"
                                     android:layout_marginEnd="10dp"
                                     android:layout_marginRight="10dp"
+                                    android:textColor="@color/white"
                                     android:text="@string/auto"/>
                                 <android.support.v7.widget.AppCompatRadioButton
                                     android:id="@+id/rb_auto"
@@ -377,6 +385,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
                             android:text="@string/feedback"/>
                     </LinearLayout>
 
@@ -400,6 +409,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
                             android:text="@string/favorites"/>
                     </LinearLayout>
 
@@ -423,6 +433,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
                             android:text="@string/preview"/>
                     </LinearLayout>
 
@@ -446,6 +457,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
                             android:text="@string/share"/>
                     </LinearLayout>
 
@@ -470,6 +482,7 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
+                            android:textColor="@color/white"
                             android:text="@string/help"/>
                     </LinearLayout>
                 </LinearLayout>

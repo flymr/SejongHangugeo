@@ -58,6 +58,8 @@
                 android:value="com.flymr92gmail.sejonghangugeo.activities.BookActivity" />
         </activity>
         <activity android:name=".activities.PreviewActivity" />
+        <activity android:name=".activities.GramBookActivity"
+            android:theme="@style/AppThemeWhite"/>
     </application>
 
 </manifest>

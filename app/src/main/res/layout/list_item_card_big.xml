@@ -20,14 +20,13 @@
         android:id="@+id/card_view_legend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginBottom="@dimen/cardMarginVertical"
         android:layout_marginLeft="@dimen/cardMarginHorizontal"
         android:layout_marginRight="@dimen/cardMarginHorizontal"
         android:layout_marginTop="@dimen/cardMarginVertical"
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
-        app:cardBackgroundColor="@color/darkBlue"
+        app:cardBackgroundColor="?attr/cardBgColor"
         app:cardPreventCornerOverlap="false"
         app:contentPadding="0dp">
         <LinearLayout
@@ -64,7 +63,6 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="45dp"
                 android:layout_marginTop="5dp"
-
                 />
 
             <ImageView android:id="@+id/iv_add_legend"
@@ -88,10 +86,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 app:eiv_animationDuration="300"
-                app:eiv_color="@color/white"
-                app:eiv_colorLess="@color/white"
-                app:eiv_colorMore="@color/white"
-                app:eiv_colorIntermediate="@color/white"
+                app:eiv_color="@color/colorAccent"
+                app:eiv_colorLess="@color/colorAccent"
+                app:eiv_colorMore="@color/colorAccent"
+                app:eiv_colorIntermediate="@color/colorAccent"
                 app:eiv_roundedCorners="false"
                 app:eiv_switchColor="true"
                 app:eiv_padding="8dp"/>
@@ -113,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/show_other"
+                android:textColor="@color/white"
                 android:theme="@style/MyButton"/>
 
         </LinearLayout>

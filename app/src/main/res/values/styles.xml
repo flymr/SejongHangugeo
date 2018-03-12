@@ -5,7 +5,8 @@
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
-
+        <item name="themeName">night</item>
+        <item name="cardBgColor">@color/darkBlue</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
@@ -65,6 +66,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
     </style>
     <style name="LessonTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="cardBgColor">@color/darkBlue</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorControlActivated">@color/white</item>
         <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
@@ -93,7 +95,8 @@
 
 
     <style name="AppThemeWhite" parent="AppBaseTheme">
-
+        <item name="themeName">day</item>
+        <item name="cardBgColor">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
@@ -115,7 +118,7 @@
         <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
 
         <item name="android:textColorHint">@color/hintColor</item>
-        <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowBackground">@color/colorListBackground</item>
 
         <item name="android:textColor">@color/navigationBarColor</item>
         <item name="android:alertDialogTheme">@style/AppAlertTheme</item>

@@ -14,8 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -39,6 +41,9 @@ import com.github.florent37.materialviewpager.header.HeaderDesign;
 import com.github.zagum.expandicon.ExpandIconView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -84,13 +89,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private UserDataBase dataBase;
     private FlowingDrawer mDrawer;
     private PrefManager prefManager;
-
+    private int currentThemeIndex;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         prefManager = new PrefManager(this);
         super.onCreate(savedInstanceState);
+        currentThemeIndex = prefManager.getAppTheme();
+        switch (currentThemeIndex){
+            case 1:
+                setTheme(R.style.AppThemeWhite);
+                break;
+            case 2:
+                setTheme(R.style.AppTheme);
+                break;
+            case 3:
+                if (isDay()) setTheme(R.style.AppThemeWhite);
+                else setTheme(R.style.AppTheme);
+                break;
+        }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         llLastPlaces.setOnClickListener(this);
@@ -174,23 +192,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         final Drawable drawable2 = new BitmapDrawable(getResources(),
-                decodeSampledBitmapFromResource(getResources(), R.drawable.white_imtitle, metrics.widthPixels, 0));
+                decodeSampledBitmapFromResource(getResources(), R.drawable.white_imtitle, metrics.widthPixels/2, 0));
         final Drawable drawable1 = new BitmapDrawable(getResources(),
-                decodeSampledBitmapFromResource(getResources(), R.drawable.title2, metrics.widthPixels, 0));
-
-
+                decodeSampledBitmapFromResource(getResources(), R.drawable.title2, metrics.widthPixels/2, 0));
+        final int materialPagerBg;
+        if (getCurrentTheme().equals("day")) materialPagerBg = R.color.colorListBackground;
+        else materialPagerBg = R.color.black;
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
             public HeaderDesign getHeaderDesign(int page) {
                 switch (page) {
                     case 0:
                         return HeaderDesign.fromColorResAndDrawable(
-                                R.color.navigationBarColor,
+                                materialPagerBg,
                                 drawable1
-                                 );
+                        );
                     case 1:
                         return HeaderDesign.fromColorResAndDrawable(
-                                R.color.black,
+                                materialPagerBg,
                                 drawable2
                         );
 
@@ -233,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (prefManager.getIsFirstAppActivation()) {
             Intent intent = new Intent(this, PreviewActivity.class);
             startActivity(intent);
+            prefManager.setIsFirstAppActivation(false);
         }
 
 
@@ -240,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+    private static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -256,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
-    private int calculateInSampleSize(
+    private static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -349,9 +369,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView lastBookTv = findViewById(R.id.tv_last_book);
                 TextView lastGramTv = findViewById(R.id.tv_last_gramm);
                 lastLessonTv.setText(dataBase.getLessonByPrimaryId(prefManager.getLastLessonID()).getLessonName());
-                String sejong = getResources().getString(R.string.sejongHangugeo1) + " (с" + prefManager.getLastBookPage() + ")";
+                String sejong = getResources().getString(R.string.sejongHangugeo1) + " (стр. " + prefManager.getLastBookPage() + ")";
                 lastBookTv.setText(sejong);
-                String ikhimcheg = getResources().getString(R.string.ikhimchek) + " (с" + prefManager.getLastGramPage() + ")";
+                String ikhimcheg = getResources().getString(R.string.ikhimchek) + " (стр. " + prefManager.getLastGramPage() + ")";
                 lastGramTv.setText(ikhimcheg);
                 ExpandIconView expandBtn = findViewById(R.id.expand_btn);
                 if (llExpandLP.getVisibility() == View.GONE){
@@ -423,16 +443,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
            if (buttonView.getId() == R.id.rb_auto){
                rbDay.setChecked(false);
                rbNight.setChecked(false);
-               prefManager.setAppTheme(1);
+               prefManager.setAppTheme(3);
+               if (isDay() && "night".equals(getCurrentTheme())) {
+                   restartActivity();
+               }else if (!isDay() && "day".equals(getCurrentTheme())){
+                   restartActivity();
+               }
            }else if (buttonView.getId() == R.id.rb_night){
                rbDay.setChecked(false);
                rbAuto.setChecked(false);
                prefManager.setAppTheme(2);
+               if (!getCurrentTheme().equals("night"))restartActivity();
            }else if (buttonView.getId() == R.id.rb_day){
                rbAuto.setChecked(false);
                rbNight.setChecked(false);
-               prefManager.setAppTheme(3);
+               prefManager.setAppTheme(1);
+               if (!getCurrentTheme().equals("day"))restartActivity();
            }
        }
+    }
+
+    private void restartActivity(){
+        Intent intent = getIntent();
+        overridePendingTransition(0, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(intent);
+    }
+
+    private boolean isDay(){
+        int currentHour = Integer.parseInt((String) DateFormat.format("kk", new Date()));
+        Log.d("current hour:", "       "+currentHour);
+        int[] dayHours = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        for (int hour: dayHours){
+            if (hour == currentHour) return true;
+        }
+        return false;
+    }
+
+    private String getCurrentTheme(){
+        TypedValue outValue = new TypedValue();
+        getTheme().resolveAttribute(R.attr.themeName, outValue, true);
+        if ("night".equals(outValue.string)) return "night";
+        else return "day";
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (prefManager.getAppTheme() == 3) {
+            if (isDay() && "night".equals(getCurrentTheme())) {
+                restartActivity();
+            }else if (!isDay() && "day".equals(getCurrentTheme())){
+                restartActivity();
+            }
+        }
     }
 }

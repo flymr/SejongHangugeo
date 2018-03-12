@@ -304,7 +304,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
                 }
             });
-return true;
+               return true;
         }else return false;
     }
 
@@ -705,9 +705,6 @@ return true;
         String kor;
         if (wordsSearcher.getVisibility() == View.GONE)kor = pageWords.get(position).getKoreanWord();
         else kor = searchedArray.get(position).getKoreanWord();
-    //    View view;
-    //    if (whereFrom == 0)view = recyclerView.findViewHolderForAdapterPosition(position).itemView;
-    //    else view = searchRv.findViewHolderForAdapterPosition(position).itemView;
         final ImageView imageView = view.findViewById(R.id.speech_iv);
         ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.black),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();

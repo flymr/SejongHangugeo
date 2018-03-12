@@ -77,7 +77,8 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         setupToolbar();
         setupFloatingToolbarListener();
         setupTabStrip();
-        setupRecyclerView();
+        setupRecyclerViewListener();
+        setupGesture();
 
     }
 
@@ -272,12 +273,13 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             @Override
             public void onStartTabSelected(final String title, final int index) {
                 linearLayoutManager.scrollToPositionWithOffset(lastFirstVisiblePosition,0);
+                recyclerView.clearOnScrollListeners();
                 runTabChange(index);
             }
             @Override
             public void onEndTabSelected(final String title, final int index) {
                 //setDeleteMode(false);
-
+                setupRecyclerViewListener();
             }
         });
     }
@@ -364,31 +366,31 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         adapter.notifyDataSetChanged();
     }
 
-    private void setupRecyclerView(){
+    private void setupRecyclerViewListener(){
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
         {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-              if (linearLayoutManager.getChildCount() != linearLayoutManager.getItemCount()&&!deleteMode) {
-                  if (!recyclerView.canScrollVertically(1)) {
-                        floatingToolbar.show();
-                        //floatingToolbar.detachRecyclerView();
-                  }
+              if (!deleteMode &&!recyclerView.canScrollVertically(1)){
+                                  floatingToolbar.show();
               }
 
             }
 
         });
+
+    }
+
+    private void setupGesture(){
         final GestureDetector gdt = new GestureDetector(this, new GestureListener());
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 gdt.onTouchEvent(motionEvent);
-               return false;
+                return false;
             }
         });
-
     }
 
     @Override
