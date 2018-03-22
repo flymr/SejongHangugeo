@@ -191,23 +191,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        final Drawable drawable2 = new BitmapDrawable(getResources(),
-                decodeSampledBitmapFromResource(getResources(), R.drawable.white_imtitle, metrics.widthPixels/2, 0));
-        final Drawable drawable1 = new BitmapDrawable(getResources(),
-                decodeSampledBitmapFromResource(getResources(), R.drawable.title2, metrics.widthPixels/2, 0));
         final int materialPagerBg;
-        if (getCurrentTheme().equals("day")) materialPagerBg = R.color.colorListBackground;
-        else materialPagerBg = R.color.black;
+        final int image1Id;
+        final int image2Id;
+        if (getCurrentTheme().equals("day")) {
+            materialPagerBg = R.color.colorListBackground;
+            image1Id = R.drawable.page1_title;
+            image2Id = R.drawable.page2_title;
+        }
+        else {
+            materialPagerBg = R.color.black;
+            image1Id = R.drawable.page1_title_night;
+            image2Id = R.drawable.page2_title_night;
+        }
+        final Drawable drawable2 = new BitmapDrawable(getResources(),
+                decodeSampledBitmapFromResource(getResources(), image2Id, metrics.widthPixels/2, 0));
+        final Drawable drawable1 = new BitmapDrawable(getResources(),
+                decodeSampledBitmapFromResource(getResources(), image1Id, metrics.widthPixels/2, 0));
+        final View logo = findViewById(R.id.logo_white);
+        if (logo != null) {
+            logo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewPager.notifyHeaderChanged();
+
+                }
+            });
+        }
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
             public HeaderDesign getHeaderDesign(int page) {
                 switch (page) {
                     case 0:
+                        logo.setVisibility(View.VISIBLE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 materialPagerBg,
                                 drawable1
                         );
                     case 1:
+                        logo.setVisibility(View.GONE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 materialPagerBg,
                                 drawable2
@@ -225,16 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
 
-        final View logo = findViewById(R.id.logo_white);
-        if (logo != null) {
-            logo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mViewPager.notifyHeaderChanged();
 
-                }
-            });
-        }
 
 
         switch (prefManager.getAppTheme()){

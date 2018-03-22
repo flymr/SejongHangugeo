@@ -76,12 +76,8 @@
                     android:scaleType="fitCenter"
                     android:layout_marginTop="50dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/white_imtitle"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_below="@+id/iv_menu_main"
-                    android:background="@color/whiteAlpha"/>
+                    android:src="@drawable/drawer_title_image"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
