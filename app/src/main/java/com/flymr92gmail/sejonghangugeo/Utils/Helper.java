@@ -50,25 +50,6 @@ public class Helper {
         Collections.shuffle(words,new Random(seed));
         return words;
     }
-    public static Drawable getImageFromAssetsPng(int imageId, Context context){
-        Drawable d= null;
-        // load image
-        try {
-            // get input stream
-            InputStream ims = context.getAssets().open("images/"+imageId+".png");
-            // load image as Drawable
-            d = Drawable.createFromStream(ims, null);
-            // set image to ImageView
-        }
-        catch(IOException ex) {
-            return null;
-        }
-        return d;
-    }
-
-    public void wordComponentEditor(String userAnswer, String correctAnswer, int index){
-
-    }
 
 
 

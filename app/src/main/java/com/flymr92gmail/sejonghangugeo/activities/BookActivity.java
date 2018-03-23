@@ -106,14 +106,12 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private boolean firstWordIsSelected = true;
     private WaveView waveView;
     private Handler preLoader;
-    private ImageView llLoader;
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
-        preLoaderStart();
         initialization();
         setupPdf();
         setupBookMenu();
@@ -121,61 +119,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         setupSlidingPanelButtonListener();
     }
 
-    private void preLoaderStart(){
-        llLoader = findViewById(R.id.book_loader);
-        preLoader = new Handler();
-        preLoader.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        llLoader.setVisibility(View.VISIBLE);
-                    }
-                });
-                // mBottomNavigationTabStrip.setTabIndex(tabIndex);
-
-            }
-        }, 0);
-
-    }
-
-    public void startPreloadAnim(){
-        // get the final radius for the clipping circle
-        int cx = llLoader.getWidth()/2;
-        int cy = llLoader.getHeight()/2;
-        int dx = Math.max(cx, llLoader.getWidth() - cx);
-        int dy = Math.max(cy, llLoader.getHeight() - cy);
-        float finalRadius = (float) Math.hypot(dx, dy);
-
-        // Android native animator
-        Animator animator =
-                ViewAnimationUtils.createCircularReveal(llLoader, cx, cy, finalRadius, 0);
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                llLoader.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.setDuration(500);
-        animator.start();
-    }
 
     private void initialization(){
         slidingUpPanelLayout = findViewById(R.id.sliding_layout);
@@ -205,6 +148,11 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mp.isPlaying()) mp.stop();
+    }
 
     private void setupRecyclerView(){
         String s = "выбранные(0)";
@@ -418,7 +366,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                                     @Override
                                     public void loadComplete(int nbPages) {
                                        // ObjectAnimator.ofFloat(llLoader, "alpha", 1f, 0).setDuration(500).start();
-                                    startPreloadAnim();
                                     }
                                 })
                                 .load();
@@ -694,7 +641,12 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     }
 
     private void testAction(){
-        Intent intent = new Intent(this, TestActivity.class);
+        Intent intent;
+        if (0 <dataBase.getAudioTest(pdfView.getCurrentPage()+differencePages).size()){
+            intent = new Intent(this, ListeningActivity.class);
+        }else {
+            intent = new Intent(this, TestActivity.class);
+        }
         intent.putExtra("page",pdfView.getCurrentPage()+differencePages);
         startActivity(intent);
     }

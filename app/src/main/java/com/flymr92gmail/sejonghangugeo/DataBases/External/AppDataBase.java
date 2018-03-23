@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 
+import com.flymr92gmail.sejonghangugeo.POJO.AudioTest;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Test;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
@@ -28,6 +29,7 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
     private static final String TABLE_TESTS = "exercise";
     private static final String TABLE_AUDIO = "audio";
     private static final String TABLE_LEGENDS= "legends";
+    private static final String TABLE_AUDIO_TESTS = "exerciseAudio";
 
     public AppDataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -205,5 +207,22 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
         return tests;
     }
 
+
+    public ArrayList<AudioTest> getAudioTest(int page){
+        ArrayList<AudioTest> tests = new ArrayList<>();
+        String query = "SELECT * FROM "+TABLE_AUDIO_TESTS+" WHERE page="+page;
+        Cursor cursor = db.rawQuery(query,null);
+        while (cursor.moveToNext()){
+            AudioTest test = new AudioTest();
+            test.setmId(cursor.getInt(cursor.getColumnIndex("_id")));
+            test.setmImageCount(cursor.getInt(cursor.getColumnIndex("imageCount")));
+            test.setmTrackId(cursor.getInt(cursor.getColumnIndex("track")));
+            test.setmFirstAnswer(cursor.getInt(cursor.getColumnIndex("answer")));
+            test.setmTextAnswer(cursor.getString(cursor.getColumnIndex("textAnswer")));
+            tests.add(test);
+        }
+        cursor.close();
+        return tests;
+    }
 
 }
