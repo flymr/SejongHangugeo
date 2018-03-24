@@ -1,26 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.flymr92gmail.sejonghangugeo.activities.ListeningActivity">
-    <com.flymr92gmail.sejonghangugeo.Utils.TouchImageView
-        android:id="@+id/iv_1"
-        android:layout_gravity="center"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_listening"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <com.flymr92gmail.sejonghangugeo.Utils.TouchImageView
-        android:id="@+id/iv_2"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-    <com.flymr92gmail.sejonghangugeo.Utils.TouchImageView
-        android:id="@+id/iv_3"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
-</LinearLayout>
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

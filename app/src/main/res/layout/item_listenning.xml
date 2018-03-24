@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
+
+    <eu.davidea.flipview.FlipView
+        android:id="@+id/scale_oval_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:outAnimation="@anim/scale_down"
+        android:inAnimation="@anim/scale_up"
+        android:clickable="false"
+        app:checked="false"
+        app:enableInitialAnimation="true"
+        app:animationDuration="200"
+        app:rearImageAnimationDuration="200">
+
+        <!-- Front Layout Goes Here -->
+        <include layout="@layout/flip_listenning_front"/>
+
+        <include layout="@layout/flip_listening_rear"/>
+
+    </eu.davidea.flipview.FlipView>
+
+
+
+
+</RelativeLayout>
