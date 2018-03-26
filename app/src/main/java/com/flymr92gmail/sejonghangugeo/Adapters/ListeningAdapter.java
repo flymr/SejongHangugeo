@@ -42,7 +42,7 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ListeningViewHolder viewHolder = (ListeningViewHolder)holder;
         viewHolder.frontImage.setImageDrawable(images.get(position));
-        if (correctAnswer == position)
+        if (correctAnswer == position+1)
             viewHolder.rearCorrect.setVisibility(View.VISIBLE);
         else viewHolder.rearIncorrect.setVisibility(View.VISIBLE);
 

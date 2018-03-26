@@ -61,7 +61,12 @@
         <activity
             android:name=".activities.GramBookActivity"
             android:theme="@style/AppThemeWhite" />
-        <activity android:name=".activities.ListeningActivity"></activity>
+        <activity android:name=".activities.ListeningActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.flymr92gmail.sejonghangugeo.activities.BookActivity" />
+
+        </activity>
     </application>
 
 </manifest>

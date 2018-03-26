@@ -10,5 +10,86 @@
         android:id="@+id/rv_listening"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <ImageView
+        android:id="@+id/iv_next_test"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_chevron_right"
+        />
+    <ImageView
+        android:id="@+id/iv_prev_test"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@drawable/ic_chevron_left"
+        />
+    <FrameLayout
+        android:id="@+id/book_audio_control_ll"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:background="@color/blackAlpha"
+        >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="top"
+            >
+            <TextView
+                android:id="@+id/tv_listening_audio_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                />
+            <SeekBar
+                android:id="@+id/listening_seek_bar"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:progressTint="@color/white"
+                android:thumbTint="@color/white"
+                />
+            <TextView
+                android:id="@+id/tv_listening_audio_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            >
+            <com.wnafee.vector.MorphButton
+                android:id="@+id/listening_play_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="fitCenter"
+                app:vc_foregroundTint="@color/white"
+                app:vc_startDrawable="@drawable/ic_pause_to_play"
+                app:vc_endDrawable="@drawable/ic_play_to_pause"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
 </RelativeLayout>
