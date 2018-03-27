@@ -92,4 +92,18 @@
         </LinearLayout>
 
     </FrameLayout>
+    <Button
+        android:id="@+id/accept_answer_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:text="Принять ответ"/>
+    <EditText
+        android:id="@+id/accept_answer_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:imeOptions="actionDone"/>
 </RelativeLayout>

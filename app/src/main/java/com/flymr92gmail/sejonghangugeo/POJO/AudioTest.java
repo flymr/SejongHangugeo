@@ -7,9 +7,20 @@ package com.flymr92gmail.sejonghangugeo.POJO;
 public class AudioTest {
     private int mId;
     private int mFirstAnswer;
+    private int mFirstAnswer2;
+    private int mFirstAnswer3;
     private int mTrackId = 123;
     private int mImageCount;
     private String mTextAnswer;
+    private int mTestType = 0;
+
+    public int getmTestType() {
+        return mTestType;
+    }
+
+    public void setmTestType(int mTestType) {
+        this.mTestType = mTestType;
+    }
 
     public int getmId() {
         return mId;
@@ -50,4 +61,19 @@ public class AudioTest {
     public void setmTextAnswer(String mTextAnswer) {
         this.mTextAnswer = mTextAnswer;
     }
+
+    public int getmFirstAnswer2() {return mFirstAnswer2;}
+
+    public void setmFirstAnswer2(int mFirstAnswer2) {
+        this.mFirstAnswer2 = mFirstAnswer2;
+    }
+
+    public int getmFirstAnswer3() {
+        return mFirstAnswer3;
+    }
+
+    public void setmFirstAnswer3(int mFirstAnswer3) {
+        this.mFirstAnswer3 = mFirstAnswer3;
+    }
+
 }

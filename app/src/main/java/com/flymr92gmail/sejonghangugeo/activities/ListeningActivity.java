@@ -11,11 +11,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.ListeningAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
@@ -37,6 +42,7 @@ public class ListeningActivity extends AppCompatActivity{
     private AudioTest currentTest;
     private ArrayList<Drawable> currentTestImages;
     private RecyclerView recyclerView;
+    private ListeningAdapter adapter;
     private MediaPlayer mp;
     private MorphButton playButton;
     private SeekBar audioSeekBar;
@@ -44,9 +50,11 @@ public class ListeningActivity extends AppCompatActivity{
     private TextView tvAudioStart, tvAudioEnd;
     private Runnable audioRun;
     private ImageView nextTestIv, prevTestIv;
-
-
-
+    private ArrayList<Integer> chooseAnswers;
+    private ArrayList<Integer> userChooseAnswers;
+    private Button acceptAnswerBrn;
+    private EditText acceptEt;
+    private int testType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +66,38 @@ public class ListeningActivity extends AppCompatActivity{
         nextTest();
         //setupRecyclerView();
         setupNextPrevBtn();
+
     }
 
-    private void setupRecyclerView(){
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mp.isPlaying()) mp.stop();
+    }
+
+    private void setupRvTestStandart(){
+        adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages));
-        // setupAdapter();
+        recyclerView.setAdapter(adapter);
     }
 
+    private void setupRvTestChoose(){
+        adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setupRvTestSequence(){
+        adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void setupRvTestText(){
+        adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+    }
 
     private void initObj(){
         Intent intent = getIntent();
@@ -75,6 +107,8 @@ public class ListeningActivity extends AppCompatActivity{
         currentTestImages = new ArrayList<>();
         mp = new MediaPlayer();
         handlerAudio = new Handler();
+        chooseAnswers = new ArrayList<>();
+        userChooseAnswers = new ArrayList<>();
 
     }
 
@@ -86,6 +120,8 @@ public class ListeningActivity extends AppCompatActivity{
         tvAudioEnd = findViewById(R.id.tv_listening_audio_end);
         nextTestIv = findViewById(R.id.iv_next_test);
         prevTestIv = findViewById(R.id.iv_prev_test);
+        acceptAnswerBrn = findViewById(R.id.accept_answer_btn);
+        acceptEt = findViewById(R.id.accept_answer_et);
     }
 
     private void setupNextPrevBtn(){
@@ -118,19 +154,15 @@ public class ListeningActivity extends AppCompatActivity{
     }
 
     private void nextTest(){
-        if (currentTestCount == tests.size()-1) nextTestIv.setVisibility(View.GONE);
-        else if (currentTestCount ==0) prevTestIv.setVisibility(View.GONE);
-        else {
-            nextTestIv.setVisibility(View.VISIBLE);
-            prevTestIv.setVisibility(View.VISIBLE);
-        }
         currentTest = tests.get(currentTestCount);
+        testType = currentTest.getmTestType();
+        updateUI(testType);
         currentTestImages.clear();
         for (int i = 0; i < currentTest.getmImageCount(); i++){
             currentTestImages.add(getImageFromAssets(i+1));
         }
         stopAudio();
-        setupRecyclerView();
+        setupLogic(testType);
         playAudio();
         currentTestCount++;
     }
@@ -139,6 +171,148 @@ public class ListeningActivity extends AppCompatActivity{
     private void prevTest(){
       currentTestCount = currentTestCount -2;
       nextTest();
+    }
+
+    private void updateUI(int type){
+        if (currentTestCount == tests.size()-1) nextTestIv.setVisibility(View.GONE);
+        else if (currentTestCount ==0) prevTestIv.setVisibility(View.GONE);
+        else {
+            nextTestIv.setVisibility(View.VISIBLE);
+            prevTestIv.setVisibility(View.VISIBLE);
+        }
+        switch (type){
+            case 0:
+                acceptAnswerBrn.setVisibility(View.GONE);
+                acceptEt.setVisibility(View.GONE);
+                break;
+            case 1:
+                acceptAnswerBrn.setVisibility(View.VISIBLE);
+                acceptEt.setVisibility(View.GONE);
+
+                break;
+            case 2:
+                acceptAnswerBrn.setVisibility(View.VISIBLE);
+                acceptEt.setVisibility(View.GONE);
+
+                break;
+            case 3:
+                acceptAnswerBrn.setVisibility(View.GONE);
+                acceptEt.setVisibility(View.VISIBLE);
+
+                break;
+        }
+    }
+
+    private void setupLogic(int type){
+        switch (type){
+            case 0:
+                setupRvTestStandart();
+                break;
+            case 1:
+                getChooseAnswers();
+                setupRvTestChoose();
+                setupAcceptBtnListener();
+                break;
+            case 2:
+                getChooseAnswers();
+                setupRvTestSequence();
+                setupAcceptBtnListener();
+                break;
+            case 3:
+
+                setupRvTestText();
+                setupAcceptEtActionDone();
+                break;
+        }
+    }
+
+    private void getChooseAnswers(){
+        if (currentTest.getmFirstAnswer2()!= 0){
+            chooseAnswers.add(currentTest.getmFirstAnswer());
+            chooseAnswers.add(currentTest.getmFirstAnswer2());
+            if (currentTest.getmFirstAnswer3() != 0)
+                chooseAnswers.add(currentTest.getmFirstAnswer3());
+        }else chooseAnswers.add(currentTest.getmFirstAnswer());
+    }
+
+    private void setupAcceptBtnListener(){
+        acceptAnswerBrn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (testType ==1){
+                    getUserChooseAnswers();
+                    if (checkAnswerTypeChoose()){
+                        acceptAnswerBrn.setText("Верно");
+                    }else {
+                        acceptAnswerBrn.setText("Неверно");
+                    }
+                }else if (testType ==2){
+                    getUserSequenceAnswer();
+                    if (checkAnswerTypeSequence()){
+                        acceptAnswerBrn.setText("Верно");
+                    }else {
+                        acceptAnswerBrn.setText("Неверно");
+                    }
+                }
+            }
+        });
+    }
+
+    private void setupAcceptEtActionDone(){
+        acceptEt.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    if (checkAnswerTypeText()){
+                        Toast.makeText(ListeningActivity.this, "Верно", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(ListeningActivity.this, "Неверно", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void getUserChooseAnswers(){
+        userChooseAnswers.clear();
+        boolean[] selects = adapter.getSelects();
+        for (int i= 0; i < selects.length; i++){
+            if (selects[i]) userChooseAnswers.add(i+1);
+        }
+    }
+
+    private void getUserSequenceAnswer(){
+        userChooseAnswers.clear();
+        int[] sequence = adapter.getSequence();
+        for (int i =0; i < sequence.length; i++){
+            userChooseAnswers.add(sequence[i]);
+        }
+    }
+
+    private boolean checkAnswerTypeChoose(){
+        if (chooseAnswers.size() != userChooseAnswers.size()) return false;
+        for (int i = 0; i < userChooseAnswers.size(); i++){
+            if (!userChooseAnswers.contains(chooseAnswers.get(i))) return false;
+        }
+        return true;
+    }
+
+    private boolean checkAnswerTypeSequence(){
+        if (chooseAnswers.size() != userChooseAnswers.size())
+            Toast.makeText(this,"Последовательность неполная", Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < userChooseAnswers.size(); i++){
+            int userAnswer = userChooseAnswers.get(i);
+            int correctAnswer = chooseAnswers.get(i);
+            if (userAnswer == correctAnswer) return false;
+        }
+        return true;
+    }
+
+    private boolean checkAnswerTypeText(){
+       String userAnswer = acceptEt.getText().toString();
+       return userAnswer.equals(currentTest.getmTextAnswer());
     }
 
     private void setupAudioPlayer(){
@@ -269,5 +443,7 @@ public class ListeningActivity extends AppCompatActivity{
         };
         handlerAudio.postDelayed(audioRun,10);
     }
+
+
 
 }
