@@ -5,35 +5,27 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.flymr92gmail.sejonghangugeo.activities.ListeningActivity">
-
+    <android.support.design.widget.AppBarLayout
+        android:layout_width ="match_parent"
+        android:layout_height ="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_learning"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:layout_scrollFlags = "scroll"/>
+    </android.support.design.widget.AppBarLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_listening"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    <ImageView
-        android:id="@+id/iv_next_test"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@drawable/ic_chevron_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         />
-    <ImageView
-        android:id="@+id/iv_prev_test"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:srcCompat="@drawable/ic_chevron_left"
-        />
+
+
     <FrameLayout
-        android:id="@+id/book_audio_control_ll"
+        android:id="@+id/listening_audio_control_ll"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="vertical"
@@ -73,12 +65,21 @@
                 android:textColor="@color/white"
                 />
         </LinearLayout>
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_gravity="bottom"
             >
+            <ImageButton
+                android:id="@+id/btn_prev_test"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:srcCompat="@drawable/ic_chevron_left"
+                android:layout_gravity="center|start"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"/>
+
             <com.wnafee.vector.MorphButton
                 android:id="@+id/listening_play_audio"
                 android:layout_width="wrap_content"
@@ -89,21 +90,35 @@
                 app:vc_startDrawable="@drawable/ic_pause_to_play"
                 app:vc_endDrawable="@drawable/ic_play_to_pause"/>
 
-        </LinearLayout>
+            <ImageButton
+                android:id="@+id/btn_next_test"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                app:srcCompat="@drawable/ic_chevron_right"
+                android:layout_gravity="center|end"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"/>
 
+        </FrameLayout>
+        <EditText
+            android:id="@+id/accept_answer_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:layout_gravity="bottom"/>
     </FrameLayout>
     <Button
         android:id="@+id/accept_answer_btn"
+        android:layout_above="@+id/listening_audio_control_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:text="Принять ответ"/>
-    <EditText
-        android:id="@+id/accept_answer_et"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:imeOptions="actionDone"/>
+        android:text="Принять ответ"
+        android:textColor="@color/white"
+        android:theme="@style/MyButton"/>
+
+
+
 </RelativeLayout>

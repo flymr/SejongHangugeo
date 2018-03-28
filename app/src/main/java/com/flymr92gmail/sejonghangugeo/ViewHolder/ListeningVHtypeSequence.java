@@ -13,7 +13,7 @@ import com.flymr92gmail.sejonghangugeo.R;
  * Created by hp on 3/27/2018.
  */
 
-public class ListeningVHtypeSequence extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ListeningVHtypeSequence extends RecyclerView.ViewHolder{
     public CardView cardView;
     public ImageView frontImage;
     public ImageView ivVar1, ivVar2, ivVar3;
@@ -32,41 +32,6 @@ public class ListeningVHtypeSequence extends RecyclerView.ViewHolder implements 
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.card_front:
-                if (hasChoose){
-                    hasChoose = false;
-                    showVar();
-                    llVariants.setVisibility(View.GONE);
-                }else {
-                    llVariants.setVisibility(View.VISIBLE);
-                }
-                break;
-            case R.id.var1:
-                ivVar2.setVisibility(View.GONE);
-                ivVar3.setVisibility(View.GONE);
-                hasChoose = true;
-                break;
-            case R.id.var2:
-                ivVar1.setVisibility(View.GONE);
-                ivVar3.setVisibility(View.GONE);
-                hasChoose = true;
-                break;
-            case R.id.var3:
-                ivVar1.setVisibility(View.GONE);
-                ivVar2.setVisibility(View.GONE);
-                hasChoose = true;
-                break;
-        }
-    }
-
-    private void showVar(){
-        ivVar1.setVisibility(View.VISIBLE);
-        ivVar2.setVisibility(View.VISIBLE);
-        ivVar3.setVisibility(View.VISIBLE);
-    }
 
 
 }

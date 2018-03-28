@@ -3,24 +3,32 @@ package com.flymr92gmail.sejonghangugeo.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.ListeningAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
@@ -49,12 +57,14 @@ public class ListeningActivity extends AppCompatActivity{
     private Handler handlerAudio;
     private TextView tvAudioStart, tvAudioEnd;
     private Runnable audioRun;
-    private ImageView nextTestIv, prevTestIv;
     private ArrayList<Integer> chooseAnswers;
     private ArrayList<Integer> userChooseAnswers;
     private Button acceptAnswerBrn;
     private EditText acceptEt;
     private int testType = 0;
+    private Toolbar toolbar;
+    private ImageButton btnNextTest, btnPrevTest;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +76,27 @@ public class ListeningActivity extends AppCompatActivity{
         nextTest();
         //setupRecyclerView();
         setupNextPrevBtn();
+        setupToolbar();
+    }
 
+    private void setupToolbar() {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            toolbar.setTitle("");
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+            final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_24dp);
+            upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            getSupportActionBar().setHomeAsUpIndicator(upArrow);
+        }
     }
 
     @Override
@@ -75,21 +105,22 @@ public class ListeningActivity extends AppCompatActivity{
         if (mp.isPlaying()) mp.stop();
     }
 
-    private void setupRvTestStandart(){
+    private void setupRvTestStandard(){
         adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this, getOrientationLLManager(), false));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
 
     private void setupRvTestChoose(){
         adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
 
     private void setupRvTestSequence(){
         adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
     }
 
@@ -97,6 +128,11 @@ public class ListeningActivity extends AppCompatActivity{
         adapter = new ListeningAdapter(currentTest.getmFirstAnswer(), currentTestImages, testType);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+    }
+
+    private int getOrientation(){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) return Configuration.ORIENTATION_LANDSCAPE;
+        else return Configuration.ORIENTATION_PORTRAIT;
     }
 
     private void initObj(){
@@ -118,20 +154,22 @@ public class ListeningActivity extends AppCompatActivity{
         audioSeekBar = findViewById(R.id.listening_seek_bar);
         tvAudioStart = findViewById(R.id.tv_listening_audio_start);
         tvAudioEnd = findViewById(R.id.tv_listening_audio_end);
-        nextTestIv = findViewById(R.id.iv_next_test);
-        prevTestIv = findViewById(R.id.iv_prev_test);
+
         acceptAnswerBrn = findViewById(R.id.accept_answer_btn);
         acceptEt = findViewById(R.id.accept_answer_et);
+        toolbar = findViewById(R.id.toolbar_learning);
+        btnNextTest = findViewById(R.id.btn_next_test);
+        btnPrevTest = findViewById(R.id.btn_prev_test);
     }
 
     private void setupNextPrevBtn(){
-        nextTestIv.setOnClickListener(new View.OnClickListener() {
+        btnNextTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nextTest();
             }
         });
-        prevTestIv.setOnClickListener(new View.OnClickListener() {
+        btnPrevTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 prevTest();
@@ -174,11 +212,11 @@ public class ListeningActivity extends AppCompatActivity{
     }
 
     private void updateUI(int type){
-        if (currentTestCount == tests.size()-1) nextTestIv.setVisibility(View.GONE);
-        else if (currentTestCount ==0) prevTestIv.setVisibility(View.GONE);
+        if (currentTestCount == tests.size()-1) btnNextTest.setVisibility(View.GONE);
+        else if (currentTestCount ==0) btnPrevTest.setVisibility(View.GONE);
         else {
-            nextTestIv.setVisibility(View.VISIBLE);
-            prevTestIv.setVisibility(View.VISIBLE);
+            btnNextTest.setVisibility(View.VISIBLE);
+            btnPrevTest.setVisibility(View.VISIBLE);
         }
         switch (type){
             case 0:
@@ -198,7 +236,7 @@ public class ListeningActivity extends AppCompatActivity{
             case 3:
                 acceptAnswerBrn.setVisibility(View.GONE);
                 acceptEt.setVisibility(View.VISIBLE);
-
+                acceptEt.requestFocus();
                 break;
         }
     }
@@ -206,7 +244,7 @@ public class ListeningActivity extends AppCompatActivity{
     private void setupLogic(int type){
         switch (type){
             case 0:
-                setupRvTestStandart();
+                setupRvTestStandard();
                 break;
             case 1:
                 getChooseAnswers();
@@ -305,7 +343,7 @@ public class ListeningActivity extends AppCompatActivity{
         for (int i = 0; i < userChooseAnswers.size(); i++){
             int userAnswer = userChooseAnswers.get(i);
             int correctAnswer = chooseAnswers.get(i);
-            if (userAnswer == correctAnswer) return false;
+            if (userAnswer != correctAnswer) return false;
         }
         return true;
     }
@@ -444,6 +482,19 @@ public class ListeningActivity extends AppCompatActivity{
         handlerAudio.postDelayed(audioRun,10);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_listening,menu);
+        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }

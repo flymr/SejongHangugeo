@@ -9,7 +9,7 @@
         android:id="@+id/card_front"
         android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         app:cardCornerRadius="60dp"
         app:cardElevation="5dp"

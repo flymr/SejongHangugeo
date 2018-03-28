@@ -106,6 +106,7 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     public void onClick(View view) {
                         if (holserSequence.llVariants.getVisibility() == View.VISIBLE){
                             holserSequence.llVariants.setVisibility(View.GONE);
+                            sequence[position] = 0;
                         }else {
                             holserSequence.llVariants.setVisibility(View.VISIBLE);
                             holserSequence.ivVar1.setVisibility(View.VISIBLE);
@@ -117,25 +118,46 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holserSequence.ivVar1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        sequence[position] = 1;
-                        holserSequence.ivVar2.setVisibility(View.GONE);
-                        holserSequence.ivVar3.setVisibility(View.GONE);
+                        if (holserSequence.ivVar2.getVisibility() ==View.GONE){
+                            sequence[position] = 0;
+                            holserSequence.ivVar2.setVisibility(View.VISIBLE);
+                            holserSequence.ivVar3.setVisibility(View.VISIBLE);
+                        }else {
+                            sequence[position] = 1;
+                            holserSequence.ivVar2.setVisibility(View.GONE);
+                            holserSequence.ivVar3.setVisibility(View.GONE);
+                        }
+
                     }
                 });
                 holserSequence.ivVar2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        sequence[position] = 2;
-                        holserSequence.ivVar1.setVisibility(View.GONE);
-                        holserSequence.ivVar3.setVisibility(View.GONE);
+                        if (holserSequence.ivVar1.getVisibility() == View.GONE){
+                            sequence[position] = 0;
+                            holserSequence.ivVar1.setVisibility(View.VISIBLE);
+                            holserSequence.ivVar3.setVisibility(View.VISIBLE);
+                        }else {
+                            sequence[position] = 2;
+                            holserSequence.ivVar1.setVisibility(View.GONE);
+                            holserSequence.ivVar3.setVisibility(View.GONE);
+                        }
+
                     }
                 });
                 holserSequence.ivVar3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        sequence[position] = 3;
-                        holserSequence.ivVar1.setVisibility(View.GONE);
-                        holserSequence.ivVar2.setVisibility(View.GONE);
+                        if (holserSequence.ivVar2.getVisibility() ==View.GONE){
+                            sequence[position] = 0;
+                            holserSequence.ivVar2.setVisibility(View.VISIBLE);
+                            holserSequence.ivVar1.setVisibility(View.VISIBLE);
+                        }else {
+                            sequence[position] = 3;
+                            holserSequence.ivVar1.setVisibility(View.GONE);
+                            holserSequence.ivVar2.setVisibility(View.GONE);
+                        }
+
                     }
                 });
                 break;
