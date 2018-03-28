@@ -488,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private boolean isDay(){
         int currentHour = Integer.parseInt((String) DateFormat.format("kk", new Date()));
         Log.d("current hour:", "       "+currentHour);
-        int[] dayHours = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+        int[] dayHours = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
         for (int hour: dayHours){
             if (hour == currentHour) return true;
         }

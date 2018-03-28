@@ -63,7 +63,7 @@
             android:theme="@style/AppThemeWhite" />
         <activity android:name=".activities.ListeningActivity"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/LessonTheme">
+            android:theme="@style/LessonThemeWhite">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.flymr92gmail.sejonghangugeo.activities.BookActivity" />

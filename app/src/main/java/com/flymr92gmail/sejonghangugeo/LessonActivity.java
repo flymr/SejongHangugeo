@@ -25,6 +25,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.flymr92gmail.sejonghangugeo.Utils.Helper;
+import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
 import com.flymr92gmail.sejonghangugeo.Utils.WordsSpeech;
 import com.flymr92gmail.sejonghangugeo.activities.CardActivity;
@@ -63,11 +65,26 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     private WordsSpeech wordsSpeech;
     private ArcProgress arcProgress;
     private View progressLayout;
+    private PrefManager prefManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefManager = new PrefManager(this);
+        int currentThemeIndex = prefManager.getAppTheme();
+        switch (currentThemeIndex){
+            case 1:
+                setTheme(R.style.LessonThemeWhite);
+                break;
+            case 2:
+                setTheme(R.style.LessonTheme);
+                break;
+            case 3:
+                if (Helper.isDay()) setTheme(R.style.LessonThemeWhite);
+                else setTheme(R.style.LessonTheme);
+                break;
+        }
         setContentView(R.layout.activity_lesson);
 
         mIntent = getIntent();
