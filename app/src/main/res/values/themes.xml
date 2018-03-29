@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AppCompat.DayNight"
+        parent="Theme.AppCompat.Light">
+        <item name="themeName">day</item>
+        <item name="cardBgColor">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+
+        <item name="android:windowContentOverlay">@color/white</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorControlActivated">@color/redM</item>
+        <!-- Toolbar Theme / Apply white arrow -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
+
+        <!-- Material Theme -->
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/navigationBarColor</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColorHint">@color/hintColor</item>
+        <item name="android:windowBackground">@color/colorListBackground</item>
+
+        <item name="android:textColor">@color/navigationBarColor</item>
+        <item name="android:alertDialogTheme">@style/AppAlertTheme</item>
+        <item name="android:dialogTheme">@style/AppDialogTheme</item>
+    </style>
+</resources>

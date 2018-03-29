@@ -2,6 +2,7 @@ package com.flymr92gmail.sejonghangugeo;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -45,12 +47,14 @@ import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.xml.datatype.Duration;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.codetail.animation.ViewAnimationUtils;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
     @BindView(R.id.iv_loader)
@@ -89,25 +93,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private UserDataBase dataBase;
     private FlowingDrawer mDrawer;
     private PrefManager prefManager;
-    private int currentThemeIndex;
-
+    private int modeNightNO = AppCompatDelegate.MODE_NIGHT_NO;
+    private int modeNightYes = AppCompatDelegate.MODE_NIGHT_YES;
+    private int modeNightAuto = AppCompatDelegate.MODE_NIGHT_AUTO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        prefManager = new PrefManager(this);
         super.onCreate(savedInstanceState);
-        currentThemeIndex = prefManager.getAppTheme();
-        switch (currentThemeIndex){
-            case 1:
-                setTheme(R.style.AppThemeWhite);
-                break;
-            case 2:
-                setTheme(R.style.AppTheme);
-                break;
-            case 3:
-                if (isDay()) setTheme(R.style.AppThemeWhite);
-                else setTheme(R.style.AppTheme);
-                break;
+        prefManager = new PrefManager(this);
+        if (savedInstanceState == null){
+            int currentThemeIndex = prefManager.getAppTheme();
+            switch (currentThemeIndex){
+                case AppCompatDelegate.MODE_NIGHT_NO:
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+                    break;
+                case AppCompatDelegate.MODE_NIGHT_YES:
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+                    break;
+                case AppCompatDelegate.MODE_NIGHT_AUTO:
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+
+                    break;
+            }
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
@@ -118,9 +127,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         llSendMassage.setOnClickListener(this);
         shareBtn.setOnClickListener(this);
 
-        rbNight.setOnCheckedChangeListener(this);
-        rbDay.setOnCheckedChangeListener(this);
-        rbAuto.setOnCheckedChangeListener(this);
+        rbNight.setOnClickListener(this);
+        rbDay.setOnClickListener(this);
+        rbAuto.setOnClickListener(this);
 
         dataBase = new UserDataBase(this);
 
@@ -194,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final int materialPagerBg;
         final int image1Id;
         final int image2Id;
-        if (getCurrentTheme().equals("day")) {
+        if (getCurrentNightMode() == Configuration.UI_MODE_NIGHT_NO) {
             materialPagerBg = R.color.colorListBackground;
             image1Id = R.drawable.page1_title;
             image2Id = R.drawable.page2_title;
@@ -251,13 +260,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         switch (prefManager.getAppTheme()){
-            case 1:
+            case AppCompatDelegate.MODE_NIGHT_NO:
                 rbDay.setChecked(true);
                 break;
-            case 2:
+            case AppCompatDelegate.MODE_NIGHT_YES:
                 rbNight.setChecked(true);
                 break;
-            case 3:
+            case AppCompatDelegate.MODE_NIGHT_AUTO:
                 rbAuto.setChecked(true);
         }
 
@@ -273,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
-    private static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+    private Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -289,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
-    private static int calculateInSampleSize(
+    private int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -314,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private static void expand(final View v) {
+    private void expand(final View v) {
         v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final int targetHeight = v.getMeasuredHeight();
 
@@ -342,7 +351,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         v.startAnimation(a);
     }
 
-    private static void collapse(final View v) {
+    private void collapse(final View v) {
         final int initialHeight = v.getMeasuredHeight();
 
         Animation a = new Animation()
@@ -418,6 +427,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     collapse(expandThemeSettings);
                 }
                 break;
+            case R.id.rb_day:
+                rbAuto.setChecked(false);
+                rbNight.setChecked(false);
+
+                   prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_NO);
+                   getDelegate().setLocalNightMode(
+                           AppCompatDelegate.MODE_NIGHT_NO);
+                   if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO)
+                       recreate();
+
+                break;
+            case R.id.rb_night:
+                rbDay.setChecked(false);
+                rbAuto.setChecked(false);
+
+                    prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_YES);
+                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES)
+                        recreate();
+
+
+                break;
+            case R.id.rb_auto:
+                rbDay.setChecked(false);
+                rbNight.setChecked(false);
+                    prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_AUTO);
+                    switch (getCurrentNightMode()) {
+                        case Configuration.UI_MODE_NIGHT_NO:
+                            if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO)
+                                recreate();
+                        case Configuration.UI_MODE_NIGHT_YES:
+                            if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES)
+                                recreate();
+                        case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                            // We don't know what mode we're in, assume notnight
+                            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+                    }
+                getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                //recreate();
+                break;
             case R.id.send_massage:
                 MailDialog mailDialog = new MailDialog();
                 mailDialog.show(getFragmentManager(), "new massage");
@@ -435,6 +484,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private int getCurrentNightMode(){
+        return getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+    }
+
     private void shareAppLink(){
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -450,67 +503,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-       if (isChecked){
-           if (buttonView.getId() == R.id.rb_auto){
-               rbDay.setChecked(false);
-               rbNight.setChecked(false);
-               prefManager.setAppTheme(3);
-               if (isDay() && "night".equals(getCurrentTheme())) {
-                   restartActivity();
-               }else if (!isDay() && "day".equals(getCurrentTheme())){
-                   restartActivity();
-               }
-           }else if (buttonView.getId() == R.id.rb_night){
-               rbDay.setChecked(false);
-               rbAuto.setChecked(false);
-               prefManager.setAppTheme(2);
-               if (!getCurrentTheme().equals("night"))restartActivity();
-           }else if (buttonView.getId() == R.id.rb_day){
-               rbAuto.setChecked(false);
-               rbNight.setChecked(false);
-               prefManager.setAppTheme(1);
-               if (!getCurrentTheme().equals("day"))restartActivity();
-           }
-       }
-    }
 
-    private void restartActivity(){
-        Intent intent = getIntent();
-        overridePendingTransition(0, 0);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(intent);
-    }
-
-    private boolean isDay(){
-        int currentHour = Integer.parseInt((String) DateFormat.format("kk", new Date()));
-        Log.d("current hour:", "       "+currentHour);
-        int[] dayHours = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
-        for (int hour: dayHours){
-            if (hour == currentHour) return true;
-        }
-        return false;
-    }
-
-    private String getCurrentTheme(){
-        TypedValue outValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.themeName, outValue, true);
-        if ("night".equals(outValue.string)) return "night";
-        else return "day";
-    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (prefManager.getAppTheme() == 3) {
-            if (isDay() && "night".equals(getCurrentTheme())) {
-                restartActivity();
-            }else if (!isDay() && "day".equals(getCurrentTheme())){
-                restartActivity();
-            }
-        }
+
     }
 }

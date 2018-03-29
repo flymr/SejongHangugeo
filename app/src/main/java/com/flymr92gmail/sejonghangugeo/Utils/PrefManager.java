@@ -2,6 +2,7 @@ package com.flymr92gmail.sejonghangugeo.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AppCompatDelegate;
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -66,7 +67,7 @@ public class PrefManager implements Constants {
     }
 
     public int getAppTheme(){
-        return preferences.getInt(APP_THEME, 3);
+        return preferences.getInt(APP_THEME, AppCompatDelegate.MODE_NIGHT_AUTO);
     }
 
     public void saveLastLessonID(int lessonID){
