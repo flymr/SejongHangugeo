@@ -45,7 +45,7 @@
             android:theme="@style/LessonTheme" />
         <activity
             android:name=".activities.BookActivity"
-            android:theme="@style/AppThemeWhite" />
+            android:theme="@style/BookTheme" />
         <activity
             android:name=".activities.LegendsActivity"
             android:theme="@style/LessonTheme" />
@@ -60,10 +60,10 @@
         <activity android:name=".activities.PreviewActivity" />
         <activity
             android:name=".activities.GramBookActivity"
-            android:theme="@style/AppThemeWhite" />
+            android:theme="@style/BookTheme" />
         <activity android:name=".activities.ListeningActivity"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/LessonThemeWhite">
+            android:theme="@style/LessonTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.flymr92gmail.sejonghangugeo.activities.BookActivity" />

@@ -2,8 +2,6 @@
 <resources>
     <style name="Theme.AppCompat.DayNight"
         parent="Theme.AppCompat">
-        <item name="themeName">night</item>
-        <item name="cardBgColor">@color/darkBlue</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 

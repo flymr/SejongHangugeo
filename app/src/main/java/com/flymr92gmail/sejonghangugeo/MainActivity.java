@@ -200,19 +200,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        final int materialPagerBg;
+        final int materialPagerBg = R.color.listBgColor;
         final int image1Id;
         final int image2Id;
-        if (getCurrentNightMode() == Configuration.UI_MODE_NIGHT_NO) {
-            materialPagerBg = R.color.colorListBackground;
-            image1Id = R.drawable.page1_title;
-            image2Id = R.drawable.page2_title;
-        }
-        else {
-            materialPagerBg = R.color.black;
-            image1Id = R.drawable.page1_title_night;
-            image2Id = R.drawable.page2_title_night;
-        }
+        image1Id = R.drawable.page1_title;
+        image2Id = R.drawable.page2_title;
         final Drawable drawable2 = new BitmapDrawable(getResources(),
                 decodeSampledBitmapFromResource(getResources(), image2Id, metrics.widthPixels/2, 0));
         final Drawable drawable1 = new BitmapDrawable(getResources(),
@@ -430,42 +422,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.rb_day:
                 rbAuto.setChecked(false);
                 rbNight.setChecked(false);
-
-                   prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_NO);
-                   getDelegate().setLocalNightMode(
-                           AppCompatDelegate.MODE_NIGHT_NO);
-                   if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO)
-                       recreate();
-
+                prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_NO);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO){
+                    recreate();
+                }
                 break;
             case R.id.rb_night:
                 rbDay.setChecked(false);
                 rbAuto.setChecked(false);
-
-                    prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_YES);
-                    getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES)
-                        recreate();
-
-
+                prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES){
+                    recreate();
+                }
                 break;
             case R.id.rb_auto:
                 rbDay.setChecked(false);
                 rbNight.setChecked(false);
-                    prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_AUTO);
-                    switch (getCurrentNightMode()) {
-                        case Configuration.UI_MODE_NIGHT_NO:
-                            if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO)
-                                recreate();
-                        case Configuration.UI_MODE_NIGHT_YES:
-                            if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES)
-                                recreate();
-                        case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                            // We don't know what mode we're in, assume notnight
-                            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
-                    }
-                getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                //recreate();
+                prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_AUTO);
+                int currentTheme = getCurrentNightMode();
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                getDelegate().applyDayNight();
+                if (currentTheme != getCurrentNightMode())
+                    recreate();
                 break;
             case R.id.send_massage:
                 MailDialog mailDialog = new MailDialog();
@@ -504,10 +484,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_AUTO){
+            int currentTheme = getCurrentNightMode();
+            getDelegate().applyDayNight();
+            if (currentTheme != getCurrentNightMode()) recreate();
+        }
     }
 }

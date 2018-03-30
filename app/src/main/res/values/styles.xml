@@ -38,35 +38,25 @@
         <item name="color">@color/drawerArrowColor</item>
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <item name="android:textColorPrimary">@color/white</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="android:textColorPrimary">@color/white</item>
     </style>
     <style name="LessonTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="cardBgColor">@color/darkBlue</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="colorControlActivated">@color/colorControlActivated</item>
+        <item name="colorControlNormal">@color/colorControlNormal</item>
         <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
-        <item name="android:windowBackground">@color/black</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+        <item name="android:textColor">@color/textColor</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorHint">@color/hintColor</item>
         <item name="colorPrimary">@color/colorAccent</item>
         <item name="android:colorPrimaryDark" tools:targetApi="21">@color/navigationBarColor</item>
     </style>
 
-    <style name="LessonThemeWhite" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="cardBgColor">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
-        <item name="android:windowBackground">@color/colorListBackground</item>
-        <item name="android:textColor">@color/navigationBarColor</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorHint">@color/hintColor</item>
-        <item name="colorPrimary">@color/colorAccent</item>
-        <item name="android:colorPrimaryDark" tools:targetApi="21">@color/navigationBarColor</item>
-    </style>
 
     <style name="ErrorTextCorrect" parent="TextAppearance.AppCompat.Small">
         <item name="android:textStyle">bold|italic</item>
@@ -78,14 +68,12 @@
     </style>
     <style name="ErrorTextNormal" parent="TextAppearance.AppCompat.Small">
         <item name="android:textStyle">bold|italic</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/textColor</item>
     </style>
 
 
 
-    <style name="AppThemeWhite" parent="AppBaseTheme">
-        <item name="themeName">day</item>
-        <item name="cardBgColor">@color/white</item>
+    <style name="BookTheme" parent="AppBaseTheme">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>

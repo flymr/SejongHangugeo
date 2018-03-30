@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         app:cardCornerRadius="0dp"
         app:cardElevation="5dp"
-        app:cardBackgroundColor="?attr/cardBgColor"
+        app:cardBackgroundColor="@color/cardItemColor"
         app:cardUseCompatPadding="true">
 
         <LinearLayout

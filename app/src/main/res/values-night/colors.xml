@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="tabStripColorHint">#81ffffff</color>
+    <color name="lessonTabStripColor">#182128</color>
+    <color name="cardItemColor">#182128</color>
+    <color name="listBgColor">#ff252e39</color>
+    <color name="textPrimaryColor">#FFF</color>
+
+    <!--Lesson and next Activities -->
+    <color name="textColorPrimary">#FFF</color>
+    <color name="colorControlActivated">#FFF</color>
+    <color name="windowBackground">#ff252e39</color>
+    <color name="textColor">#FFF</color>
+    <color name="colorControlNormal">#182128</color>
+
+</resources>

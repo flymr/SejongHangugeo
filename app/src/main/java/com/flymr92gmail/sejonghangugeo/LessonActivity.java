@@ -3,6 +3,7 @@ package com.flymr92gmail.sejonghangugeo;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -72,21 +74,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         prefManager = new PrefManager(this);
-        int currentThemeIndex = prefManager.getAppTheme();
-        switch (currentThemeIndex){
-            case 1:
-                setTheme(R.style.LessonThemeWhite);
-                break;
-            case 2:
-                setTheme(R.style.LessonTheme);
-                break;
-            case 3:
-                if (Helper.isDay()) setTheme(R.style.LessonThemeWhite);
-                else setTheme(R.style.LessonTheme);
-                break;
-        }
         setContentView(R.layout.activity_lesson);
-
         mIntent = getIntent();
         initialization();
         lesson=getLesson(mIntent);
@@ -99,6 +87,9 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
     }
 
+    private int getCurrentNightMode(){
+        return getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -290,13 +281,13 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             @Override
             public void onStartTabSelected(final String title, final int index) {
                 linearLayoutManager.scrollToPositionWithOffset(lastFirstVisiblePosition,0);
-                recyclerView.clearOnScrollListeners();
+              //  recyclerView.clearOnScrollListeners();
                 runTabChange(index);
             }
             @Override
             public void onEndTabSelected(final String title, final int index) {
                 //setDeleteMode(false);
-                setupRecyclerViewListener();
+
             }
         });
     }
@@ -315,6 +306,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
             }
         }, 100);
+        floatingToolbar.hide();
     }
 
     @Override
@@ -354,7 +346,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
         lesson.setLessonTabIndex(tabStripIndex);
         dataBase.editLessonTabIndex(lesson);
-        floatingToolbar.hide();
         if (tabStripIndex==1){
             for (int i = words.size()-1; 0<=i; i--) {
                 Word word = words.get(i);
@@ -389,14 +380,20 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-              if (!deleteMode &&!recyclerView.canScrollVertically(1)){
-                                  floatingToolbar.show();
+              if (!deleteMode &&!recyclerView.canScrollVertically(1)
+                      && !allItemNotVisible()){
+                  floatingToolbar.show();
               }
-
+            // if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount()-1) floatingToolbar.show();
             }
 
         });
 
+    }
+
+    private boolean allItemNotVisible(){
+        return linearLayoutManager.findLastCompletelyVisibleItemPosition()+
+                linearLayoutManager.findFirstCompletelyVisibleItemPosition()<=adapter.getItemCount();
     }
 
     private void setupGesture(){

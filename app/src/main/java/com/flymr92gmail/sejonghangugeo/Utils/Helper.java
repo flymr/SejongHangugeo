@@ -65,30 +65,6 @@ public class Helper {
         return false;
     }
 
-    public static int getAppTheme(int themeIndex){
-        switch (themeIndex){
-            case 1:
-                return R.style.AppThemeWhite;
-            case 2:
-                return R.style.AppTheme;
-            case 3:
-                if (isDay()) return R.style.AppThemeWhite;
-                else return R.style.AppTheme;
-        }
-        return R.style.AppThemeWhite;
-    }
 
-    public static int getLessonTheme(int themeIndex){
-        switch (themeIndex){
-            case 1:
-                return R.style.AppThemeWhite;
-            case 2:
-                return R.style.AppTheme;
-            case 3:
-                if (isDay()) return R.style.AppThemeWhite;
-                else return R.style.AppTheme;
-        }
-        return R.style.AppThemeWhite;
-    }
 
 }

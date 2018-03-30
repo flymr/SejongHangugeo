@@ -28,7 +28,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         app:cardElevation="5dp"
-        app:cardBackgroundColor="?attr/cardBgColor"
+        app:cardBackgroundColor="@color/cardItemColor"
         android:layout_weight="1"
         android:minHeight="50dp"
         >
@@ -62,7 +62,7 @@
                 android:id="@+id/word_edit_separate"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/white"
+                android:background="@color/textPrimaryColor"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"/>
             <LinearLayout

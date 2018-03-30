@@ -339,14 +339,14 @@ public class LearnActivity extends AppCompatActivity {
                     colorAnimator(firstCircle, "colorFilter", R.color.green, R.color.grayM, 500);
 
                 }
-                colorAnimator(toolbar, "backgroundColor", R.color.green, R.color.purple, 500);
+                colorAnimator(toolbar, "backgroundColor", R.color.green, R.color.colorAccent, 500);
 
                 break;
             case 1:
                 inputLayout.setErrorTextAppearance(R.style.ErrorTextCorrect);
                 inputLayout.setError("Верно");
                 textViewWord.requestFocus();
-                colorAnimator(toolbar, "backgroundColor", R.color.purple, R.color.green, 500);
+                colorAnimator(toolbar, "backgroundColor", R.color.colorAccent, R.color.green, 500);
                 if (0 < currentWord.getCorrectCount()){
                     colorAnimator(secondCircle, "colorFilter", R.color.grayM, R.color.green, 500);
                 }else {
@@ -357,7 +357,7 @@ public class LearnActivity extends AppCompatActivity {
                 textViewWord.requestFocus();
                 inputLayout.setErrorTextAppearance(R.style.ErrorTextIncorrect);
                 inputLayout.setError("Неверно");
-                colorAnimator(toolbar, "backgroundColor", R.color.purple, R.color.redM, 500);
+                colorAnimator(toolbar, "backgroundColor", R.color.colorAccent, R.color.redM, 500);
                 if (0 < currentWord.getCorrectCount()){
                     colorAnimator(firstCircle, "colorFilter", R.color.green, R.color.redM, 500);
                 }else {
@@ -375,7 +375,7 @@ public class LearnActivity extends AppCompatActivity {
                 }
                 wordComponents.clear();
                 editTextWord.requestFocus();
-                colorAnimator(toolbar, "backgroundColor", R.color.redM, R.color.purple, 500);
+                colorAnimator(toolbar, "backgroundColor", R.color.redM, R.color.colorAccent, 500);
                 colorAnimator(firstCircle, "colorFilter", R.color.redM, R.color.grayM, 500);
                 break;
         }

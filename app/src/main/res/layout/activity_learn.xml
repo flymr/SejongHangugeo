@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/cardItemColor"
     tools:context="com.flymr92gmail.sejonghangugeo.activities.LearnActivity">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,6 +23,5 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_learn"
-        />
+    <include layout="@layout/content_learn" />
 </LinearLayout>

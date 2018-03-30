@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp"
-        app:cardBackgroundColor="?attr/cardBgColor"
+        app:cardBackgroundColor="@color/cardItemColor"
         app:cardUseCompatPadding="true"
         >
 

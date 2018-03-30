@@ -3,8 +3,6 @@
 
     <style name="Theme.AppCompat.DayNight"
         parent="Theme.AppCompat.Light">
-        <item name="themeName">day</item>
-        <item name="cardBgColor">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 

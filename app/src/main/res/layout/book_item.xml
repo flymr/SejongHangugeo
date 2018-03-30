@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:cardElevation="2dp"
-        app:cardBackgroundColor="?attr/cardBgColor"
+        app:cardBackgroundColor="@color/cardItemColor"
         app:cardUseCompatPadding="true"
         >
 

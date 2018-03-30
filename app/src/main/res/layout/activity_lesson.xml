@@ -16,6 +16,7 @@
         android:layout_width ="match_parent"
         android:layout_height ="wrap_content"
         android:id="@+id/appbar_lesson"
+        android:theme="@style/AppTheme.AppBarOverlay"
         >
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar_lesson"
@@ -29,7 +30,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#ff1a1e23"
+                android:background="@color/lessonTabStripColor"
                 android:paddingRight="5dp"
                 android:paddingEnd="5dp"
                 android:paddingStart="13dp"
@@ -41,11 +42,11 @@
                     android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:padding="50dp"
-                    app:nts_active_color="#fff"
-                    app:nts_color="#ff1748"
+                    app:nts_active_color="@color/textPrimaryColor"
+                    app:nts_color="@color/colorAccent"
                     app:nts_factor="2.8"
                     app:nts_corners_radius="1.5dp"
-                    app:nts_inactive_color="#81ffffff"
+                    app:nts_inactive_color="@color/tabStripColorHint"
                     app:nts_titles="@array/titles"
                     app:nts_type="line"
                     app:nts_typeface="fonts/drugs.otf"
