@@ -111,6 +111,7 @@ public class LessonsDialogAddFragment extends DialogFragment {
     }
     private void setupAdapter(RecyclerView recyclerView){
         lessons = dataBase.getAllLessons();
+        lessons.remove(0);
         lessonsAdapter = new LessonsAdapter(lessons,getContext());
         recyclerView.setAdapter(lessonsAdapter);
     }

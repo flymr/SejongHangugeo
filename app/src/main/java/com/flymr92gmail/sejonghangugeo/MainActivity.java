@@ -26,6 +26,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatRadioButton rbAuto;
     @BindView(R.id.share)
     LinearLayout shareBtn;
+    @BindView(R.id.iv_menu_main)
+    ImageView drawerIv;
 
     private UserDataBase dataBase;
     private FlowingDrawer mDrawer;
@@ -120,20 +123,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        llLastPlaces.setOnClickListener(this);
-        llThemeSettings.setOnClickListener(this);
-        lastLesson.setOnClickListener(this);
-        lastBook.setOnClickListener(this);
-        llSendMassage.setOnClickListener(this);
-        shareBtn.setOnClickListener(this);
-
-        rbNight.setOnClickListener(this);
-        rbDay.setOnClickListener(this);
-        rbAuto.setOnClickListener(this);
+        setClickListenerToView();
 
         dataBase = new UserDataBase(this);
 
         mDrawer = findViewById(R.id.drawerlayout);
+        drawerIv.setImageDrawable(new BitmapDrawable(getResources(),
+                decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image,
+                        (200 * (int)getResources().getDisplayMetrics().density)/2, 0)));
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
             @Override
@@ -272,9 +269,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void setClickListenerToView(){
+        llLastPlaces.setOnClickListener(this);
+        llThemeSettings.setOnClickListener(this);
+        lastLesson.setOnClickListener(this);
+        lastBook.setOnClickListener(this);
+        llSendMassage.setOnClickListener(this);
+        shareBtn.setOnClickListener(this);
+
+        rbNight.setOnClickListener(this);
+        rbDay.setOnClickListener(this);
+        rbAuto.setOnClickListener(this);
+    }
 
 
-    private Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+    private static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 
         // First decode with inJustDecodeBounds=true to check dimensions
@@ -290,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
-    private int calculateInSampleSize(
+    private static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
         final int height = options.outHeight;
@@ -487,10 +496,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        if (AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_AUTO){
-            int currentTheme = getCurrentNightMode();
-            getDelegate().applyDayNight();
-            if (currentTheme != getCurrentNightMode()) recreate();
-        }
+
+       // if (AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_AUTO){
+      //      int currentTheme = getCurrentNightMode();
+      //      getDelegate().applyDayNight();
+       //     if (currentTheme != getCurrentNightMode()) recreate();}
     }
 }

@@ -53,4 +53,6 @@
     <color name="textColor">#ff252e39</color>
     <color name="colorControlNormal">#FFF</color>
 
+    <!--Main theme -->
+    <color name="windowContentOverlay">#FFF</color>
 </resources>

@@ -14,4 +14,6 @@
     <color name="textColor">#FFF</color>
     <color name="colorControlNormal">#182128</color>
 
+    <!--Main theme -->
+    <color name="windowContentOverlay">#ff252e39</color>
 </resources>
