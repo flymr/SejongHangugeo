@@ -58,8 +58,6 @@ import io.codetail.animation.ViewAnimationUtils;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
-    @BindView(R.id.iv_loader)
-    ImageView ivLoader;
     @BindView(R.id.nts_main)
     NavigationTabStrip navigationTabStrip;
     @BindView(R.id.last_places)
@@ -96,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private UserDataBase dataBase;
     private FlowingDrawer mDrawer;
     private PrefManager prefManager;
+    private Drawable drawable1;
+    private Drawable drawable2;
+    private Drawable drawerDrawable;
     private int modeNightNO = AppCompatDelegate.MODE_NIGHT_NO;
     private int modeNightYes = AppCompatDelegate.MODE_NIGHT_YES;
     private int modeNightAuto = AppCompatDelegate.MODE_NIGHT_AUTO;
@@ -105,19 +106,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         prefManager = new PrefManager(this);
         if (savedInstanceState == null){
+            Log.d("savedInstanceState", "   ==null");
             int currentThemeIndex = prefManager.getAppTheme();
             switch (currentThemeIndex){
                 case AppCompatDelegate.MODE_NIGHT_NO:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+                    recreate();
                     break;
                 case AppCompatDelegate.MODE_NIGHT_YES:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
+                    recreate();
                     break;
                 case AppCompatDelegate.MODE_NIGHT_AUTO:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-
+                    recreate();
                     break;
             }
         }
@@ -128,10 +130,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dataBase = new UserDataBase(this);
 
         mDrawer = findViewById(R.id.drawerlayout);
-        drawerIv.setImageDrawable(new BitmapDrawable(getResources(),
-                decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image,
-                        (200 * (int)getResources().getDisplayMetrics().density)/2, 0)));
+        //drawerDrawable = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
+        drawerIv.setImageDrawable(drawerDrawable);
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
             @Override
             public void onDrawerStateChange(int oldState, int newState) {
@@ -202,10 +203,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final int image2Id;
         image1Id = R.drawable.page1_title;
         image2Id = R.drawable.page2_title;
-        final Drawable drawable2 = new BitmapDrawable(getResources(),
-                decodeSampledBitmapFromResource(getResources(), image2Id, metrics.widthPixels/2, 0));
-        final Drawable drawable1 = new BitmapDrawable(getResources(),
-                decodeSampledBitmapFromResource(getResources(), image1Id, metrics.widthPixels/2, 0));
+       // drawable2 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image2Id, metrics.widthPixels/2, 0));
+      //  drawable1 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image1Id, metrics.widthPixels/2, 0));
         final View logo = findViewById(R.id.logo_white);
         if (logo != null) {
             logo.setOnClickListener(new View.OnClickListener() {
@@ -224,13 +223,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         logo.setVisibility(View.VISIBLE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 materialPagerBg,
-                                drawable1
+                               getResources().getDrawable(R.drawable.page1_title)
                         );
                     case 1:
                         logo.setVisibility(View.GONE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 materialPagerBg,
-                                drawable2
+                               // drawable2
+                                getResources().getDrawable(R.drawable.page2_title)
+
                         );
 
                 }
@@ -381,7 +382,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        ivLoader.setVisibility(View.GONE);
     }
 
     @Override
@@ -444,6 +444,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES){
                     recreate();
+                  //  startActivity(new Intent(this, MainActivity.class));
+                   // finish();
                 }
                 break;
             case R.id.rb_auto:
@@ -501,5 +503,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //      int currentTheme = getCurrentNightMode();
       //      getDelegate().applyDayNight();
        //     if (currentTheme != getCurrentNightMode()) recreate();}
+    }
+
+    @Override
+    protected void onDestroy() {
+        //android.os.Process.killProcess(android.os.Process.myPid());
+
+        super.onDestroy();
+        if(drawerDrawable!=null){
+            drawerDrawable.setCallback(null);
+            drawerDrawable=null;
+        }
+        if (drawable1 != null){
+            drawable1.setCallback(null);
+            drawable1 = null;
+        }
+        if (drawable2 != null) {
+            drawable2.setCallback(null);
+            drawable2 = null;
+        }
+
     }
 }

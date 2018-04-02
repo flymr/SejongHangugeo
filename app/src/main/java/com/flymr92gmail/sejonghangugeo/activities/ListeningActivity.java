@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,10 +66,12 @@ public class ListeningActivity extends AppCompatActivity{
     private Toolbar toolbar;
     private ImageButton btnNextTest, btnPrevTest;
     private Menu menu;
+    private TextView tvTestTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_listening);
         initUI();
         initObj();
@@ -102,7 +105,14 @@ public class ListeningActivity extends AppCompatActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mp.isPlaying()) mp.stop();
+        if (mp !=null){
+            mp.stop();
+            mp.release();
+            mp = null;
+
+        }
+        currentTestImages.clear();
+        recyclerView.setAdapter(null);
     }
 
     private void setupRvTestStandard(){

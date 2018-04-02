@@ -38,23 +38,7 @@
                 app:viewpager_animatedHeaderImage="true"
                 app:viewpager_disableToolbar="false"
                 />
-            <io.codetail.widget.RevealFrameLayout
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
 
-                <!-- Put more views here if you want, it's stock frame layout  -->
-                <ImageView
-                    android:id="@+id/iv_loader"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/black"
-                    app:srcCompat = "@drawable/white_imtitle"
-                    android:scaleType="fitCenter"
-                    android:visibility="gone"
-                    />
-            </io.codetail.widget.RevealFrameLayout>
         </RelativeLayout>
 
         <!--menu-->
