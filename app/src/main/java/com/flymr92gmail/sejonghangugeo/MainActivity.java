@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dataBase = new UserDataBase(this);
 
         mDrawer = findViewById(R.id.drawerlayout);
-        //drawerDrawable = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
+        drawerDrawable = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
         drawerIv.setImageDrawable(drawerDrawable);
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
@@ -203,8 +203,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final int image2Id;
         image1Id = R.drawable.page1_title;
         image2Id = R.drawable.page2_title;
-       // drawable2 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image2Id, metrics.widthPixels/2, 0));
-      //  drawable1 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image1Id, metrics.widthPixels/2, 0));
+        drawable2 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image2Id, metrics.widthPixels/2, 0));
+        drawable1 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image1Id, metrics.widthPixels/2, 0));
         final View logo = findViewById(R.id.logo_white);
         if (logo != null) {
             logo.setOnClickListener(new View.OnClickListener() {
@@ -223,14 +223,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         logo.setVisibility(View.VISIBLE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 materialPagerBg,
-                               getResources().getDrawable(R.drawable.page1_title)
+                              // getResources().getDrawable(R.drawable.page1_title)
+                                drawable1
                         );
                     case 1:
                         logo.setVisibility(View.GONE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 materialPagerBg,
-                               // drawable2
-                                getResources().getDrawable(R.drawable.page2_title)
+                                drawable2
+                              //  getResources().getDrawable(R.drawable.page2_title)
 
                         );
 
@@ -499,16 +500,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-       // if (AppCompatDelegate.getDefaultNightMode()==AppCompatDelegate.MODE_NIGHT_AUTO){
-      //      int currentTheme = getCurrentNightMode();
-      //      getDelegate().applyDayNight();
-       //     if (currentTheme != getCurrentNightMode()) recreate();}
+
     }
 
     @Override
     protected void onDestroy() {
-        //android.os.Process.killProcess(android.os.Process.myPid());
-
+       // android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
         if(drawerDrawable!=null){
             drawerDrawable.setCallback(null);
