@@ -34,9 +34,11 @@ import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
+import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.Fragments.MailDialog;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
+import com.flymr92gmail.sejonghangugeo.activities.GramBookActivity;
 import com.flymr92gmail.sejonghangugeo.activities.PreviewActivity;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.github.florent37.materialviewpager.MaterialViewPager;
@@ -111,15 +113,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (currentThemeIndex){
                 case AppCompatDelegate.MODE_NIGHT_NO:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    recreate();
+                    //recreate();
                     break;
                 case AppCompatDelegate.MODE_NIGHT_YES:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    recreate();
+                    //recreate();
                     break;
                 case AppCompatDelegate.MODE_NIGHT_AUTO:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                    recreate();
+                   // recreate();
                     break;
             }
         }
@@ -268,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             prefManager.setIsFirstAppActivation(false);
         }
 
-
     }
 
     private void setClickListenerToView(){
@@ -282,6 +283,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rbNight.setOnClickListener(this);
         rbDay.setOnClickListener(this);
         rbAuto.setOnClickListener(this);
+        findViewById(R.id.preview).setOnClickListener(this);
+        findViewById(R.id.favorites).setOnClickListener(this);
     }
 
 
@@ -417,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mDrawer.closeMenu(false);
                 break;
             case R.id.last_gramm:
-
+                startActivity(new Intent(this, GramBookActivity.class));
                 break;
             case R.id.theme_setting:
                 ExpandIconView expandBtnTheme = findViewById(R.id.expand_themes);
@@ -445,8 +448,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES){
                     recreate();
-                  //  startActivity(new Intent(this, MainActivity.class));
-                   // finish();
                 }
                 break;
             case R.id.rb_auto:
@@ -462,9 +463,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.send_massage:
                 MailDialog mailDialog = new MailDialog();
                 mailDialog.show(getFragmentManager(), "new massage");
+                mailDialog.setCancelable(true);
                 break;
             case R.id.favorites:
-
+                FavoritesFragment fragment = new FavoritesFragment();
+                fragment.show(getFragmentManager(), "favorites");
+                fragment.setCancelable(true);
                 break;
             case R.id.share:
                 shareAppLink();
@@ -472,7 +476,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.help:
 
                 break;
-
+            case R.id.preview:
+                startActivity(new Intent(this, PreviewActivity.class));
+                break;
         }
     }
 

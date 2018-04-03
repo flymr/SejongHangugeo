@@ -61,7 +61,7 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
             if (start < 0){
                 start = word.getRussianWord().toLowerCase().indexOf(searchingText.toLowerCase());
             }
-            kor.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.green)), start,
+            kor.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.colorAccent)), start,
                     start + searchingText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.tvKorWord.setText(kor);
             holder.tvRusWord.setText(word.getRussianWord());

@@ -112,7 +112,7 @@ public class ListeningActivity extends AppCompatActivity{
 
         }
         currentTestImages.clear();
-        recyclerView.setAdapter(null);
+        handlerAudio.removeCallbacksAndMessages(null);
     }
 
     private void setupRvTestStandard(){
@@ -170,6 +170,7 @@ public class ListeningActivity extends AppCompatActivity{
         toolbar = findViewById(R.id.toolbar_learning);
         btnNextTest = findViewById(R.id.btn_next_test);
         btnPrevTest = findViewById(R.id.btn_prev_test);
+        tvTestTask = findViewById(R.id.tv_test_task);
     }
 
     private void setupNextPrevBtn(){
@@ -209,9 +210,15 @@ public class ListeningActivity extends AppCompatActivity{
         for (int i = 0; i < currentTest.getmImageCount(); i++){
             currentTestImages.add(getImageFromAssets(i+1));
         }
-        stopAudio();
         setupLogic(testType);
-        playAudio();
+        if (0 < currentTestCount && currentTest.getmTrackId()==tests.get(currentTestCount-1).getmTrackId()){
+            if (mp !=null) mp.pause();
+            if (playButton.getState() == MorphButton.MorphState.START) playButton.setState(MorphButton.MorphState.END, true);
+
+        }else {
+            stopAudio();
+            playAudio();
+        }
         currentTestCount++;
     }
 
@@ -220,6 +227,7 @@ public class ListeningActivity extends AppCompatActivity{
       currentTestCount = currentTestCount -2;
       nextTest();
     }
+
 
     private void updateUI(int type){
         if (currentTestCount == tests.size()-1) btnNextTest.setVisibility(View.GONE);
@@ -232,21 +240,23 @@ public class ListeningActivity extends AppCompatActivity{
             case 0:
                 acceptAnswerBrn.setVisibility(View.GONE);
                 acceptEt.setVisibility(View.GONE);
+                tvTestTask.setText(R.string.listeningTask0);
                 break;
             case 1:
                 acceptAnswerBrn.setVisibility(View.VISIBLE);
                 acceptEt.setVisibility(View.GONE);
-
+                tvTestTask.setText(R.string.listeningTask1);
                 break;
             case 2:
                 acceptAnswerBrn.setVisibility(View.VISIBLE);
                 acceptEt.setVisibility(View.GONE);
-
+                tvTestTask.setText(R.string.listeningTask2);
                 break;
             case 3:
                 acceptAnswerBrn.setVisibility(View.GONE);
                 acceptEt.setVisibility(View.VISIBLE);
                 acceptEt.requestFocus();
+                tvTestTask.setText(R.string.listeningTask3);
                 break;
         }
     }
@@ -267,7 +277,6 @@ public class ListeningActivity extends AppCompatActivity{
                 setupAcceptBtnListener();
                 break;
             case 3:
-
                 setupRvTestText();
                 setupAcceptEtActionDone();
                 break;
@@ -423,8 +432,6 @@ public class ListeningActivity extends AppCompatActivity{
             mp.start();
 
 
-
-
             getAudioStats();
             initializeSeekBar();
         } catch (Exception e) {
@@ -490,6 +497,7 @@ public class ListeningActivity extends AppCompatActivity{
             }
         };
         handlerAudio.postDelayed(audioRun,10);
+
     }
 
     @Override

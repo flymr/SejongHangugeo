@@ -70,13 +70,11 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (viewType==0){
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_card_big, parent, false);
-            HeaderViewHolder vh = new HeaderViewHolder(view);
-            return vh;
+            return new HeaderViewHolder(view);
         }
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.lesson_folder_item, parent, false);
-        LessonViewHolder vh = new LessonViewHolder(view);
-        return vh;
+        return new LessonViewHolder(view);
     }
 
     @Override

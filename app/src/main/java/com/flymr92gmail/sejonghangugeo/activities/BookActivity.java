@@ -106,7 +106,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private SearchView wordsSearcher;
     private boolean firstWordIsSelected = true;
     private WaveView waveView;
-    private Handler preLoader;
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
     @Override
@@ -153,7 +152,13 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mp.isPlaying()) mp.stop();
+        if (mp.isPlaying()) {
+            mp.stop();
+            mp.release();
+            mp = null;
+        }
+        handlerPdf.removeCallbacksAndMessages(null);
+        handlerAudio.removeCallbacksAndMessages(null);
     }
 
     private void setupRecyclerView(){

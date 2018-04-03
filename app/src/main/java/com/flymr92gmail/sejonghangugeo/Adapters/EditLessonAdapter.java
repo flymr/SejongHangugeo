@@ -133,7 +133,7 @@ public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.Vi
             if (isFocus){
                // separator.setBackgroundColor(mContext.getResources().getColor(R.color.redM));
                // editText.setTextColor(mContext.getResources().getColor(R.color.redM));
-                cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.md_purple));
+                cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
             } else {
                // separator.setBackgroundColor(mContext.getResources().getColor(R.color.white));
                // editText.setTextColor(mContext.getResources().getColor(R.color.white));
