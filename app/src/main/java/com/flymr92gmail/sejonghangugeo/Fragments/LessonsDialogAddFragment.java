@@ -124,7 +124,7 @@ public class LessonsDialogAddFragment extends DialogFragment {
         View view1 = mSnackbar.getView();
         TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
         view1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        tv.setTextColor(getResources().getColor(R.color.white));
+        //tv.setTextColor(getResources().getColor(R.color.white));
         mSnackbar.show();
 
         mSnackbar.addCallback(new Snackbar.Callback() {
