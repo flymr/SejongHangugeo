@@ -13,6 +13,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
@@ -34,7 +36,7 @@ public class LessonsDialogAddFragment extends DialogFragment {
     private LessonsAdapter lessonsAdapter;
     private Word mWord;
     private Dialog dialog;
-    private CardView addNewLessonCardView;
+    private Button addNewLessonCardView;
     private ArrayList<Word> words;
 
     public ArrayList<Word> getWords() {
@@ -119,7 +121,10 @@ public class LessonsDialogAddFragment extends DialogFragment {
     private void showSnackbar (View view) {
         Snackbar mSnackbar = Snackbar.make(view, "Добавлено", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null);
-
+        View view1 = mSnackbar.getView();
+        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+        view1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        tv.setTextColor(getResources().getColor(R.color.white));
         mSnackbar.show();
 
         mSnackbar.addCallback(new Snackbar.Callback() {

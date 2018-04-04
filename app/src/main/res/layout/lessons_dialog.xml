@@ -4,20 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <android.support.v7.widget.CardView
+
+    <Button
         android:id="@+id/add_new_lesson_dialog_card_view"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:cardCornerRadius="2dp"
-        android:layout_margin="10dp">
-
-        <TextView
-            android:layout_gravity="center"
-            android:text="Новый урок"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </android.support.v7.widget.CardView>
+        android:layout_height="65dp"
+        android:layout_margin="5dp"
+        android:text="@string/new_folder"
+        android:textColor="@color/white"
+        android:theme="@style/MyButton"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/lessons_dialog_recycler_view"
         android:layout_width="match_parent"

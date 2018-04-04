@@ -119,7 +119,8 @@
         <item name="android:textColorHint">@color/hintColor</item>
         <item name="android:windowBackground">@color/colorListBackground</item>
 
-        <item name="android:textColor">@color/navigationBarColor</item>
+        <item name="android:textColor">@color/darkBlue</item>
+
     </style>
 
     <style name="MyButton" parent="Theme.AppCompat.Light">
