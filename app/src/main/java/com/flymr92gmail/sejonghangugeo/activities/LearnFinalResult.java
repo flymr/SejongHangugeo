@@ -24,6 +24,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
@@ -187,7 +188,7 @@ public class LearnFinalResult extends AppCompatActivity {
         return selected;
     }
 
-    public class LearnFinalResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private class LearnFinalResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         static final int HEADER = 0;
         static final int NORMAL_ITEM = 1;
@@ -272,7 +273,7 @@ public class LearnFinalResult extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Word word = words.get(getAdapterPosition());
+                Word word = words.get(getAdapterPosition()-1);
                 if (word.isSelected() == 0) {
                     ivStar.setColorFilter(getResources().getColor(R.color.yellow));
                     word.setSelected(1);
@@ -421,9 +422,9 @@ public class LearnFinalResult extends AppCompatActivity {
                             clearWords();
                             learnAction();
                         }else {
-                            Snackbar mSnackbar = Snackbar.make(view, "Вы не допустили ни одной ошибки", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null);
-                            mSnackbar.show();
+
+                            Toast.makeText(LearnFinalResult.this, "Вы не допустили ни одной ошибки", Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
@@ -442,9 +443,8 @@ public class LearnFinalResult extends AppCompatActivity {
                             clearWords();
                             learnAction();
                         } else {
-                            Snackbar mSnackbar = Snackbar.make(view, "Нет избранных слов", Snackbar.LENGTH_SHORT)
-                                    .setAction("Action", null);
-                            mSnackbar.show();
+
+                            Toast.makeText(LearnFinalResult.this, "Нет избранных слов", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

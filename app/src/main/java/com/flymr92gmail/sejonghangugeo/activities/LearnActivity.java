@@ -197,10 +197,10 @@ public class LearnActivity extends AppCompatActivity {
         for (Word word : words){
             if (word.getCorrectCount()< 2) learningWords.add(word);
         }
-        if (learningWords.size() <= portionOfWords) {
+        if (learningWords.size() < portionOfWords) {
             portionOfWords = learningWords.size();
         }
-        else if (learningWords.size()==0){
+        if (portionOfWords == 0){
             for (Word word : words){
                 word.setCorrectCount(0);
                 word.setMissCount(0);
@@ -208,17 +208,16 @@ public class LearnActivity extends AppCompatActivity {
                 dataBase.editWordMissCount(lesson, word);
             }
             learningWords.addAll(words);
-            if (portionOfWords < learningWords.size()){
-                for (int i = portionOfWords; i < learningWords.size();i++ ){
-                    learningWords.remove(i);
-                }
+            portionOfWords = 5;
+            if (learningWords.size() < portionOfWords){
+                portionOfWords = learningWords.size();
             }
-        }else {
-            for (int i = portionOfWords; i < learningWords.size();i++ ){
-                learningWords.remove(i);
-            }
-
         }
+        if (portionOfWords < learningWords.size()){
+            while (portionOfWords < learningWords.size())
+                learningWords.remove(portionOfWords);
+        }
+
 
         currentWord = learningWords.get(currentWordCount);
         textViewWord.setText("");

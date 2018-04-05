@@ -55,5 +55,5 @@
 
     <!--Main theme -->
     <color name="windowContentOverlay">#FFF</color>
-    <color name="lockColor">#CCFFFFFF</color>
+    <color name="lockColor">#FFFFFF</color>
 </resources>

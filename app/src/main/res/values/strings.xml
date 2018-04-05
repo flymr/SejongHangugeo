@@ -56,4 +56,11 @@
     <string name="listeningTask2">Укажите правильную последовательность</string>
     <string name="listeningTask3">Напишите правильный ответ</string>
 
+    <!-- learn final result -->
+    <string name="all_words">Все слова</string>
+    <string name="words_with_error">Слова с ошибками</string>
+    <string name="favorites_words">Избранное</string>
+
+    <!-- learn result -->
+    <string name="error_count">Ошибок сделанно: </string>
 </resources>

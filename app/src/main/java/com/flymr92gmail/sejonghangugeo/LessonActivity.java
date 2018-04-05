@@ -45,6 +45,8 @@ import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.xml.datatype.Duration;
+
 
 public class LessonActivity extends AppCompatActivity implements SpeechActionListener{
 
@@ -87,9 +89,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
     }
 
-    private int getCurrentNightMode(){
-        return getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -185,9 +185,12 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             Intent intent = new Intent(this, LearnActivity.class);
             intent.putExtra("lesson", lesson);
             startActivity(intent);
+        }else {
+            Toast.makeText(this, "Добавьте слова", Toast.LENGTH_SHORT).show();
         }
 
     }
+
 
     private void cardAction(){
         Intent intent = new Intent(this, CardActivity.class);

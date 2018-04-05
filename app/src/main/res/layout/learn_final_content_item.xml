@@ -32,7 +32,7 @@
 
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/md_purple"
+            app:cardBackgroundColor="@color/colorAccent"
             app:cardUseCompatPadding="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:focusable="true"
@@ -42,7 +42,8 @@
                 android:id="@+id/all_rep_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Все слова"
+                android:text="@string/all_words"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
                 />
 
@@ -54,7 +55,7 @@
             android:layout_height="50dp"
 
             android:layout_marginBottom="10dp"
-            app:cardBackgroundColor="@color/md_purple"
+            app:cardBackgroundColor="@color/colorAccent"
             android:layout_marginRight="7dp"
             android:layout_marginLeft="-10dp"
             app:cardCornerRadius="10dp"
@@ -68,8 +69,9 @@
                 android:id="@+id/error_rep_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Слова с ошибками"
+                android:text="@string/words_with_error"
                 android:layout_gravity="center"
+                android:textColor="@color/white"
                 android:layout_marginLeft="7dp"
                 />
 
@@ -85,7 +87,7 @@
 
             app:cardCornerRadius="10dp"
             app:cardElevation="5dp"
-            app:cardBackgroundColor="@color/md_purple"
+            app:cardBackgroundColor="@color/colorAccent"
             app:cardUseCompatPadding="true"
 
             android:focusable="true"
@@ -95,7 +97,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Избранное"
+                android:textColor="@color/white"
+                android:text="@string/favorites_words"
                 />
 
 
@@ -104,11 +107,10 @@
     <com.github.lzyzsd.circleprogress.ArcProgress
         android:id="@+id/arc_progress"
         android:layout_marginRight="10dp"
-
         android:layout_marginTop="10dp"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        custom:arc_text_color="@color/white"
+        custom:arc_text_color="@color/textColor"
         custom:arc_finished_color="@color/green"
         custom:arc_unfinished_color="@color/redM"
         custom:arc_bottom_text="РЕЗУЛЬТАТ"

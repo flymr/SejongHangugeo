@@ -67,6 +67,7 @@ public class ListeningActivity extends AppCompatActivity{
     private ImageButton btnNextTest, btnPrevTest;
     private Menu menu;
     private TextView tvTestTask;
+    private boolean seekBarIsInit = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -400,6 +401,7 @@ public class ListeningActivity extends AppCompatActivity{
                     switch (changedTo) {
                         case START:
                             if (mp != null) mp.start();
+                            if (seekBarIsInit)initializeSeekBar();
                             break;
                         case END:
                             if (mp != null) mp.pause();
@@ -423,6 +425,9 @@ public class ListeningActivity extends AppCompatActivity{
                     playButton.setState(MorphButton.MorphState.END, true);
                     //audioSeekBar.setProgress(0);
                     mp.seekTo(0);
+                    audioSeekBar.setProgress(0);
+                    handlerAudio.removeCallbacks(audioRun);
+                    seekBarIsInit = false;
                 }
             });
             descriptor.close();
