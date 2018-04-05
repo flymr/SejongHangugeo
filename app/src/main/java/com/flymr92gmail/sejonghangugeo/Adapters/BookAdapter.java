@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.R;
@@ -49,7 +51,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
+        View view;
         switch (viewType) {
             case TYPE_HEADER: {
                 view = LayoutInflater.from(parent.getContext())
@@ -91,15 +93,25 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 break;
             case TYPE_BOOK:
                 BookViewHolder bookViewHolder = (BookViewHolder)holder;
+                String name;
+                if (position !=1){
+                    name = "세종한국어 " + (position-1);
+                    if (2 < position) bookViewHolder.lockLL.setVisibility(View.VISIBLE);
+                }
+                else name = "익힘책 " + position;
+                bookViewHolder.bookName.setText(name);
                 break;
         }
     }
 
 
     private class BookViewHolder extends RecyclerView.ViewHolder{
-
+        TextView bookName;
+        LinearLayout lockLL;
         private BookViewHolder(View itemView) {
             super(itemView);
+            bookName = itemView.findViewById(R.id.tv_book_name);
+            lockLL = itemView.findViewById(R.id.ll_lock);
         }
 
 

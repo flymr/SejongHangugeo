@@ -4,6 +4,7 @@ package com.flymr92gmail.sejonghangugeo.Fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -122,9 +123,9 @@ public class LessonsDialogAddFragment extends DialogFragment {
         Snackbar mSnackbar = Snackbar.make(view, "Добавлено", Snackbar.LENGTH_SHORT)
                 .setAction("Action", null);
         View view1 = mSnackbar.getView();
-        TextView tv = view.findViewById(android.support.design.R.id.snackbar_text);
+        TextView tv = view1.findViewById(android.support.design.R.id.snackbar_text);
         view1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-        //tv.setTextColor(getResources().getColor(R.color.white));
+        tv.setTextColor(Color.WHITE);
         mSnackbar.show();
 
         mSnackbar.addCallback(new Snackbar.Callback() {

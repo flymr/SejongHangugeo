@@ -91,9 +91,9 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
                 if (position == 0){
 
                 }else if (position == 1){
-                    startActivity(new Intent(getActivity(), BookActivity.class));
-                }else if (position == 2){
                     startActivity(new Intent(getActivity(), GramBookActivity.class));
+                }else if (position == 2){
+                    startActivity(new Intent(getActivity(), BookActivity.class));
                 }else {
                     Toast.makeText(getActivity(),"Еще не готово :(", Toast.LENGTH_SHORT).show();
                 }
@@ -138,7 +138,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
                 }
                 else {
                     jsonArray = new JSONArray();
-                    randomInt = getRandomInt(3);
+                    randomInt = getRandomInt(appDataBase.getLegends().size()-1);
                 }
                 legend = appDataBase.getLegendById(allIds.get(randomInt));
                 jsonArray.put(allIds.get(randomInt));
@@ -153,7 +153,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
                 JSONArray jsonArray = new JSONArray();
                 try {
                     Log.d("main", "firstTry true");
-                    legend = appDataBase.getDailyLegend(getRandomInt(3));
+                    legend = appDataBase.getDailyLegend(getRandomInt(appDataBase.getLegends().size()-1));
                     jsonArray.put(legend.getmId());
                     jsonObject.put("ids", jsonArray);
                     json = jsonObject.toString();
@@ -174,14 +174,15 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
             }
 
         }
-       // return appDataBase.getLegends().get(getRandomInt(3));
-    return null;
+        return appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
+
     }
 
 
     private int getRandomInt(int distance){
+        long seed = System.nanoTime();
         int randomInt;
-        randomInt = new Random().nextInt(distance);
+        randomInt = new Random(seed).nextInt(distance);
         return randomInt;
     }
 

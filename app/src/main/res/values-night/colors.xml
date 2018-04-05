@@ -16,4 +16,6 @@
 
     <!--Main theme -->
     <color name="windowContentOverlay">#ff252e39</color>
+    <color name="lockColor">#80182128</color>
+
 </resources>

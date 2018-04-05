@@ -46,24 +46,13 @@ public class Helper {
         }
         return trackId;
     }
-    public static String getTrackAssetString(Test test){
-        return "audio/"+test.getTrackId()+".wma";
-    }
+
     public static ArrayList<Word> randomizeArray(ArrayList<Word> words){
         long seed = System.nanoTime();
         Collections.shuffle(words,new Random(seed));
         return words;
     }
 
-    public static boolean isDay(){
-        int currentHour = Integer.parseInt((String) DateFormat.format("kk", new Date()));
-        Log.d("current hour:", "       "+currentHour);
-        int[] dayHours = {8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
-        for (int hour: dayHours){
-            if (hour == currentHour) return true;
-        }
-        return false;
-    }
 
 
 

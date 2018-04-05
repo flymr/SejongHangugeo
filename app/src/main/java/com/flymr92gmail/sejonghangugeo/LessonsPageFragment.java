@@ -126,7 +126,7 @@ public class LessonsPageFragment extends Fragment{
                         }
                     }
                 });
-                dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"Новый урок");
+                dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"New lesson");
 
 
 
@@ -163,7 +163,7 @@ public class LessonsPageFragment extends Fragment{
                 }
                 else {
                     jsonArray = new JSONArray();
-                    randomInt = getRandomInt(3);
+                    randomInt = getRandomInt(appDataBase.getLegends().size()-1);
                 }
                 legend = appDataBase.getLegendById(allIds.get(randomInt));
                 jsonArray.put(allIds.get(randomInt));
@@ -178,7 +178,7 @@ public class LessonsPageFragment extends Fragment{
                 JSONArray jsonArray = new JSONArray();
                 try {
                     Log.d("lessons", "firstTry true");
-                    legend = appDataBase.getLegends().get(getRandomInt(3));
+                    legend = appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
                     jsonArray.put(legend.getmId());
                     jsonObject.put("ids", jsonArray);
                     json = jsonObject.toString();
@@ -191,7 +191,7 @@ public class LessonsPageFragment extends Fragment{
             }
 
 
-        return appDataBase.getLegends().get(getRandomInt(3));
+        return appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
     }
 
     private int getRandomInt(int distance){
