@@ -32,6 +32,7 @@
         android:gravity="center"
         android:text="Выберите верное"
         android:layout_alignTop="@+id/rv_listening"
+        android:layout_marginBottom="25dp"
         />
     <FrameLayout
         android:id="@+id/listening_audio_control_ll"
@@ -109,14 +110,7 @@
                 android:background="@android:color/transparent"/>
 
         </FrameLayout>
-        <EditText
-            android:id="@+id/accept_answer_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:layout_gravity="bottom"/>
+
     </FrameLayout>
     <Button
         android:id="@+id/accept_answer_btn"
@@ -128,6 +122,14 @@
         android:textColor="@color/white"
         android:theme="@style/MyButton"/>
 
-
+    <EditText
+        android:id="@+id/accept_answer_et"
+        android:layout_above="@+id/listening_audio_control_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        />
 
 </RelativeLayout>

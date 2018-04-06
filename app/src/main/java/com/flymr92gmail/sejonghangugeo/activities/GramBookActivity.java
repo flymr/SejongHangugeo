@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -68,9 +69,8 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
     private LinearLayoutManager llmanagerNav;
     private boolean navIsShow = false;
     private RecyclerItemClickListener navListener;
-    private LinearLayout addAll;
-    private LinearLayout addSelected;
-    private RobotoTextView selectedCountTv;
+    private Button addAll;
+    private Button addSelected;
     private ArrayList<Word> pageWords;
     private ArrayList<Word> selectedWords;
     private SearchView wordsSearcher;
@@ -101,7 +101,6 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         addAll = findViewById(R.id.sliding_add_all_btn);
         addSelected = findViewById(R.id.sliding_add_selected_btn);
         wordsSearcher = findViewById(R.id.search_words_sv);
-        selectedCountTv = findViewById(R.id.selected_count_tv);
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
 
@@ -229,7 +228,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
 
     private void setupRecyclerView(){
         String s = "выбранные(0)";
-        selectedCountTv.setText(s);
+        addSelected.setText(s);
         selectedWords.clear();
         pageWords.clear();
         pageWords = dataBase.getGramPageWords(pdfView.getCurrentPage()+differencePages);
@@ -333,15 +332,15 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         if (1 == selected&&firstWordIsSelected){
             firstWordIsSelected = false;
             colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, true);
-            colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, true);
+            colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, true);
         }else if (0 == selected){
             firstWordIsSelected = true;
             colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, false);
-            colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, false);
+            colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, false);
         }
 
         String s = "выбранные(" + selected + ")";
-        selectedCountTv.setText(s);
+        addSelected.setText(s);
     }
 
     private void colorAnimator(View view, String propertyName, int firstColor, int secondColor, int duration, boolean isStart){

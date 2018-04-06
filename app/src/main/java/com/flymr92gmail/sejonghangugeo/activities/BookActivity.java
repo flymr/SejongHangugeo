@@ -13,6 +13,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.design.internal.NavigationMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -71,13 +73,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 
 import io.codetail.animation.ViewAnimationUtils;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
-public class BookActivity extends AppCompatActivity implements NewWordsRecyclerAdapter.OnRecyclerViewItemClickListener, SpeechActionListener{
+public class BookActivity extends AppCompatActivity implements NewWordsRecyclerAdapter.OnRecyclerViewItemClickListener, SpeechActionListener, TextToSpeech.OnInitListener{
     private PDFView pdfView;
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private PrefManager prefManager;
@@ -98,16 +101,16 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private LinearLayoutManager llmanagerNav;
     private boolean navIsShow = false;
     private RecyclerItemClickListener navListener;
-    private LinearLayout addAll;
-    private LinearLayout addSelected;
-    private RobotoTextView selectedCountTv;
+    private Button addAll;
+    private Button addSelected;
     private ArrayList<Word> pageWords;
     private ArrayList<Word> selectedWords;
     private SearchView wordsSearcher;
     private boolean firstWordIsSelected = true;
-    private WaveView waveView;
+
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
+    private TextToSpeech textToSpeech;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,28 +145,41 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         addAll = findViewById(R.id.sliding_add_all_btn);
         addSelected = findViewById(R.id.sliding_add_selected_btn);
         wordsSearcher = findViewById(R.id.search_words_sv);
-        selectedCountTv = findViewById(R.id.selected_count_tv);
-        waveView = findViewById(R.id.wave_view);
+
+
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
+        textToSpeech = new TextToSpeech(this, this);
 
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mp.isPlaying()) {
-            mp.stop();
+        pdfView.recycle();
+        handlerPdf.removeCallbacksAndMessages(null);
+        if (textToSpeech !=null){
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(mp!=null){
             mp.release();
             mp = null;
+            if(handlerAudio!=null){
+                handlerAudio.removeCallbacks(audioRun);
+            }
         }
-        handlerPdf.removeCallbacksAndMessages(null);
-        handlerAudio.removeCallbacksAndMessages(null);
     }
 
     private void setupRecyclerView(){
         String s = "выбранные(0)";
-        selectedCountTv.setText(s);
+        addSelected.setText(s);
+        addSelected.setClickable(false);
         selectedWords.clear();
         pageWords.clear();
         pageWords = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
@@ -423,6 +439,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                   case R.id.action_test:
                       testAction();
                       break;
+
               }
               return false;
           }
@@ -523,8 +540,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             mp.start();
 
 
-
-
             getAudioStats();
             initializeSeekBar();
         } catch (Exception e) {
@@ -590,7 +605,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                     audioSeekBar.setProgress(mCurrentPosition);
                     float percentDuration =((float) mCurrentPosition/((float) mp.getDuration()/10));
                     Log.d("book", "percentDuration " + percentDuration);
-                    waveView.setProgress((int)(percentDuration*100));
                     getAudioStats();
                     if (mCurrentPosition == mp.getDuration()/10){
                         playButton.setState(MorphButton.MorphState.END, true);
@@ -619,15 +633,15 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         if (1 == selected&&firstWordIsSelected){
                 firstWordIsSelected = false;
                 colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, true);
-                colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, true);
+                colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, true);
         }else if (0 == selected){
             firstWordIsSelected = true;
             colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, false);
-            colorAnimator(selectedCountTv, "textColor", R.color.lowBlue, R.color.white, 500, false);
+            colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, false);
         }
 
         String s = "выбранные(" + selected + ")";
-        selectedCountTv.setText(s);
+        addSelected.setText(s);
 
     }
 
@@ -661,14 +675,14 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
     @Override
     public void onSpeechClick(int position, View view) {
-        final WordsSpeech wordsSpeech = new WordsSpeech(this);
+
         String kor;
         if (wordsSearcher.getVisibility() == View.GONE)kor = pageWords.get(position).getKoreanWord();
         else kor = searchedArray.get(position).getKoreanWord();
         final ImageView imageView = view.findViewById(R.id.speech_iv);
-        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.black),
+        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.textColor),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();
-        wordsSpeech.speechWord(kor);
+        speechWord(kor);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -676,9 +690,9 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                     @Override
                     public void run() {
                         while (pageWords.size() != 0){
-                            if (!wordsSpeech.wordIsSpeech()){
+                            if (!wordIsSpeech()){
                                 ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.yellow),
-                                        getResources().getColor(R.color.black)).setDuration(300).start();
+                                        getResources().getColor(R.color.textColor)).setDuration(300).start();
                                 return;
                             }
                         }
@@ -688,5 +702,29 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
             }
         }, 100);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS){
+            int result = textToSpeech.setLanguage(Locale.KOREAN);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+
+            }
+            Log.e("TTS", "All right");
+
+
+        }
+    }
+
+    public void speechWord(String s){
+        textToSpeech.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    public boolean wordIsSpeech(){
+        return textToSpeech.isSpeaking();
     }
 }

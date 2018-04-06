@@ -506,6 +506,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
 
     }
 

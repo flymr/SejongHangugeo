@@ -98,10 +98,11 @@ public class LessonsPageFragment extends Fragment{
             public void onItemClick(View view, int position, float x, float y) {
 
                if (position!=0) {
+                   prefManager.saveLastLessonID(lessonArrayList.get(position).getLessonId());
+
                    Intent intent = new Intent(context, LessonActivity.class);
                    intent.putExtra("lessonId", lessonArrayList.get(position).getLessonId());
                    startActivity(intent);
-                   prefManager.saveLastLessonID(lessonArrayList.get(position).getLessonId());
                }
             }
 

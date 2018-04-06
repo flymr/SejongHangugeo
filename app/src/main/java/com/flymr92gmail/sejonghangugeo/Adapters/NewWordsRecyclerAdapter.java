@@ -60,6 +60,8 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
     public int getItemCount () {
         return mWords.size();
     }
+
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView tvKorWord,tvRusWord;
         ImageView ivAdd, ivSpeech;
@@ -86,10 +88,10 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
                 case R.id.iv_add:
                     if (ivAdd.getAnimation() == plusToCross){
                         colorAnimator(ivAdd, "colorFilter", R.color.redM,
-                                R.color.navigationBarColor, 300, croosToPlus);
+                                R.color.textColor, 300, croosToPlus);
                         selects[getAdapterPosition()] = false;
                     }else {
-                        colorAnimator(ivAdd, "colorFilter", R.color.navigationBarColor,
+                        colorAnimator(ivAdd, "colorFilter", R.color.textColor,
                                 R.color.redM, 300, plusToCross);
                         selects[getAdapterPosition()] = true;
                     }

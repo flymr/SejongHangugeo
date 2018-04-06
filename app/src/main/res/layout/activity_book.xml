@@ -57,18 +57,7 @@
             android:visibility="gone"
             android:layout_marginBottom="0dp"
             >
-            <com.john.waveview.WaveView
-                android:id="@+id/wave_view"
-                android:layout_width="match_parent"
-                android:layout_height="67dp"
-                android:background="@color/navigationBarColor"
-                android:layout_gravity="bottom"
-                wave:above_wave_color="@android:color/white"
-                wave:blow_wave_color="@android:color/white"
-                wave:progress="0"
-                wave:wave_height="little"
-                wave:wave_hz="normal"
-                wave:wave_length="middle"/>
+
             <ImageButton
                 android:id="@+id/close_audio_btn"
                 android:layout_width="wrap_content"

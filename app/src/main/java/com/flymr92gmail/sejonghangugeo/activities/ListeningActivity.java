@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -104,16 +106,9 @@ public class ListeningActivity extends AppCompatActivity{
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mp !=null){
-            mp.stop();
-            mp.release();
-            mp = null;
-
-        }
-        currentTestImages.clear();
-        handlerAudio.removeCallbacksAndMessages(null);
+    protected void onStop() {
+        super.onStop();
+        stopAudio();
     }
 
     private void setupRvTestStandard(){
@@ -299,21 +294,34 @@ public class ListeningActivity extends AppCompatActivity{
             public void onClick(View view) {
                 if (testType ==1){
                     getUserChooseAnswers();
-                    if (checkAnswerTypeChoose()){
-                        acceptAnswerBrn.setText("Верно");
-                    }else {
-                        acceptAnswerBrn.setText("Неверно");
-                    }
+                    showSnackBar(checkAnswerTypeChoose(), view);
                 }else if (testType ==2){
                     getUserSequenceAnswer();
-                    if (checkAnswerTypeSequence()){
-                        acceptAnswerBrn.setText("Верно");
-                    }else {
-                        acceptAnswerBrn.setText("Неверно");
-                    }
+                    showSnackBar(checkAnswerTypeSequence(), view);
                 }
             }
         });
+    }
+
+    private void showSnackBar(boolean answer, View view){
+        if (answer){
+            Snackbar mSnackbar = Snackbar.make(view, "Верно", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null);
+            View view1 = mSnackbar.getView();
+            TextView tv = view1.findViewById(android.support.design.R.id.snackbar_text);
+            view1.setBackgroundColor(getResources().getColor(R.color.green));
+            tv.setTextColor(Color.WHITE);
+            mSnackbar.show();
+        }else {
+            Snackbar mSnackbar = Snackbar.make(view, "Неверно", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null);
+            View view1 = mSnackbar.getView();
+            TextView tv = view1.findViewById(android.support.design.R.id.snackbar_text);
+            view1.setBackgroundColor(getResources().getColor(R.color.red));
+            tv.setTextColor(Color.WHITE);
+            mSnackbar.show();
+        }
+
     }
 
     private void setupAcceptEtActionDone(){
@@ -379,7 +387,7 @@ public class ListeningActivity extends AppCompatActivity{
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 if(mp!=null && b){
                     mp.seekTo(i*10);
-                    //if (i == mp.getDuration()/10) stopAudio();
+
 
                 }
             }
@@ -488,6 +496,7 @@ public class ListeningActivity extends AppCompatActivity{
 
 
     private void initializeSeekBar(){
+        seekBarIsInit = true;
         audioSeekBar.setMax(mp.getDuration()/10);
         audioRun = new Runnable() {
             @Override

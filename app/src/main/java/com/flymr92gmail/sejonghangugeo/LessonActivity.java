@@ -48,7 +48,7 @@ import java.util.Locale;
 import javax.xml.datatype.Duration;
 
 
-public class LessonActivity extends AppCompatActivity implements SpeechActionListener{
+public class LessonActivity extends AppCompatActivity implements SpeechActionListener, TextToSpeech.OnInitListener{
 
     private UserDataBase dataBase;
     private RecyclerView recyclerView;
@@ -66,16 +66,14 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private int lastFirstVisiblePosition;
     private Animation plusToCross, croosToPlus;
-    private WordsSpeech wordsSpeech;
     private ArcProgress arcProgress;
     private View progressLayout;
-    private PrefManager prefManager;
-
+    private TextToSpeech textToSpeech;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefManager = new PrefManager(this);
+
         setContentView(R.layout.activity_lesson);
         mIntent = getIntent();
         initialization();
@@ -89,6 +87,14 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (textToSpeech !=null){
+            textToSpeech.stop();
+            textToSpeech.shutdown();
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -119,10 +125,10 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         lastFirstVisiblePosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
         plusToCross = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.plus_to_cross);
         croosToPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.cross_to_plus);
-        wordsSpeech = new WordsSpeech(this);
+
         progressLayout = getLayoutInflater().inflate(R.layout.arc_progress, null);
         arcProgress = progressLayout.findViewById(R.id.lesson_progress);
-
+        textToSpeech = new TextToSpeech(this, this);
     }
 
     private void setupToolbar(){
@@ -417,7 +423,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         final ImageView imageView = view.findViewById(R.id.speech_iv);
         ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.grayM),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();
-        wordsSpeech.speechWord(kor);
+        speechWord(kor);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -425,7 +431,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
                     @Override
                     public void run() {
                         while (words.size() != 0){
-                            if (!wordsSpeech.wordIsSpeech()){
+                            if (!wordIsSpeech()){
                                 ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.yellow),
                                         getResources().getColor(R.color.grayM)).setDuration(300).start();
                                 return;
@@ -439,6 +445,30 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         }, 100);
     }
 
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS){
+            int result = textToSpeech.setLanguage(Locale.KOREAN);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+
+            }
+            Log.e("TTS", "All right");
+
+
+        }
+    }
+
+    public void speechWord(String s){
+        textToSpeech.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+
+    }
+
+    public boolean wordIsSpeech(){
+        return textToSpeech.isSpeaking();
+    }
 
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
         @Override
