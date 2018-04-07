@@ -69,7 +69,7 @@ public class ListeningActivity extends AppCompatActivity{
     private ImageButton btnNextTest, btnPrevTest;
     private Menu menu;
     private TextView tvTestTask;
-    private boolean seekBarIsInit = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class ListeningActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            toolbar.setTitle("");
+            toolbar.setTitle(R.string.titki);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -409,7 +409,7 @@ public class ListeningActivity extends AppCompatActivity{
                     switch (changedTo) {
                         case START:
                             if (mp != null) mp.start();
-                            if (seekBarIsInit)initializeSeekBar();
+                            else playAudio();
                             break;
                         case END:
                             if (mp != null) mp.pause();
@@ -425,17 +425,18 @@ public class ListeningActivity extends AppCompatActivity{
     private void playAudio(){
         try {
             mp = new MediaPlayer();
-            AssetFileDescriptor descriptor = getAssets().openFd("Audio/"+currentTest.getmTrackId()+".wma");
+            AssetFileDescriptor descriptor = getAssets().openFd("Audio/"+currentTest.getmTrackId()+".mp3");
             mp.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {
-                    playButton.setState(MorphButton.MorphState.END, true);
                     //audioSeekBar.setProgress(0);
-                    mp.seekTo(0);
+                   // mp.seekTo(0);
                     audioSeekBar.setProgress(0);
-                    handlerAudio.removeCallbacks(audioRun);
-                    seekBarIsInit = false;
+                    stopAudio();
+                    playButton.setState(MorphButton.MorphState.END, true);
+
+
                 }
             });
             descriptor.close();
@@ -496,7 +497,6 @@ public class ListeningActivity extends AppCompatActivity{
 
 
     private void initializeSeekBar(){
-        seekBarIsInit = true;
         audioSeekBar.setMax(mp.getDuration()/10);
         audioRun = new Runnable() {
             @Override

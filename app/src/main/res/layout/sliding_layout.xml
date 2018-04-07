@@ -8,20 +8,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/sliding_add_cv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="15dp"
-        >
+
         <LinearLayout
+            android:id="@+id/sliding_add_cv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
             android:gravity="center">
 
             <Button
@@ -30,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textStyle="italic"
-                android:text="Добавит все"
+                android:text="Добавить все"
                 android:textColor="@color/white"
                 android:theme="@style/MyButton"
                 android:layout_marginRight="1dp"
@@ -40,6 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textStyle="italic"
                 android:textColor="@color/white"
                 android:theme="@style/MyButton"
                 android:layout_marginStart="1dp"
@@ -48,7 +44,6 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
 
 
     <android.support.v7.widget.RecyclerView

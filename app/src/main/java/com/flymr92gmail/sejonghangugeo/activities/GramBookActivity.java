@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.design.internal.NavigationMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
@@ -51,11 +53,12 @@ import com.wnafee.vector.MorphButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Locale;
 
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 
-public class GramBookActivity extends AppCompatActivity implements NewWordsRecyclerAdapter.OnRecyclerViewItemClickListener, SpeechActionListener {
+public class GramBookActivity extends AppCompatActivity implements NewWordsRecyclerAdapter.OnRecyclerViewItemClickListener, SpeechActionListener, TextToSpeech.OnInitListener {
     private PDFView pdfView;
     private SlidingUpPanelLayout slidingUpPanelLayout;
     private PrefManager prefManager;
@@ -77,6 +80,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
     private boolean firstWordIsSelected = true;
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
+    private TextToSpeech textToSpeech;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -412,24 +416,24 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
 
     @Override
     public void onSpeechClick(int position, View view) {
-        final WordsSpeech wordsSpeech = new WordsSpeech(this);
         String kor;
         if (wordsSearcher.getVisibility() == View.GONE)kor = pageWords.get(position).getKoreanWord();
         else kor = searchedArray.get(position).getKoreanWord();
         final ImageView imageView = view.findViewById(R.id.speech_iv);
         ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.black),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();
-        wordsSpeech.speechWord(kor);
+        speechWord(kor);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        while (pageWords.size() != 0){
-                            if (!wordsSpeech.wordIsSpeech()){
+                        int i = 0;
+                        while (i == 0){
+                            if (!wordIsSpeech()){
                                 ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.yellow),
-                                        getResources().getColor(R.color.black)).setDuration(300).start();
+                                        getResources().getColor(R.color.textColor)).setDuration(300).start();
                                 return;
                             }
                         }
@@ -439,5 +443,29 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
 
             }
         }, 100);
+    }
+
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS){
+            int result = textToSpeech.setLanguage(Locale.KOREAN);
+
+            if (result == TextToSpeech.LANG_MISSING_DATA
+                    || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "This Language is not supported");
+
+            }
+            Log.e("TTS", "All right");
+
+
+        }
+    }
+
+    public void speechWord(String s){
+        textToSpeech.speak(s, TextToSpeech.QUEUE_FLUSH, null);
+    }
+
+    public boolean wordIsSpeech(){
+        return textToSpeech.isSpeaking();
     }
 }

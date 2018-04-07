@@ -179,7 +179,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private void setupRecyclerView(){
         String s = "выбранные(0)";
         addSelected.setText(s);
-        addSelected.setClickable(false);
         selectedWords.clear();
         pageWords.clear();
         pageWords = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
@@ -525,7 +524,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
             controller_ll.setVisibility(View.VISIBLE);
             mp = new MediaPlayer();
-            AssetFileDescriptor descriptor = getAssets().openFd("Audio/"+dataBase.getPageAudio(pdfView.getCurrentPage()+2).getmTrackId()+".wma");
+            AssetFileDescriptor descriptor = getAssets().openFd("Audio/"+dataBase.getPageAudio(pdfView.getCurrentPage()+2).getmTrackId()+".mp3");
             mp.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -630,15 +629,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                 selectedWords.add(pageWords.get(position));
             }
         }
-        if (1 == selected&&firstWordIsSelected){
-                firstWordIsSelected = false;
-                colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, true);
-                colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, true);
-        }else if (0 == selected){
-            firstWordIsSelected = true;
-            colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, false);
-            colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, false);
-        }
+
 
         String s = "выбранные(" + selected + ")";
         addSelected.setText(s);
@@ -689,7 +680,8 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        while (pageWords.size() != 0){
+                        int i = 0;
+                        while (i == 0){
                             if (!wordIsSpeech()){
                                 ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.yellow),
                                         getResources().getColor(R.color.textColor)).setDuration(300).start();
@@ -702,6 +694,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
             }
         }, 100);
+
     }
 
     @Override

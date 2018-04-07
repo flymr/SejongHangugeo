@@ -73,6 +73,7 @@
                 android:orientation="horizontal"
                 android:layout_gravity="top"
                 android:layout_marginTop="25dp"
+                android:background="@color/blackAlpha"
                 >
                 <TextView
                     android:id="@+id/tv_audio_start"
@@ -105,6 +106,7 @@
                android:layout_height="wrap_content"
                android:gravity="center"
                android:layout_gravity="bottom"
+               android:background="@color/blackAlpha"
                >
                <com.wnafee.vector.MorphButton
                    android:id="@+id/book_play_audio"
