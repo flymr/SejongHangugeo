@@ -228,7 +228,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private void setupNavBook(){
         bookMenu.hide();
         navBookRv = findViewById(R.id.nav_book_rv);
-        NavBookAdapter adapter = new NavBookAdapter(differencePages, pdfView.getCurrentPage(), pdfView.getPageCount(), this);
+        NavBookAdapter adapter = new NavBookAdapter(differencePages, pdfView.getCurrentPage(), pdfView.getPageCount(), this, true);
         llmanagerNav = new LinearLayoutManager(this);
         navBookRv.setLayoutManager(llmanagerNav);
         navBookRv.setAdapter(adapter);
@@ -302,7 +302,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                     public int compare(Word o1, Word o2) {
                         if (o1.getRussianWord().indexOf(newText)<0 || o2.getRussianWord().indexOf(newText)<0)
                             return o1.getRussianWord().toLowerCase().indexOf(newText.toLowerCase())-o2.getRussianWord().toLowerCase().indexOf(newText.toLowerCase());
-                            return o1.getRussianWord().indexOf(newText)-o2.getRussianWord().indexOf(newText);
+                        return o1.getRussianWord().indexOf(newText)-o2.getRussianWord().indexOf(newText);
                     }
                 });
                 if (searchedArray.size()==0){
@@ -501,6 +501,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                   switch (changedTo) {
                       case START:
                           if (mp != null) mp.start();
+                          else playAudio();
                           break;
                       case END:
                           if (mp != null) mp.pause();
@@ -528,8 +529,17 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             mp.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
             mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
-                public void onCompletion(MediaPlayer mp) {
-
+                public void onCompletion(MediaPlayer mpr) {
+                    audioSeekBar.setProgress(0);
+                    if(mp!=null){
+                        mp.stop();
+                        mp.release();
+                        mp = null;
+                        if(handlerAudio!=null){
+                            handlerAudio.removeCallbacks(audioRun);
+                        }
+                    }
+                    playButton.setState(MorphButton.MorphState.END, true);
                 }
             });
             descriptor.close();
@@ -571,7 +581,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         int duration  = mp.getDuration()/1000; // In milliseconds
         int due = (mp.getDuration() - mp.getCurrentPosition())/1000;
         int pass = duration - due;
-
         tvAudioStart.setText(getDuration(pass));
         tvAudioEnd.setText(getDuration(due));
     }
@@ -605,12 +614,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                     float percentDuration =((float) mCurrentPosition/((float) mp.getDuration()/10));
                     Log.d("book", "percentDuration " + percentDuration);
                     getAudioStats();
-                    if (mCurrentPosition == mp.getDuration()/10){
-                        playButton.setState(MorphButton.MorphState.END, true);
-                        //audioSeekBar.setProgress(0);
-                        mp.seekTo(0);
-
-                    }
                 }
                 handlerAudio.postDelayed(audioRun,10);
             }
@@ -636,22 +639,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
     }
 
-    private boolean wordIsAlreadyDone(Word checkingWord, ArrayList<Word> words){
-        String rusWord = checkingWord.getRussianWord();
-        String korWord = checkingWord.getKoreanWord();
-        for (Word word:words){
-            if (rusWord.equals(word.getRussianWord())
-                    &&korWord.equals(word.getKoreanWord())) return true;
-        }
-        return false;
-    }
 
-    private void colorAnimator(View view, String propertyName, int firstColor, int secondColor, int duration, boolean isStart){
-       if(isStart) ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), getResources().getColor(firstColor),
-                getResources().getColor(secondColor)).setDuration(duration).start();
-       else ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), getResources().getColor(secondColor),
-               getResources().getColor(firstColor)).setDuration(duration).start();
-    }
 
     private void testAction(){
         Intent intent;

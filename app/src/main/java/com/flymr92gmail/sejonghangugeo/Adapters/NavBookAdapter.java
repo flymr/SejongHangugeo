@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.Helper;
 import com.github.barteksc.pdfviewer.PDFView;
 
 import java.io.IOException;
@@ -29,13 +31,14 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int currentPage;
     private  int pageCount;
     private Context context;
+    private boolean withImages;
 
-    public NavBookAdapter(int differencePages,int currentPage, int pageCount, Context context) {
+    public NavBookAdapter(int differencePages,int currentPage, int pageCount, Context context, boolean withImages) {
     this.differencePages = differencePages;
     this.currentPage = currentPage;
     this.pageCount = pageCount;
     this.context = context;
-
+    this.withImages = withImages;
     }
 
     @Override
@@ -58,19 +61,22 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentPage == position)
             viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
         else viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+        if (withImages) {
+            try {
+                Drawable d;
+                // get input stream
+                InputStream ims = context.getAssets().open("pages/page-" + (position + 1) + "-1.png");
+                // load image as Drawable
+               // int reqSize = (40 * (int)context.getResources().getDisplayMetrics().density)/2;
+               // d = new BitmapDrawable(context.getResources(), Helper.decodeSampledBitmapFromResource(ims, reqSize, reqSize));
+                d = Drawable.createFromStream(ims, null);
+                // set image to ImageView
+                viewHolder.imageView.setImageDrawable(d);
+            } catch (IOException ex) {
 
-        try {
-            Drawable d;
-            // get input stream
-            InputStream ims = context.getAssets().open("pages/page-"+(position+1)+"-1.png");
-            // load image as Drawable
-
-            d = Drawable.createFromStream(ims, null);
-            // set image to ImageView
-            viewHolder.imageView.setImageDrawable(d);
-        }
-        catch(IOException ex) {
-
+            }
+        }else{
+            viewHolder.imageView.setVisibility(View.GONE);
         }
     }
 
@@ -87,43 +93,5 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-                                                   int reqWidth, int reqHeight) {
 
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
-    }
-
-    private int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
 }

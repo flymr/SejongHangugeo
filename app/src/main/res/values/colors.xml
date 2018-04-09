@@ -38,7 +38,7 @@
         <item>@color/violet</item>
         <item>@color/colorAccent</item>
     </integer-array>
-
+    <color name="colorAccentAlpha">#802196F3</color>
 
     <color name="tabStripColorHint">#a3a3a7</color>
     <color name="lessonTabStripColor">#FFF</color>

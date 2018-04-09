@@ -6,11 +6,14 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -20,6 +23,7 @@ import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -36,6 +40,7 @@ import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.Fragments.MailDialog;
+import com.flymr92gmail.sejonghangugeo.Utils.Helper;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
 import com.flymr92gmail.sejonghangugeo.activities.GramBookActivity;
@@ -92,20 +97,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout shareBtn;
     @BindView(R.id.iv_menu_main)
     ImageView drawerIv;
+    @BindView(R.id.drawerlayout)
+    FlowingDrawer mDrawer;
 
     private UserDataBase dataBase;
-    private FlowingDrawer mDrawer;
     private PrefManager prefManager;
     private Drawable drawable1;
     private Drawable drawable2;
     private Drawable drawerDrawable;
-    private int modeNightNO = AppCompatDelegate.MODE_NIGHT_NO;
-    private int modeNightYes = AppCompatDelegate.MODE_NIGHT_YES;
-    private int modeNightAuto = AppCompatDelegate.MODE_NIGHT_AUTO;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getCurrentTheme(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        setClickListenerToViews();
+        initObj();
+        setupDrawable();
+        setupFlowindDrawer();
+        setupToolbar();
+        setupViewPsger();
+        setRbChecked();
+        thisIsFirstActivation();
+
+    }
+
+
+    private void getCurrentTheme(Bundle savedInstanceState){
         prefManager = new PrefManager(this);
         if (savedInstanceState == null){
             Log.d("savedInstanceState", "   ==null");
@@ -121,18 +142,82 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case AppCompatDelegate.MODE_NIGHT_AUTO:
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                   // recreate();
+                    // recreate();
                     break;
             }
         }
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        setClickListenerToView();
+    }
 
+
+    private void thisIsFirstActivation(){
+        if (prefManager.getIsFirstAppActivation()) {
+            Intent intent = new Intent(this, PreviewActivity.class);
+            startActivity(intent);
+            prefManager.setIsFirstAppActivation(false);
+        }
+    }
+
+
+    private void initObj(){
         dataBase = new UserDataBase(this);
 
-        mDrawer = findViewById(R.id.drawerlayout);
-        drawerDrawable = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
+    }
+
+
+    private void setupDrawable(){
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        drawerDrawable = new BitmapDrawable(getResources(), Helper.decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
+        drawable2 = new BitmapDrawable(getResources(), Helper.decodeSampledBitmapFromResource(getResources(),  R.drawable.page2_title, metrics.widthPixels/2, 0));
+        drawable1 = new BitmapDrawable(getResources(), Helper.decodeSampledBitmapFromResource(getResources(), R.drawable.page1_title, metrics.widthPixels/2, 0));
+    }
+
+
+    private void setClickListenerToViews(){
+        llLastPlaces.setOnClickListener(this);
+        llThemeSettings.setOnClickListener(this);
+        lastLesson.setOnClickListener(this);
+        lastBook.setOnClickListener(this);
+        llSendMassage.setOnClickListener(this);
+        shareBtn.setOnClickListener(this);
+        rbNight.setOnClickListener(this);
+        rbDay.setOnClickListener(this);
+        rbAuto.setOnClickListener(this);
+        findViewById(R.id.preview).setOnClickListener(this);
+        findViewById(R.id.favorites).setOnClickListener(this);
+    }
+
+
+    private void setupToolbar(){
+        Toolbar toolbar = mViewPager.getToolbar();
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            try {
+                ActionBar actionBar = getSupportActionBar();
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setDisplayShowHomeEnabled(true);
+                actionBar.setDisplayShowTitleEnabled(true);
+                actionBar.setDisplayUseLogoEnabled(false);
+                actionBar.setHomeButtonEnabled(true);
+                actionBar.setTitle("");
+                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v){
+                        mDrawer.openMenu(true);
+                    }
+                });
+                Drawable menu = getResources().getDrawable(R.drawable.ic_menu_24dp);
+                getSupportActionBar().setHomeAsUpIndicator(menu);
+            }catch (NullPointerException e){
+
+            }
+
+
+        }
+    }
+
+
+    private void setupFlowindDrawer(){
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
         drawerIv.setImageDrawable(drawerDrawable);
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
@@ -148,24 +233,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
             }
         });
-        //mRecyclerView.setAdapter(adapter);
 
-        Toolbar toolbar = mViewPager.getToolbar();
+    }
 
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
 
-            ActionBar actionBar = getSupportActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setDisplayUseLogoEnabled(false);
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setTitle("");
-
+    private void setRbChecked(){
+        switch (prefManager.getAppTheme()){
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                rbDay.setChecked(true);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                rbNight.setChecked(true);
+                break;
+            case AppCompatDelegate.MODE_NIGHT_AUTO:
+                rbAuto.setChecked(true);
         }
+    }
 
 
+    private void setupViewPsger(){
         mViewPager.setColor(R.color.colorFolder, 100);
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
@@ -197,16 +283,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return "";
             }
         });
-
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        final int materialPagerBg = R.color.listBgColor;
-        final int image1Id;
-        final int image2Id;
-        image1Id = R.drawable.page1_title;
-        image2Id = R.drawable.page2_title;
-        drawable2 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image2Id, metrics.widthPixels/2, 0));
-        drawable1 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), image1Id, metrics.widthPixels/2, 0));
         final View logo = findViewById(R.id.logo_white);
         if (logo != null) {
             logo.setOnClickListener(new View.OnClickListener() {
@@ -224,16 +300,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case 0:
                         logo.setVisibility(View.VISIBLE);
                         return HeaderDesign.fromColorResAndDrawable(
-                                materialPagerBg,
-                              // getResources().getDrawable(R.drawable.page1_title)
+                                R.color.listBgColor,
+                                // getResources().getDrawable(R.drawable.page1_title)
                                 drawable1
                         );
                     case 1:
                         logo.setVisibility(View.GONE);
                         return HeaderDesign.fromColorResAndDrawable(
-                                materialPagerBg,
+                                R.color.listBgColor,
                                 drawable2
-                              //  getResources().getDrawable(R.drawable.page2_title)
+                                //  getResources().getDrawable(R.drawable.page2_title)
 
                         );
 
@@ -247,93 +323,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
         navigationTabStrip.setViewPager(mViewPager.getViewPager()); // exp
 //        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
-
-
-
-
-        switch (prefManager.getAppTheme()){
-            case AppCompatDelegate.MODE_NIGHT_NO:
-                rbDay.setChecked(true);
-                break;
-            case AppCompatDelegate.MODE_NIGHT_YES:
-                rbNight.setChecked(true);
-                break;
-            case AppCompatDelegate.MODE_NIGHT_AUTO:
-                rbAuto.setChecked(true);
-        }
-
-
-        if (prefManager.getIsFirstAppActivation()) {
-            Intent intent = new Intent(this, PreviewActivity.class);
-            startActivity(intent);
-            prefManager.setIsFirstAppActivation(false);
-        }
-
     }
 
-    private void setClickListenerToView(){
-        llLastPlaces.setOnClickListener(this);
-        llThemeSettings.setOnClickListener(this);
-        lastLesson.setOnClickListener(this);
-        lastBook.setOnClickListener(this);
-        llSendMassage.setOnClickListener(this);
-        shareBtn.setOnClickListener(this);
-
-        rbNight.setOnClickListener(this);
-        rbDay.setOnClickListener(this);
-        rbAuto.setOnClickListener(this);
-        findViewById(R.id.preview).setOnClickListener(this);
-        findViewById(R.id.favorites).setOnClickListener(this);
-    }
-
-
-    private static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-                                                         int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
-    }
-
-    private static int calculateInSampleSize(
-            BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-
-        return inSampleSize;
-    }
 
 
     private void expand(final View v) {
         v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         final int targetHeight = v.getMeasuredHeight();
 
-        // Older versions of android (pre API 21) cancel animations for views with a height of 0.
+
         v.getLayoutParams().height = 1;
         v.setVisibility(View.VISIBLE);
         Animation a = new Animation()
@@ -356,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         a.setDuration((int)(targetHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
+
 
     private void collapse(final View v) {
         final int initialHeight = v.getMeasuredHeight();
@@ -383,10 +382,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         v.startAnimation(a);
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
     }
+
 
     @Override
     public void onClick(View v) {
@@ -482,9 +483,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     private int getCurrentNightMode(){
         return getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
     }
+
 
     private void shareAppLink(){
         final Intent intent = new Intent(Intent.ACTION_SEND);
@@ -508,15 +511,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
     @Override
     protected void onStop() {
         super.onStop();
 
     }
 
+
     @Override
     protected void onDestroy() {
-       // android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
         if(drawerDrawable!=null){
             drawerDrawable.setCallback(null);
@@ -532,4 +536,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+
 }

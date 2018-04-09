@@ -9,6 +9,7 @@ import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.design.internal.NavigationMenu;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -107,6 +108,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         wordsSearcher = findViewById(R.id.search_words_sv);
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
+        textToSpeech = new TextToSpeech(this, this);
 
     }
 
@@ -333,26 +335,11 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
                 selectedWords.add(pageWords.get(position));
             }
         }
-        if (1 == selected&&firstWordIsSelected){
-            firstWordIsSelected = false;
-            colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, true);
-            colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, true);
-        }else if (0 == selected){
-            firstWordIsSelected = true;
-            colorAnimator(addSelected, "backgroundColor", R.color.white, R.color.colorAccent, 500, false);
-            colorAnimator(addSelected, "textColor", R.color.lowBlue, R.color.white, 500, false);
-        }
 
         String s = "выбранные(" + selected + ")";
         addSelected.setText(s);
     }
 
-    private void colorAnimator(View view, String propertyName, int firstColor, int secondColor, int duration, boolean isStart){
-        if(isStart) ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), getResources().getColor(firstColor),
-                getResources().getColor(secondColor)).setDuration(duration).start();
-        else ObjectAnimator.ofObject(view, propertyName, new ArgbEvaluator(), getResources().getColor(secondColor),
-                getResources().getColor(firstColor)).setDuration(duration).start();
-    }
 
     @Override
     public void onBackPressed() {
@@ -393,7 +380,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
     private void setupNavBook(){
         bookMenu.hide();
         navBookRv = findViewById(R.id.nav_book_rv);
-        NavBookAdapter adapter = new NavBookAdapter(differencePages, pdfView.getCurrentPage(), pdfView.getPageCount(), this);
+        NavBookAdapter adapter = new NavBookAdapter(differencePages, pdfView.getCurrentPage(), pdfView.getPageCount(), this, false);
         llmanagerNav = new LinearLayoutManager(this);
         navBookRv.setLayoutManager(llmanagerNav);
         navBookRv.setAdapter(adapter);

@@ -16,7 +16,7 @@ tools:context="com.example.xyarim.koreanbook.Activities.Lessons.LessonActivity">
     <item
         android:id="@+id/actionAddNewWord"
         android:title="Редактировать"
-        android:icon="@drawable/ic_edit_24dp"
+        android:icon="@drawable/ic_playlist_add_24dp"
         app:showAsAction="always"
         android:orderInCategory="100"
         />
@@ -33,7 +33,7 @@ tools:context="com.example.xyarim.koreanbook.Activities.Lessons.LessonActivity">
     <item
         android:id="@+id/actionWrite"
         android:title="Письмо"
-        android:icon="@drawable/ic_keyboard_24dp"
+        android:icon="@drawable/ic_edit_24dp"
         app:showAsAction="always"
         android:visible="true"
         android:orderInCategory="100"

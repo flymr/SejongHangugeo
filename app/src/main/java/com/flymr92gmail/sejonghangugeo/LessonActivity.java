@@ -66,8 +66,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     private static final int SWIPE_THRESHOLD_VELOCITY = 100;
     private int lastFirstVisiblePosition;
     private Animation plusToCross, croosToPlus;
-    private ArcProgress arcProgress;
-    private View progressLayout;
     private TextToSpeech textToSpeech;
 
     @Override
@@ -101,7 +99,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         super.onResume();
         setupAdapter(lesson);
         linearLayoutManager.scrollToPositionWithOffset(lastFirstVisiblePosition,0);
-        arcProgress.setProgress(lesson.getLessonProgress());
+
 
     }
 
@@ -126,8 +124,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         plusToCross = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.plus_to_cross);
         croosToPlus = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.cross_to_plus);
 
-        progressLayout = getLayoutInflater().inflate(R.layout.arc_progress, null);
-        arcProgress = progressLayout.findViewById(R.id.lesson_progress);
         textToSpeech = new TextToSpeech(this, this);
     }
 
@@ -149,8 +145,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_24dp);
             upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             getSupportActionBar().setHomeAsUpIndicator(upArrow);
-            arcProgress.setProgress(lesson.getLessonProgress());
-            toolbar.addView(progressLayout ,  new Toolbar.LayoutParams(Gravity.END));
 
         }
     }
@@ -184,6 +178,10 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
     private void learAction(){
         if (words.size()!=0){
+            for (Word word : dataBase.getSelectedWordsInLesson(lesson)){
+                word.setmIsLearning(0);
+                dataBase.editWordLearning(lesson, word);
+            }
             for (Word word : words){
                 word.setmIsLearning(1);
                 dataBase.editWordLearning(lesson, word);
@@ -192,7 +190,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             intent.putExtra("lesson", lesson);
             startActivity(intent);
         }else {
-            Toast.makeText(this, "Добавьте слова", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Добавьте сюда слова", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -204,6 +202,8 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         intent.putExtra("lesson", lesson);
         startActivity(intent);
     }
+
+
     private void setupFloatingToolbarListener(){
 
         floatingToolbar.setClickListener(new FloatingToolbar.ItemClickListener() {
@@ -327,29 +327,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         }else super.onBackPressed();
     }
 
-    private void doShowSelected(int tabIndex){
-        lesson.setLessonTabIndex(tabIndex);
-        dataBase.editLessonTabIndex(lesson);
-        floatingToolbar.hide();
-        if (tabIndex==1){
-            for (int i = words.size()-1; 0<=i; i--) {
-                Word word = words.get(i);
-                if (word.isSelected() == 0) {
-                    words.remove(i);
-                    adapter.notifyItemRemoved(i);
-                }
-            }
-        }else {
-            ArrayList<Word> allWords = dataBase.getWordsInLesson(lesson.getLessonTable());
-            for (int i = 0; i < allWords.size(); i++){
-                Word word = allWords.get(i);
-                if (word.isSelected()==0) {
-                    words.add(i, word);
-                    adapter.notifyItemInserted(i);
-                }
-            }
-        }
-    }
 
     private void wordsArrayChanger(int tabStripIndex){
 
@@ -390,8 +367,9 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
               if (!deleteMode &&!recyclerView.canScrollVertically(1)
-                      && !allItemNotVisible()){
+                      && allItemNotVisible()){
                   floatingToolbar.show();
+
               }
             // if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount()-1) floatingToolbar.show();
             }
@@ -401,8 +379,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     }
 
     private boolean allItemNotVisible(){
-        return linearLayoutManager.findLastCompletelyVisibleItemPosition()+
-                linearLayoutManager.findFirstCompletelyVisibleItemPosition()<=adapter.getItemCount();
+        return linearLayoutManager.findLastCompletelyVisibleItemPosition() + linearLayoutManager.findFirstCompletelyVisibleItemPosition() > adapter.getItemCount()-1;
     }
 
     private void setupGesture(){

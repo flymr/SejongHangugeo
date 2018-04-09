@@ -23,7 +23,7 @@
                android:scaleType="fitCenter"
                android:layout_alignParentTop="true"
                android:layout_alignParentRight="true"
-               app:vc_foregroundTint="@color/whiteAlpha"
+               app:vc_foregroundTint="@color/colorAccentAlpha"
                app:vc_startDrawable="@drawable/ic_play_to_pause"
                app:vc_endDrawable="@drawable/ic_pause_to_play"/>
 
@@ -38,7 +38,7 @@
         android:scaleType="fitCenter"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        app:vc_foregroundTint="@color/whiteAlpha"
+        app:vc_foregroundTint="@color/colorAccentAlpha"
         app:vc_startDrawable="@drawable/ic_play_to_pause"
         app:vc_endDrawable="@drawable/ic_pause_to_play"/>
 

@@ -208,9 +208,8 @@ public class ListeningActivity extends AppCompatActivity{
         }
         setupLogic(testType);
         if (0 < currentTestCount && currentTest.getmTrackId()==tests.get(currentTestCount-1).getmTrackId()){
-            if (mp !=null) mp.pause();
+            if (mp !=null && mp.isPlaying()) mp.pause();
             if (playButton.getState() == MorphButton.MorphState.START) playButton.setState(MorphButton.MorphState.END, true);
-
         }else {
             stopAudio();
             playAudio();
@@ -432,7 +431,7 @@ public class ListeningActivity extends AppCompatActivity{
                 public void onCompletion(MediaPlayer mp) {
                     //audioSeekBar.setProgress(0);
                    // mp.seekTo(0);
-                    audioSeekBar.setProgress(0);
+                   // audioSeekBar.setProgress(0);
                     stopAudio();
                     playButton.setState(MorphButton.MorphState.END, true);
 
