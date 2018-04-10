@@ -65,7 +65,7 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             try {
                 Drawable d;
                 // get input stream
-                InputStream ims = context.getAssets().open("pages/page-" + (position + 1) + "-1.png");
+                InputStream ims = context.getAssets().open("pages/page-" + (position + 1) + "-1.jpg");
                 // load image as Drawable
                // int reqSize = (40 * (int)context.getResources().getDisplayMetrics().density)/2;
                // d = new BitmapDrawable(context.getResources(), Helper.decodeSampledBitmapFromResource(ims, reqSize, reqSize));
@@ -89,7 +89,6 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             imageView = itemView.findViewById(R.id.iv_page_nav);
             pageNum = itemView.findViewById(R.id.tv_page_nav);
             cardView = itemView.findViewById(R.id.cv_nav_page);
-
         }
     }
 

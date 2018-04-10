@@ -126,6 +126,8 @@
     <style name="MyButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/whiteAlpha</item>
         <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/opensans_bold</item>
+
     </style>
     <style name="MyRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:colorControlNormal" tools:targetApi="21">@color/white</item>
