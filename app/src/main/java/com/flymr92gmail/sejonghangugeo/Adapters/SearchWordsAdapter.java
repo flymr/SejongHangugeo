@@ -3,6 +3,7 @@ package com.flymr92gmail.sejonghangugeo.Adapters;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 
 import android.text.style.BackgroundColorSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +65,8 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
             }
             kor.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.colorAccent)), start,
                     start + searchingText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            kor.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.white)), start,
+                    start+ searchingText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.tvKorWord.setText(kor);
             holder.tvRusWord.setText(word.getRussianWord());
         }else {
@@ -71,13 +75,17 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
             if (start < 0){
                 start = word.getRussianWord().toLowerCase().indexOf(searchingText.toLowerCase());
             }
-            rus.setSpan(new BackgroundColorSpan(Color.GREEN), start,
+            rus.setSpan(new BackgroundColorSpan(mContext.getResources().getColor(R.color.colorAccent)), start,
                     start + searchingText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            rus.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.white)), start,
+                    start+ searchingText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             holder.tvRusWord.setText(rus);
             holder.tvKorWord.setText(word.getKoreanWord());
         }
         Log.d("VIEWHOLDER", "onBindViewHolder: " + word.getCorrectCount());
     }
+
+
     @Override
     public int getItemCount () {
         return mWords.size();

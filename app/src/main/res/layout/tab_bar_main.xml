@@ -23,7 +23,7 @@
         app:nts_inactive_color="#81ffffff"
         app:nts_titles="@array/titles_main"
         app:nts_type="line"
-        app:nts_typeface="fonts/uniSans.otf"
+        app:nts_typeface="@font/opensans_bold"
         app:nts_weight="3dp"
         />
 

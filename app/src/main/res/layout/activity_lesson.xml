@@ -49,7 +49,7 @@
                     app:nts_inactive_color="@color/tabStripColorHint"
                     app:nts_titles="@array/titles"
                     app:nts_type="line"
-                    app:nts_typeface="fonts/drugs.otf"
+                    app:nts_typeface="fonts/OpenSansCondensed-Light.ttf"
                     app:nts_weight="3dp"
 
                     />
