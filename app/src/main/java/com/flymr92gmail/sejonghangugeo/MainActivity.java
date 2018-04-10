@@ -523,16 +523,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         if(drawerDrawable!=null){
-            drawerDrawable.setCallback(null);
-            drawerDrawable=null;
+            BitmapDrawable bitmapDrawable = (BitmapDrawable)drawerDrawable;
+            bitmapDrawable.getBitmap().recycle();
         }
         if (drawable1 != null){
-            drawable1.setCallback(null);
-            drawable1 = null;
+            BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable1;
+            bitmapDrawable.getBitmap().recycle();
         }
         if (drawable2 != null) {
-            drawable2.setCallback(null);
-            drawable2 = null;
+            BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable2;
+            bitmapDrawable.getBitmap().recycle();
         }
 
     }

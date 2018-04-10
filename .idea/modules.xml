@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SejongHangugeo.iml" filepath="$PROJECT_DIR$/SejongHangugeo.iml" />
-      <module fileurl="file://C:\Users\hp\AndroidStudioProjects\SejongHangugeo\.idea\SejongHangugeo.iml" filepath="C:\Users\hp\AndroidStudioProjects\SejongHangugeo\.idea\SejongHangugeo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SejongHangugeo.iml" filepath="$PROJECT_DIR$/.idea/SejongHangugeo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
