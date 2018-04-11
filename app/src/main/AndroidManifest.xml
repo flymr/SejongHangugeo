@@ -73,7 +73,7 @@
         </activity>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="be05e18648ec565c107ed2d662fbe3ab681670da" />
+            android:value="1" />
     </application>
 
 </manifest>
