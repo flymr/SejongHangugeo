@@ -13,6 +13,15 @@ public class AudioTest {
     private int mImageCount;
     private String mTextAnswer;
     private int mTestType = 0;
+    private String mTextAudio;
+
+    public String getmTextAudio() {
+        return mTextAudio;
+    }
+
+    public void setmTextAudio(String mTextAudio) {
+        this.mTextAudio = mTextAudio;
+    }
 
     public int getmTestType() {
         return mTestType;

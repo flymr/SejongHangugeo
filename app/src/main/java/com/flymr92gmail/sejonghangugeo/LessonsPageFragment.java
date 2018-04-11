@@ -172,6 +172,7 @@ public class LessonsPageFragment extends Fragment{
                 jsonObject.put("ids", jsonArray);
                 json = jsonObject.toString();
                 prefManager.setAddedLegendsId(json);
+                appDataBase.close();
                 return legend;
             } catch (JSONException e) {
                 Log.d("lessons", "secondTry false");
@@ -184,15 +185,16 @@ public class LessonsPageFragment extends Fragment{
                     jsonObject.put("ids", jsonArray);
                     json = jsonObject.toString();
                     prefManager.setAddedLegendsId(json);
+                    appDataBase.close();
                     return legend;
                 }catch (JSONException e2){
                     Log.d("lessons", "firstTry false");
 
                 }
             }
-
-
-        return appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
+        legend = appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
+        appDataBase.close();
+        return legend;
     }
 
     private int getRandomInt(int distance){

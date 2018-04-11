@@ -78,7 +78,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
     private ArrayList<Word> pageWords;
     private ArrayList<Word> selectedWords;
     private SearchView wordsSearcher;
-    private boolean firstWordIsSelected = true;
+
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
     private TextToSpeech textToSpeech;

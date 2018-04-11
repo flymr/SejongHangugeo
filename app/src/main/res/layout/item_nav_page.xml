@@ -12,6 +12,7 @@
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
         app:cardCornerRadius="7dp"
+        app:cardBackgroundColor="@color/cardItemColor"
         android:layout_gravity="center">
         <LinearLayout
             android:layout_width="wrap_content"
@@ -22,7 +23,6 @@
                 android:id="@+id/tv_page_nav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textColor"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"

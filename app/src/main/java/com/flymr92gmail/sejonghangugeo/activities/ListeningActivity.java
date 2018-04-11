@@ -1,33 +1,26 @@
 package com.flymr92gmail.sejonghangugeo.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,9 +29,7 @@ import android.support.v7.widget.Toolbar;
 import com.flymr92gmail.sejonghangugeo.Adapters.ListeningAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.AudioTest;
-import com.flymr92gmail.sejonghangugeo.POJO.Test;
 import com.flymr92gmail.sejonghangugeo.R;
-import com.flymr92gmail.sejonghangugeo.Utils.TouchImageView;
 import com.wnafee.vector.MorphButton;
 
 import java.io.IOException;
@@ -74,7 +65,6 @@ public class ListeningActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_listening);
         initUI();
         initObj();
@@ -136,10 +126,6 @@ public class ListeningActivity extends AppCompatActivity{
         recyclerView.setAdapter(adapter);
     }
 
-    private int getOrientation(){
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) return Configuration.ORIENTATION_LANDSCAPE;
-        else return Configuration.ORIENTATION_PORTRAIT;
-    }
 
     private void initObj(){
         Intent intent = getIntent();

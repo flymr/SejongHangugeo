@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
         setClickListenerToViews();
         initObj();
-        setupDrawable();
+        //setupDrawable();
         setupFlowindDrawer();
         setupToolbar();
         setupViewPsger();
@@ -165,11 +165,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void setupDrawable(){
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        drawerDrawable = new BitmapDrawable(getResources(), Helper.decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
-        drawable2 = new BitmapDrawable(getResources(), Helper.decodeSampledBitmapFromResource(getResources(),  R.drawable.page2_title, metrics.widthPixels/2, 0));
-        drawable1 = new BitmapDrawable(getResources(), Helper.decodeSampledBitmapFromResource(getResources(), R.drawable.page1_title, metrics.widthPixels/2, 0));
+       // DisplayMetrics metrics = new DisplayMetrics();
+       // getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        drawerDrawable = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
+        //drawable2 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(),  R.drawable.page2_title, metrics.widthPixels/2, 0));
+       // drawable1 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.page1_title, metrics.widthPixels/2, 0));
     }
 
 
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupFlowindDrawer(){
         mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
-        drawerIv.setImageDrawable(drawerDrawable);
+        drawerIv.setImageDrawable(getResources().getDrawable(R.drawable.drawer_title_image));
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
             @Override
             public void onDrawerStateChange(int oldState, int newState) {
@@ -252,6 +252,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void setupViewPsger(){
+        //final DisplayMetrics metrics = new DisplayMetrics();
+      //  getWindowManager().getDefaultDisplay().getMetrics(metrics);
         mViewPager.setColor(R.color.colorFolder, 100);
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
 
@@ -301,15 +303,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         logo.setVisibility(View.VISIBLE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.listBgColor,
-                                // getResources().getDrawable(R.drawable.page1_title)
-                                drawable1
+                                 getResources().getDrawable(R.drawable.page1_title)
+                               // new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.page1_title, metrics.widthPixels/2, 0))
                         );
                     case 1:
                         logo.setVisibility(View.GONE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.listBgColor,
-                                drawable2
-                                //  getResources().getDrawable(R.drawable.page2_title)
+                               // new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.page1_title, metrics.widthPixels/2, 0))
+                                  getResources().getDrawable(R.drawable.page2_title)
+
 
                         );
 
@@ -325,7 +328,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
     }
 
+    public Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
+                                                         int reqWidth, int reqHeight) {
 
+        // First decode with inJustDecodeBounds=true to check dimensions
+        final BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeResource(res, resId, options);
+        // Calculate inSampleSize
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+
+        // Decode bitmap with inSampleSize set
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeResource(res, resId, options);
+    }
+
+    private int calculateInSampleSize(
+            BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) > reqHeight
+                    && (halfWidth / inSampleSize) > reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
+    }
 
     private void expand(final View v) {
         v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -518,23 +558,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if(drawerDrawable!=null){
-            BitmapDrawable bitmapDrawable = (BitmapDrawable)drawerDrawable;
-            bitmapDrawable.getBitmap().recycle();
+            drawerDrawable.setCallback(null);
+            drawerDrawable=null;
         }
         if (drawable1 != null){
-            BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable1;
-            bitmapDrawable.getBitmap().recycle();
+            drawable1.setCallback(null);
+            drawable1 = null;
         }
         if (drawable2 != null) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable)drawable2;
-            bitmapDrawable.getBitmap().recycle();
+            drawable2.setCallback(null);
+            drawable2 = null;
         }
-
+        if (mViewPager !=null) {
+            mViewPager.getHeaderBackgroundContainer().removeAllViewsInLayout();
+            mViewPager.removeCallbacks(null);
+            mViewPager = null;
+        }
     }
 
 

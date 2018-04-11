@@ -146,6 +146,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
                 jsonObject.put("ids", jsonArray);
                 json = jsonObject.toString();
                 prefManager.setAddedLegendsId(json);
+                appDataBase.close();
                 return legend;
             } catch (JSONException e) {
                 Log.d("main", "secondTry false");
@@ -158,6 +159,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
                     jsonObject.put("ids", jsonArray);
                     json = jsonObject.toString();
                     prefManager.setAddedLegendsId(json);
+                    appDataBase.close();
                     return legend;
                 }catch (JSONException e2){
                     Log.d("main", "firstTry false");
@@ -168,13 +170,17 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
             try {
                 JSONObject jsonObject = new JSONObject(json);
                 JSONArray jsonArray = jsonObject.getJSONArray("ids");
-                return appDataBase.getLegendById(jsonArray.getInt(jsonArray.length() - 1));
+                legend = appDataBase.getLegendById(jsonArray.getInt(jsonArray.length() - 1));
+                appDataBase.close();
+                return legend;
             }catch (JSONException e){
 
             }
 
         }
-        return appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
+        legend = appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
+        appDataBase.close();
+        return legend;
 
     }
 

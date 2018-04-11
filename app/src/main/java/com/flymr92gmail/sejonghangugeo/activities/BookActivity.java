@@ -16,6 +16,8 @@ import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.design.internal.NavigationMenu;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -98,7 +100,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private FrameLayout controller_ll;
     private ImageButton closeAudioBtn;
     private RecyclerView navBookRv;
-    private LinearLayoutManager llmanagerNav;
+
     private boolean navIsShow = false;
     private RecyclerItemClickListener navListener;
     private Button addAll;
@@ -106,7 +108,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private ArrayList<Word> pageWords;
     private ArrayList<Word> selectedWords;
     private SearchView wordsSearcher;
-    private boolean firstWordIsSelected = true;
 
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
@@ -114,7 +115,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         setContentView(R.layout.activity_book);
         initialization();
         setupPdf();
@@ -154,6 +154,12 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         pdfView.recycle();
@@ -162,6 +168,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
+      //  getDelegate().setLocalNightMode(AppCompatDelegate.getDefaultNightMode());
     }
 
     @Override
@@ -172,6 +179,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             mp = null;
             if(handlerAudio!=null){
                 handlerAudio.removeCallbacks(audioRun);
+                handlerAudio.removeCallbacksAndMessages(null);
             }
         }
     }
@@ -229,7 +237,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         bookMenu.hide();
         navBookRv = findViewById(R.id.nav_book_rv);
         NavBookAdapter adapter = new NavBookAdapter(differencePages, pdfView.getCurrentPage(), pdfView.getPageCount(), this, true);
-        llmanagerNav = new LinearLayoutManager(this);
+        LinearLayoutManager llmanagerNav = new LinearLayoutManager(this);
         navBookRv.setLayoutManager(llmanagerNav);
         navBookRv.setAdapter(adapter);
         llmanagerNav.scrollToPositionWithOffset(pdfView.getCurrentPage()-5,0);

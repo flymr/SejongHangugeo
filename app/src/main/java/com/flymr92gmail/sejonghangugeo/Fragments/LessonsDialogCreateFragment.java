@@ -1,14 +1,13 @@
 package com.flymr92gmail.sejonghangugeo.Fragments;
 
-/**
- * Created by xyarim on 3/6/17.
- */
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.EditText;
 
@@ -54,7 +53,7 @@ public class LessonsDialogCreateFragment extends DialogFragment {
         dialog = null;
         dataBase = new UserDataBase(getContext());
         form= getActivity().getLayoutInflater().inflate(R.layout.create_lesson_dialog, null);
-        final EditText editText = (EditText)form.findViewById(R.id.lessonName_et);
+        final EditText editText = form.findViewById(R.id.lessonName_et);
         if (mLesson!=null){
             editText.setText(mLesson.getLessonName());
         }
@@ -93,7 +92,15 @@ public class LessonsDialogCreateFragment extends DialogFragment {
 
     @Override
     public void onDismiss(DialogInterface unused) {
+        try {
+            FragmentManager manager = getActivity().getSupportFragmentManager();
+            FragmentTransaction trans = manager.beginTransaction();
+            trans.remove(this);
+            trans.commit();
+            manager.popBackStack();
+        }catch (NullPointerException e){
 
+        }
     }
     @Override
     public void onCancel(DialogInterface unused) {

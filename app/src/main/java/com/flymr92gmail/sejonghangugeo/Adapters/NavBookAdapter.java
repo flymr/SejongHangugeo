@@ -58,9 +58,11 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         PageViewHolder viewHolder = (PageViewHolder)holder;
         String s = ""+(position+differencePages);
         viewHolder.pageNum.setText(s);
-        if (currentPage == position)
+        if (currentPage == position) {
             viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
-        else viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.white));
+            viewHolder.pageNum.setTextColor(context.getResources().getColor(R.color.white));
+        }
+        else viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.cardItemColor));
         if (withImages) {
             try {
                 Drawable d;
