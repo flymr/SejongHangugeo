@@ -5,26 +5,11 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:id="@+id/ll_test"
-    android:background="#E3E3E3"
     >
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:srcCompat="@drawable/ic_chevron_right"
-            android:onClick="nextTestOnclick"
-            android:layout_above="@+id/iv_test"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-        <ImageView android:id="@+id/iv_audio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_play_vector"
-            android:layout_below="@+id/iv_test"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+
         <com.flymr92gmail.sejonghangugeo.Utils.TouchImageView
             android:id="@+id/iv_test"
             android:layout_centerInParent="true"

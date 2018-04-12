@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -40,20 +42,17 @@ public class TestActivity extends AppCompatActivity {
     private TouchImageView imageViewTest;
     private EditText editTextTest1;
     private EditText editTextTest2;
-    private ImageView ivAudio;
     private ArrayList<Test> testArrayList;
     private int sizeOfArray;
     private int currentTestCount=0;
     private Test currentTest;
-   // private TextView progressTextView;
     private Toolbar toolbar;
     private Button submitButton;
     private AppDataBase appDataBase;
     private InputMethodManager imm;
-    private MediaPlayer mp;
-    private int lastTrack;
-    private Menu menu;
-    private LinearLayout llTest;
+
+
+
     private PrefManager prefManager;
 
     @Override
@@ -61,62 +60,42 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("TESTLOG", "onCreate: ");
         setContentView(R.layout.activity_test);
-        llTest = findViewById(R.id.ll_test);
         Intent intent = getIntent();
-        mp = new MediaPlayer();
-
         prefManager = new PrefManager(this);
-
-
-
         appDataBase = new AppDataBase(this);
-
         testArrayList = appDataBase.getTest(intent.getIntExtra("page",-1));
-        if(testArrayList.get(1).getTrackId()!=0) llTest.setBackgroundColor(Color.WHITE);
         sizeOfArray = testArrayList.size();
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Page "+testArrayList.get(1).getPage());
+        setupToolbar();
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initUi();
         if (currentTestCount==0){
             nextTest();
         }
 
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_test,menu);
-        this.menu = menu;
-        Log.d("TESTLOG", "onCreateOptionsMenu: ");
-        updateMenu(0);
-        return super.onCreateOptionsMenu(menu);
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.actionPlayTrack:
-                if (mp.isPlaying()) {
-                    stopAudio();
-                }else {
-                    playAudio();
+
+    private void setupToolbar() {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+            toolbar.setTitle(R.string.titki);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
                 }
-                break;
-            case R.id.actionNextTest:
-                nextTest();
-                break;
-            case R.id.actionBackTest:
-                prevTest();
-                break;
+            });
+            final Drawable upArrow = getResources().getDrawable(R.drawable.ic_arrow_back_24dp);
+            upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            getSupportActionBar().setHomeAsUpIndicator(upArrow);
         }
-        return super.onOptionsItemSelected(item);
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mp.isPlaying()) mp.stop();
-    }
+
+
     private void initUi(){
         progressBar = findViewById(R.id.learn_progress);
         imageViewTest = findViewById(R.id.iv_test);
@@ -124,7 +103,7 @@ public class TestActivity extends AppCompatActivity {
         editTextTest1 = findViewById(R.id.learn_edit_text_2);
        // progressTextView = findViewById(R.id.textProgress);
         submitButton = findViewById(R.id.submit_btn);
-        ivAudio = findViewById(R.id.iv_audio);
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +134,7 @@ public class TestActivity extends AppCompatActivity {
 
     }
     private void nextTest(){
-        stopAudio();
+
         if (currentTestCount==sizeOfArray){
             finish();
         } else if (currentTestCount<=sizeOfArray) {
@@ -180,14 +159,13 @@ public class TestActivity extends AppCompatActivity {
                 Log.d("inputview", "nextTest: ==null");
             }
             }
-            if (currentTestCount!=0)
-            updateMenu(currentTestCount);
+           // if (currentTestCount!=0) updateMenu(currentTestCount);
             currentTestCount++;
 
     }
 
     private void prevTest(){
-        stopAudio();
+
         currentTest = null;
         currentTest = testArrayList.get(currentTestCount-1);
         imageViewTest.setBackgroundDrawable(Helper.getImageFromAssets(currentTest.getImage(),this));
@@ -207,8 +185,7 @@ public class TestActivity extends AppCompatActivity {
             imm.showSoftInput(editTextTest2, InputMethodManager.SHOW_IMPLICIT);
             Log.d("inputview", "nextTest: ==null");
         }
-        if (currentTestCount!=0)
-            updateMenu(currentTestCount);
+      //  if (currentTestCount!=0) updateMenu(currentTestCount);
         currentTestCount--;
 
     }
@@ -216,7 +193,6 @@ public class TestActivity extends AppCompatActivity {
         Snackbar snackbar = Snackbar.make(view, word, Snackbar.LENGTH_SHORT);
         View sbView = snackbar.getView();
         TextView textView = sbView.findViewById(android.support.design.R.id.snackbar_text);
-        ImageView imageView = new ImageView(this);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
         textView.setTextColor(Color.WHITE);
         if (wordIsCorrect)
@@ -257,68 +233,6 @@ public class TestActivity extends AppCompatActivity {
 
             showSnackbar(false,"Ошибка!",view);
         }
-    }
-    public void nextTestOnclick(View view) {
-        nextTest();
-    }
-
-    private void playAudio(){
-        try {
-                mp = new MediaPlayer();
-                AssetFileDescriptor descriptor = getAssets().openFd("Audio/"+currentTest.getTrackId()+".wma");
-                mp.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength());
-                descriptor.close();
-                mp.prepare();
-                mp.setVolume(1f, 1f);
-                mp.setLooping(false);
-                mp.start();
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        updateMenu(currentTestCount);
-                    }
-                });
-                updateMenu(currentTestCount);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void stopAudio(){
-        if (mp.isPlaying()){
-            mp.stop();
-
-            updateMenu(currentTestCount);
-        }
-    }
-    private void updateMenu(int currentTestCount) {
-        if (currentTestCount!=0)
-            currentTestCount=this.currentTestCount;
-
-        MenuItem prevMenuItem = menu.findItem(R.id.actionBackTest);
-        MenuItem nextMenuItem = menu.findItem(R.id.actionNextTest);
-        MenuItem playMenuItem = menu.findItem(R.id.actionPlayTrack);
-        if (currentTest.getTrackId()==0)
-            playMenuItem.setVisible(false);
-        else
-            playMenuItem.setVisible(true);
-
-        Log.w("UPDATEMENU","currentTestCount: "+currentTestCount);
-        Log.w("UPDATEMENU","sizeOfArray: "+sizeOfArray);
-       // if(currentTestCount>0&&currentTestCount<=sizeOfArray){
-       //     prevMenuItem.setVisible(true);
-       // }else
-       //     prevMenuItem.setVisible(false);
-
-        if (currentTestCount<sizeOfArray-1){
-            nextMenuItem.setVisible(true);
-        }else if (currentTestCount==sizeOfArray-1){
-            nextMenuItem.setVisible(true);
-            nextMenuItem.setIcon(R.drawable.ic_close);
-        }
-
-        if (mp.isPlaying()){
-           playMenuItem.setIcon(R.drawable.ic_volume_24dp);
-        }else playMenuItem.setIcon(R.drawable.ic_play_vector);
     }
 
 
