@@ -101,7 +101,6 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
             ivAdd = itemView.findViewById(R.id.iv_add);
             ivSpeech = itemView.findViewById(R.id.speech_iv);
             cardView = itemView.findViewById(R.id.word_item_cv);
-            cardView.setCardBackgroundColor(Color.WHITE);
             ivAdd.setOnClickListener(this);
             ivSpeech.setOnClickListener(this);
         }

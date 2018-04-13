@@ -10,7 +10,10 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -18,6 +21,7 @@ import android.speech.tts.UtteranceProgressListener;
 import android.support.design.internal.NavigationMenu;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -72,6 +76,7 @@ import com.wnafee.vector.MorphButton;
 
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -112,6 +117,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     private RecyclerView searchRv;
     private ArrayList<Word> searchedArray;
     private TextToSpeech textToSpeech;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,8 +151,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         addAll = findViewById(R.id.sliding_add_all_btn);
         addSelected = findViewById(R.id.sliding_add_selected_btn);
         wordsSearcher = findViewById(R.id.search_words_sv);
-
-
         pageWords = new ArrayList<>();
         selectedWords = new ArrayList<>();
         textToSpeech = new TextToSpeech(this, this);
@@ -326,7 +330,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                 if (newText.equals(""))
                     searchedArray = new ArrayList<>();
 
-                searchRv.setAdapter(new SearchWordsAdapter(searchedArray, getApplicationContext(), newText, language, getSupportFragmentManager(),BookActivity.this));
+                searchRv.setAdapter(new SearchWordsAdapter(searchedArray,BookActivity.this, newText, language, getSupportFragmentManager(),BookActivity.this));
                 return true;
             }
             @Override
@@ -335,7 +339,20 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                 return true;
             }
         };
-        wordsSearcher.setQueryHint(Html.fromHtml("<font color = #ffffff>" + "Поиск в словаре" + "</font>"));
+        EditText searchEditText = wordsSearcher.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.white));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.white));
+        ImageView closeIcon = wordsSearcher.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
+        closeIcon.setImageResource(R.drawable.ic_close_24dp);
+        wordsSearcher.setQueryHint("Поиск в словаре");
+        try {
+            Field mDrawable = SearchView.class.getDeclaredField("mSearchHintIcon");
+            mDrawable.setAccessible(true);
+            Drawable drawable = (Drawable) mDrawable.get(wordsSearcher);
+            drawable.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         wordsSearcher.setOnQueryTextListener(queryTextListener);
         wordsSearcher.setIconified(false);
         wordsSearcher.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -481,6 +498,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         }
     }
 
+
     private void setupAudioPlayer(){
         audioSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
           @Override
@@ -527,6 +545,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
       });
     }
 
+
     private void playAudio(){
         bookMenu.hide();
         try {
@@ -564,6 +583,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         }
     }
 
+
     protected boolean stopAudio(){
         if (controller_ll.getVisibility() == View.VISIBLE){
             if(mp!=null){
@@ -582,7 +602,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         }else return false;
 
     }
-
 
 
     private void getAudioStats(){
@@ -608,7 +627,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         if (seconds < 10) return minutes + ":0" + seconds;
         return minutes + ":" + seconds;
     }
-
 
 
     private void initializeSeekBar(){
@@ -648,7 +666,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
     }
 
 
-
     private void testAction(){
         Intent intent;
         if (0 <dataBase.getAudioTest(pdfView.getCurrentPage()+differencePages).size()){
@@ -659,6 +676,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         intent.putExtra("page",pdfView.getCurrentPage()+differencePages);
         startActivity(intent);
     }
+
 
     @Override
     public void onSpeechClick(int position, View view) {
@@ -693,6 +711,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
     }
 
+
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS){
@@ -709,9 +728,11 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         }
     }
 
+
     public void speechWord(String s){
         textToSpeech.speak(s, TextToSpeech.QUEUE_FLUSH, null);
     }
+
 
     public boolean wordIsSpeech(){
         return textToSpeech.isSpeaking();

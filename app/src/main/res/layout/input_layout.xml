@@ -37,7 +37,7 @@
         android:id="@+id/submit_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorAccent"
         android:text="ok"
         android:visibility="gone"
         android:textColor="@color/white"

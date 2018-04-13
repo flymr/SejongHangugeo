@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupToolbar();
         setupViewPsger();
         setRbChecked();
-        thisIsFirstActivation();
+       // thisIsFirstActivation();
 
     }
 

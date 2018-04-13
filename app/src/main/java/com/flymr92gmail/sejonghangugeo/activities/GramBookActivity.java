@@ -6,6 +6,8 @@ import android.annotation.SuppressLint;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
@@ -23,6 +25,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -51,6 +54,7 @@ import com.john.waveview.WaveView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.wnafee.vector.MorphButton;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -295,7 +299,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
                 if (newText.equals(""))
                     searchedArray = new ArrayList<>();
 
-                searchRv.setAdapter(new SearchWordsAdapter(searchedArray, getApplicationContext(), newText, language, getSupportFragmentManager(), GramBookActivity.this));
+                searchRv.setAdapter(new SearchWordsAdapter(searchedArray,GramBookActivity.this, newText, language, getSupportFragmentManager(),GramBookActivity.this));
                 return true;
             }
             @Override
@@ -304,7 +308,20 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
                 return true;
             }
         };
-        wordsSearcher.setQueryHint(Html.fromHtml("<font color = #ffffff>" + "Поиск в словаре" + "</font>"));
+        EditText searchEditText = wordsSearcher.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchEditText.setTextColor(getResources().getColor(R.color.white));
+        searchEditText.setHintTextColor(getResources().getColor(R.color.white));
+        ImageView closeIcon = wordsSearcher.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
+        closeIcon.setImageResource(R.drawable.ic_close_24dp);
+        wordsSearcher.setQueryHint("Поиск в словаре");
+        try {
+            Field mDrawable = SearchView.class.getDeclaredField("mSearchHintIcon");
+            mDrawable.setAccessible(true);
+            Drawable drawable = (Drawable) mDrawable.get(wordsSearcher);
+            drawable.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_IN);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         wordsSearcher.setOnQueryTextListener(queryTextListener);
         wordsSearcher.setIconified(false);
         wordsSearcher.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -407,7 +424,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         if (wordsSearcher.getVisibility() == View.GONE)kor = pageWords.get(position).getKoreanWord();
         else kor = searchedArray.get(position).getKoreanWord();
         final ImageView imageView = view.findViewById(R.id.speech_iv);
-        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.black),
+        ObjectAnimator.ofObject(imageView, "colorFilter", new ArgbEvaluator(), getResources().getColor(R.color.textColor),
                 getResources().getColor(R.color.yellow)).setDuration(100).start();
         speechWord(kor);
         new Handler().postDelayed(new Runnable() {

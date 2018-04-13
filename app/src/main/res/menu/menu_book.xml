@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_nav"
         android:title="навигация по темам"
         app:showAsAction="never"
-        android:orderInCategory="1"
+        android:orderInCategory="4"
         />
 
     <item
@@ -14,14 +14,14 @@
         android:icon="@drawable/ic_search_24dp"
         app:showAsAction="never"
         android:title="поиск в словаре"
-        android:orderInCategory="2"/>
+        android:orderInCategory="3"/>
 
     <item
         android:id="@+id/action_play_audio"
         android:icon="@drawable/ic_headset_24dp"
         android:title="слушать диалог"
         app:showAsAction="never"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:visible="false"
         />
 
@@ -30,13 +30,13 @@
         android:icon="@drawable/ic_translate_24dp"
         app:showAsAction="never"
         android:title="новые слова"
-        android:orderInCategory="4"/>
+        android:orderInCategory="1"/>
     <item
         android:id="@+id/action_test"
         android:icon="@drawable/ic_school_24dp"
         app:showAsAction="never"
         android:title="упражнение"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         android:visible="false"/>
 
 </menu>

@@ -22,6 +22,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -37,8 +38,8 @@ import com.flymr92gmail.sejonghangugeo.Utils.TouchImageView;
 
 import java.util.ArrayList;
 
-public class TestActivity extends AppCompatActivity {
-    private ProgressBar progressBar;
+public class TestActivity extends AppCompatActivity implements View.OnClickListener{
+
     private TouchImageView imageViewTest;
     private EditText editTextTest1;
     private EditText editTextTest2;
@@ -50,10 +51,9 @@ public class TestActivity extends AppCompatActivity {
     private Button submitButton;
     private AppDataBase appDataBase;
     private InputMethodManager imm;
+    private ImageButton btnNext, btnPrev;
 
 
-
-    private PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,6 @@ public class TestActivity extends AppCompatActivity {
         Log.d("TESTLOG", "onCreate: ");
         setContentView(R.layout.activity_test);
         Intent intent = getIntent();
-        prefManager = new PrefManager(this);
         appDataBase = new AppDataBase(this);
         testArrayList = appDataBase.getTest(intent.getIntExtra("page",-1));
         sizeOfArray = testArrayList.size();
@@ -97,19 +96,18 @@ public class TestActivity extends AppCompatActivity {
 
 
     private void initUi(){
-        progressBar = findViewById(R.id.learn_progress);
+        btnNext = findViewById(R.id.btn_next_test);
+        btnNext.setOnClickListener(this);
+        btnPrev = findViewById(R.id.btn_prev_test);
+        btnPrev.setOnClickListener(this);
+        btnNext.setColorFilter(getResources().getColor(R.color.colorAccent));
+        btnPrev.setColorFilter(getResources().getColor(R.color.colorAccent));
         imageViewTest = findViewById(R.id.iv_test);
         editTextTest2 = findViewById(R.id.learn_edit_text);
         editTextTest1 = findViewById(R.id.learn_edit_text_2);
        // progressTextView = findViewById(R.id.textProgress);
         submitButton = findViewById(R.id.submit_btn);
-
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              submitAction(v);
-            }
-        });
+        submitButton.setOnClickListener(this);
         editTextTest1.setOnEditorActionListener(new EditText.OnEditorActionListener(){
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -134,7 +132,7 @@ public class TestActivity extends AppCompatActivity {
 
     }
     private void nextTest(){
-
+        updateBtn();
         if (currentTestCount==sizeOfArray){
             finish();
         } else if (currentTestCount<=sizeOfArray) {
@@ -165,30 +163,19 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void prevTest(){
-
-        currentTest = null;
-        currentTest = testArrayList.get(currentTestCount-1);
-        imageViewTest.setBackgroundDrawable(Helper.getImageFromAssets(currentTest.getImage(),this));
-        editTextTest2.setText("");
-        editTextTest1.setText("");
-        if (currentTest.getSecondAnswer()!=null) {
-            editTextTest1.setVisibility(View.VISIBLE);
-            editTextTest1.requestFocus();
-            editTextTest1.setHint(currentTest.getFirstHint());
-            editTextTest2.setHint(currentTest.getSecondHint());
-            imm.showSoftInput(editTextTest2, InputMethodManager.SHOW_IMPLICIT);
-            Log.d("inputview", "nextTest: !=null");
-        }else {
-            editTextTest1.setVisibility(View.GONE);
-            editTextTest2.requestFocus();
-            editTextTest2.setHint(currentTest.getFirstHint());
-            imm.showSoftInput(editTextTest2, InputMethodManager.SHOW_IMPLICIT);
-            Log.d("inputview", "nextTest: ==null");
-        }
-      //  if (currentTestCount!=0) updateMenu(currentTestCount);
-        currentTestCount--;
-
+       currentTestCount = currentTestCount -2;
+       nextTest();
     }
+
+    private void updateBtn(){
+        if (currentTestCount == 0) btnPrev.setVisibility(View.GONE);
+        else if (currentTestCount == sizeOfArray-1) btnNext.setVisibility(View.GONE);
+        else {
+            btnNext.setVisibility(View.VISIBLE);
+            btnPrev.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void showSnackbar(boolean wordIsCorrect, String word, View view){
         Snackbar snackbar = Snackbar.make(view, word, Snackbar.LENGTH_SHORT);
         View sbView = snackbar.getView();
@@ -201,6 +188,7 @@ public class TestActivity extends AppCompatActivity {
             sbView.setBackgroundColor(Color.RED);
         snackbar.show();
     }
+
     private boolean checkTest() {
 
         Test test = currentTest;
@@ -216,24 +204,35 @@ public class TestActivity extends AppCompatActivity {
         }else {
             if ((test.getFirstAnswer().equals(tv2text) && test.getSecondAnswer().equals(tv1text))) {
                 // test.getFirstAnswer().equals(tv2text)&&test.getSecondAnothAnswer().equals(tv1text
-                //TODO: verify anothAnswer
+
                 return true;
             }else
                 return false;
         }
     }
+
     private void submitAction(View view){
 
         if (checkTest()){
-            // TODO showProgress method
             showSnackbar(true,"Отлично!",view);
             nextTest();
         }else {
-            //TODO showProgress method
-
             showSnackbar(false,"Ошибка!",view);
         }
     }
 
-
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_next_test:
+                nextTest();
+                break;
+            case R.id.btn_prev_test:
+                prevTest();
+                break;
+            case R.id.submit_btn:
+                submitAction(view);
+                break;
+        }
+    }
 }

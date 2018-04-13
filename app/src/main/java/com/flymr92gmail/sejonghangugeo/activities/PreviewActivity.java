@@ -3,6 +3,7 @@ package com.flymr92gmail.sejonghangugeo.activities;
 import android.animation.ArgbEvaluator;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.PreviewAdapter;
+import com.flymr92gmail.sejonghangugeo.MainActivity;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 
@@ -63,6 +65,13 @@ public class PreviewActivity extends AppCompatActivity {
         }
         ta.recycle();
         fl.setBackgroundColor(colors[0]);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
     private void setupRecyclerView(){
