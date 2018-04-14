@@ -9,7 +9,7 @@
         android:clipToPadding="false"
         app:edPosition="1"
         app:edMenuSize="250dp"
-        app:edMenuBackground="@color/colorAccent"
+        app:edMenuBackground="@android:color/transparent"
     >
 
         <!--content-->
@@ -45,14 +45,17 @@
         <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
             android:id="@+id/menulayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
            <ScrollView
                android:layout_width="match_parent"
-               android:layout_height="match_parent">
+               android:layout_height="match_parent"
+               android:background="@color/colorAccent"
+               >
             <RelativeLayout
                 android:id="@+id/container_menu_main"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/iv_menu_main"
                     android:layout_width="200dp"
@@ -116,6 +119,7 @@
                             app:eiv_switchColor="true"
                             app:eiv_padding="8dp"/>
                         </LinearLayout>
+
                         <LinearLayout
                             android:id="@+id/expand_last_places"
                             android:layout_width="match_parent"
@@ -391,30 +395,6 @@
                             android:layout_gravity="center"
                             android:textColor="@color/white"
                             android:text="@string/favorites"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/preview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="25dp"
-                        >
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            app:srcCompat="@drawable/ic_crop_original_24dp"
-                            />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_gravity="center"
-                            android:textColor="@color/white"
-                            android:text="@string/preview"/>
                     </LinearLayout>
 
                     <LinearLayout

@@ -28,6 +28,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.ListeningAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
+import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.POJO.AudioTest;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.wnafee.vector.MorphButton;
@@ -508,8 +509,10 @@ public class ListeningActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-
+        if (item.getItemId() == R.id.show_text){
+            FavoritesFragment favoritesFragment = new FavoritesFragment();
+            favoritesFragment.setListeningText(currentTest.getmTextAudio());
+            favoritesFragment.show(getFragmentManager(), "audio text");
         }
         return super.onOptionsItemSelected(item);
     }

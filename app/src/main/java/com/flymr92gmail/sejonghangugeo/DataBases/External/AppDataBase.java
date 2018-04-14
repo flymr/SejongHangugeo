@@ -222,6 +222,7 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
             test.setmFirstAnswer3(cursor.getInt(cursor.getColumnIndex("answer3")));
             test.setmTextAnswer(cursor.getString(cursor.getColumnIndex("textAnswer")));
             test.setmTrackId(cursor.getInt(cursor.getColumnIndex("track")));
+            test.setmTextAudio(cursor.getString(cursor.getColumnIndex("text")));
             tests.add(test);
         }
         cursor.close();

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SejongHangugeo</string>
+    <string name="app_name">Sejong Hangugeo</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -58,6 +58,7 @@
     <string name="add_answer">Принять ответ</string>
     <string name="write_answer">Напишите ответ</string>
     <string name="titki">듣고 말하기</string>
+    <string name="close">Закрыть</string>
 
     <!-- learn final result -->
     <string name="all_words">Все слова</string>
@@ -66,4 +67,7 @@
 
     <!-- learn result -->
     <string name="error_count">Ошибок сделанно: </string>
+
+
+
 </resources>

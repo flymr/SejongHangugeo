@@ -65,7 +65,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/gradient_center_line"
         android:layout_gravity="bottom"
         />
 

@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupToolbar();
         setupViewPsger();
         setRbChecked();
-       // thisIsFirstActivation();
+        thisIsFirstActivation();
 
     }
 
@@ -151,9 +151,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void thisIsFirstActivation(){
         if (prefManager.getIsFirstAppActivation()) {
-            Intent intent = new Intent(this, PreviewActivity.class);
-            startActivity(intent);
             prefManager.setIsFirstAppActivation(false);
+            mDrawer.openMenu(true);
         }
     }
 
@@ -183,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rbNight.setOnClickListener(this);
         rbDay.setOnClickListener(this);
         rbAuto.setOnClickListener(this);
-        findViewById(R.id.preview).setOnClickListener(this);
         findViewById(R.id.favorites).setOnClickListener(this);
     }
 
@@ -517,9 +515,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.help:
 
                 break;
-            case R.id.preview:
-                startActivity(new Intent(this, PreviewActivity.class));
-                break;
+
         }
     }
 
