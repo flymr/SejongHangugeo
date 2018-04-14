@@ -68,14 +68,14 @@
                     android:orientation="vertical"
                     android:layout_below="@+id/iv_menu_main"
                     android:layout_marginTop="20dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="25dp"
                     android:layout_marginStart="25dp"
                     >
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="20dp"
                         >
                         <LinearLayout
                             android:id="@+id/last_places"
@@ -204,7 +204,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         >
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -350,7 +350,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="25dp"
                         >
                         <ImageView
                             android:layout_width="wrap_content"
@@ -374,7 +374,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
                         >
                         <ImageView
                             android:layout_width="wrap_content"
@@ -398,7 +398,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
                         >
                         <ImageView
                             android:layout_width="wrap_content"
@@ -422,7 +422,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="25dp"
                         >
                         <ImageView
                             android:layout_width="wrap_content"
@@ -446,8 +446,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginBottom="25dp"
                         >
                         <ImageView
                             android:layout_width="wrap_content"

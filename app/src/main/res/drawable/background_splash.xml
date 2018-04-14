@@ -6,8 +6,9 @@
 
     <item>
         <bitmap
+            android:scaleType="fitCenter"
             android:gravity="center"
-            android:src="@drawable/drawer_title_image"/>
+            android:src="@drawable/loader_image"/>
     </item>
 
 </layer-list>

@@ -29,8 +29,15 @@
         <include layout="@layout/sliding_layout" />
 
     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    <ImageView
+        android:id="@+id/iv_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lockColor"
+        app:srcCompat="@drawable/loader_image"/>
+
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="16dp">
@@ -40,6 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
+                android:visibility="gone"
                 app:fabGravity="bottom_end"
                 app:fabMenu="@menu/menu_book"
                 app:miniFabBackgroundTint="@android:color/white"

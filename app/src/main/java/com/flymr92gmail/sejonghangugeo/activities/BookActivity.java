@@ -413,7 +413,9 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                                 .onLoad(new OnLoadCompleteListener() {
                                     @Override
                                     public void loadComplete(int nbPages) {
-                                       // ObjectAnimator.ofFloat(llLoader, "alpha", 1f, 0).setDuration(500).start();
+                                        ObjectAnimator.ofFloat(findViewById(R.id.iv_loader), "alpha", 1f, 0).setDuration(500).start();
+                                        bookMenu.setVisibility(View.VISIBLE);
+
                                     }
                                 })
                                 .load();
