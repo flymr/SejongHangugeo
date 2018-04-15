@@ -4,7 +4,6 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
          xmlns:tools="http://schemas.android.com/tools"
-        xmlns:wave="http://schemas.android.com/apk/res-auto"
          android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.flymr92gmail.sejonghangugeo.activities.BookActivity">
@@ -16,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoPanelHeight="25dp"
+        sothree:umanoPanelHeight="0dp"
         sothree:umanoShadowHeight="4dp"
         >
 
@@ -50,12 +49,14 @@
                 android:visibility="gone"
                 app:fabGravity="bottom_end"
                 app:fabMenu="@menu/menu_book"
-                app:miniFabBackgroundTint="@android:color/white"
-                app:miniFabDrawableTint="?attr/colorPrimaryDark"
-                app:miniFabTitleTextColor="?attr/colorPrimaryDark"
+                app:miniFabBackgroundTint="@color/colorControlNormal"
+                app:miniFabDrawableTint="@color/textColor"
+                app:miniFabTitleTextColor="@color/textColor"
+                app:miniFabTitleBackgroundTint="@color/colorControlNormal"
                 />
 
         </FrameLayout>
+
         <FrameLayout
             android:id="@+id/book_audio_control_ll"
             android:layout_width="match_parent"
@@ -76,6 +77,25 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@android:color/transparent"/>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:gravity="center"
+               android:layout_gravity="bottom"
+               android:background="@color/blackAlpha"
+               >
+               <com.wnafee.vector.MorphButton
+                   android:id="@+id/book_play_audio"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_gravity="center"
+                   android:scaleType="fitCenter"
+                   app:vc_foregroundTint="@color/white"
+                   app:vc_startDrawable="@drawable/ic_pause_to_play"
+                   app:vc_endDrawable="@drawable/ic_play_to_pause"/>
+
+           </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -112,25 +132,6 @@
                     android:textColor="@color/white"
                     />
             </LinearLayout>
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:gravity="center"
-               android:layout_gravity="bottom"
-               android:background="@color/blackAlpha"
-               >
-               <com.wnafee.vector.MorphButton
-                   android:id="@+id/book_play_audio"
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="center"
-                   android:scaleType="fitCenter"
-                   app:vc_foregroundTint="@color/white"
-                   app:vc_startDrawable="@drawable/ic_pause_to_play"
-                   app:vc_endDrawable="@drawable/ic_play_to_pause"/>
-
-           </LinearLayout>
-
         </FrameLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/nav_book_rv"
@@ -146,9 +147,8 @@
             android:layout_height="50dp"
             android:visibility="gone"
             android:background="@color/colorAccent"
-
             android:layout_alignParentTop="true"
-            android:layout_marginTop="25dp"/>
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_words_rv"

@@ -39,12 +39,14 @@ public class FavoritesFragment extends DialogFragment{
                     "<p>&emsp;Дерево с крепкими корнями щедро плодоносит и не сгибается от ветра,<br />\n" +
                     "&emsp;Глубокий колодец никогда не высыхает,<br />\n" +
                     "&emsp;Текущая вода обязательно достигает моря.</p>";
-            title = "Благодарности";
-        }else title = "Диалог:";
+            title = getActivity().getResources().getString(R.string.thanks_to);
+        }else {
+            title = getActivity().getResources().getString(R.string.listening_text);
+        }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            textView.setText(Html.fromHtml(text, Html.FROM_HTML_MODE_LEGACY));
+            textView.setText(Html.fromHtml("<big>"+text+"</big>", Html.FROM_HTML_MODE_LEGACY));
         } else {
-            textView.setText(Html.fromHtml(text));
+            textView.setText(Html.fromHtml("<big>"+text+"</big>"));
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         dialog = (builder.setTitle(title).setView(form).setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {

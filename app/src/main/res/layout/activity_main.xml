@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <com.mxn.soul.flowingdrawer_core.FlowingDrawer
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/drawerlayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        app:edPosition="1"
-        app:edMenuSize="250dp"
-        app:edMenuBackground="@android:color/transparent"
-    >
+<com.mxn.soul.flowingdrawer_core.FlowingDrawer xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/tools"
+    android:id="@+id/drawerlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:edPosition="1"
+    app:edMenuSize="250dp"
+    app:edMenuBackground="@color/colorAccent">
 
         <!--content-->
         <RelativeLayout
@@ -50,26 +49,17 @@
            <ScrollView
                android:layout_width="match_parent"
                android:layout_height="match_parent"
-               android:background="@color/colorAccent"
                >
             <RelativeLayout
                 android:id="@+id/container_menu_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_menu_main"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:scaleType="fitCenter"
-                    android:layout_marginTop="50dp"
-                    android:layout_centerHorizontal="true"
-                    />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_below="@+id/iv_menu_main"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="25dp"
                     android:layout_marginStart="25dp"

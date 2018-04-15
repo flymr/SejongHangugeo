@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
+import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.POJO.Test;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.Helper;
@@ -51,7 +52,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     private Button submitButton;
     private AppDataBase appDataBase;
     private InputMethodManager imm;
-    private ImageButton btnNext, btnPrev;
+    private Menu menu;
 
 
 
@@ -81,7 +82,7 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
-            toolbar.setTitle(R.string.titki);
+            toolbar.setTitle(R.string.yonsip);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,18 +97,17 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void initUi(){
-        btnNext = findViewById(R.id.btn_next_test);
-        btnNext.setOnClickListener(this);
-        btnPrev = findViewById(R.id.btn_prev_test);
-        btnPrev.setOnClickListener(this);
-        btnNext.setColorFilter(getResources().getColor(R.color.colorAccent));
-        btnPrev.setColorFilter(getResources().getColor(R.color.colorAccent));
         imageViewTest = findViewById(R.id.iv_test);
         editTextTest2 = findViewById(R.id.learn_edit_text);
         editTextTest1 = findViewById(R.id.learn_edit_text_2);
        // progressTextView = findViewById(R.id.textProgress);
         submitButton = findViewById(R.id.submit_btn);
-        submitButton.setOnClickListener(this);
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitAction(v);
+            }
+        });
         editTextTest1.setOnEditorActionListener(new EditText.OnEditorActionListener(){
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -132,7 +132,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
     }
     private void nextTest(){
-        updateBtn();
         if (currentTestCount==sizeOfArray){
             finish();
         } else if (currentTestCount<=sizeOfArray) {
@@ -162,19 +161,9 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void prevTest(){
-       currentTestCount = currentTestCount -2;
-       nextTest();
-    }
 
-    private void updateBtn(){
-        if (currentTestCount == 0) btnPrev.setVisibility(View.GONE);
-        else if (currentTestCount == sizeOfArray-1) btnNext.setVisibility(View.GONE);
-        else {
-            btnNext.setVisibility(View.VISIBLE);
-            btnPrev.setVisibility(View.VISIBLE);
-        }
-    }
+
+
 
     private void showSnackbar(boolean wordIsCorrect, String word, View view){
         Snackbar snackbar = Snackbar.make(view, word, Snackbar.LENGTH_SHORT);
@@ -224,15 +213,26 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_next_test:
-                nextTest();
-                break;
-            case R.id.btn_prev_test:
-                prevTest();
-                break;
             case R.id.submit_btn:
                 submitAction(view);
                 break;
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_test,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       if (item.getItemId() == R.id.test_next) {
+            nextTest();
+            return true;
+        }else
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }

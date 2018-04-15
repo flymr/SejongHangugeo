@@ -50,7 +50,6 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
-import com.john.waveview.WaveView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.wnafee.vector.MorphButton;
 

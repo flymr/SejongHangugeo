@@ -23,7 +23,7 @@
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
 
             <!-- Material Theme -->
-        <item name="colorPrimary">@color/colorControlNormal</item>
+        <item name="colorPrimary">@color/colorAccent</item>
         <item name="colorPrimaryDark">@color/navigationBarColor</item>
         <item name="colorAccent">@color/colorAccent</item>
 
@@ -32,29 +32,14 @@
 
         <item name="android:textColor">@color/textColor</item>
 
-
     </style>
 
 
-    <style name="AppDialogTheme" parent="Theme.AppCompat.Light.Dialog">
-        <!-- Define color properties as desired -->
-        <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryDark">#000</item>
-        <item name="android:textColorHighlight">@color/hintColor</item>
-        <item name="colorAccent">@color/black</item>
-        <item name="colorControlNormal">@color/black</item>
-        <!-- Define window properties as desired -->
-        <item name="android:windowNoTitle">false</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowBackground">@color/black</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowCloseOnTouchOutside">true</item>
+    <style name="BookTheme" parent="AppTheme">
+       <item name="android:windowTranslucentStatus" tools:targetApi="21">false</item>
+
     </style>
 
-
-    <style name="AppAlertTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowBackground">@color/black</item>
-    </style>
 
 
     <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
@@ -76,9 +61,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
         <item name="android:textColorPrimary">@color/white</item>
+
     </style>
 
-
+    
     <style name="LessonTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="colorControlActivated">@color/colorControlActivated</item>
@@ -97,42 +83,17 @@
         <item name="android:textStyle">bold|italic</item>
         <item name="android:textColor">@color/green</item>
     </style>
+
+
     <style name="ErrorTextIncorrect" parent="TextAppearance.AppCompat.Small">
         <item name="android:textStyle">bold|italic</item>
         <item name="android:textColor">@color/redM</item>
     </style>
+
+
     <style name="ErrorTextNormal" parent="TextAppearance.AppCompat.Small">
         <item name="android:textStyle">bold|italic</item>
         <item name="android:textColor">@color/textColor</item>
-    </style>
-
-
-    <style name="BookTheme" parent="AppBaseTheme">
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
-
-        <item name="android:windowContentOverlay">@color/white</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorControlActivated">@color/redM</item>
-        <!-- Toolbar Theme / Apply white arrow -->
-        <item name="colorControlNormal">@color/white</item>
-        <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
-
-        <!-- Material Theme -->
-        <item name="colorPrimary">@color/white</item>
-        <item name="colorPrimaryDark">@color/navigationBarColor</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorControlActivated" tools:targetApi="21">@color/white</item>
-        <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor</item>
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
-
-        <item name="android:textColorHint">@color/hintColor</item>
-        <item name="android:windowBackground">@color/colorListBackground</item>
-
-        <item name="android:textColor">@color/darkBlue</item>
-
     </style>
 
 
@@ -150,17 +111,6 @@
         <item name="android:colorControlHighlight" tools:targetApi="21">@color/white</item>
     </style>
 
-    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="queryBackground">@color/colorAccent</item>
-        <item name="submitBackground">@color/white</item>
-        <item name="closeIcon">@color/white</item>
-        <item name="searchIcon">@color/white</item>
-        <item name="goIcon">@color/white</item>
-        <item name="voiceIcon">@color/white</item>
-        <item name="commitIcon">@color/white</item>
-        <item name="suggestionRowLayout">@color/white</item>
-        <item name="android:textColor">@color/white</item>
-    </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/background_splash</item>

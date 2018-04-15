@@ -45,12 +45,12 @@
     <string name="day">День</string>
     <string name="night">Ночь</string>
     <string name="auto">Авто</string>
-
+    <string name="thanks_to">Благодарности</string>
     <!-- lessons -->
     <string name="add_to_folder">Добавить в папку</string>
     <string name="new_folder">Новая папка</string>
 
-    <!-- listening -->
+    <!-- listening, test etg -->
     <string name="listeningTask0">Выберите правильный вариант</string>
     <string name="listeningTask1">Выберите правильные варианты</string>
     <string name="listeningTask2">Укажите правильную последовательность</string>
@@ -59,6 +59,10 @@
     <string name="write_answer">Напишите ответ</string>
     <string name="titki">듣고 말하기</string>
     <string name="close">Закрыть</string>
+    <string name="next">Слудующий</string>
+    <string name="prev">Предыдущий</string>
+    <string name="listening_text">Текст Диалога</string>
+    <string name="yonsip">연 습</string>
 
     <!-- learn final result -->
     <string name="all_words">Все слова</string>

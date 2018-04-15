@@ -512,7 +512,7 @@ public class ListeningActivity extends AppCompatActivity{
         if (item.getItemId() == R.id.show_text){
             FavoritesFragment favoritesFragment = new FavoritesFragment();
             favoritesFragment.setListeningText(currentTest.getmTextAudio());
-            favoritesFragment.show(getFragmentManager(), "audio text");
+            favoritesFragment.show(getFragmentManager(), "favorites");
         }
         return super.onOptionsItemSelected(item);
     }

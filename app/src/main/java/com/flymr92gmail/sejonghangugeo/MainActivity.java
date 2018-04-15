@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.widget.DrawerLayout;
@@ -36,11 +37,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
+
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.Fragments.MailDialog;
-import com.flymr92gmail.sejonghangugeo.Utils.Helper;
+
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
 import com.flymr92gmail.sejonghangugeo.activities.GramBookActivity;
@@ -52,14 +53,10 @@ import com.github.zagum.expandicon.ExpandIconView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.xml.datatype.Duration;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.codetail.animation.ViewAnimationUtils;
+
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -95,16 +92,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatRadioButton rbAuto;
     @BindView(R.id.share)
     LinearLayout shareBtn;
-    @BindView(R.id.iv_menu_main)
-    ImageView drawerIv;
+
     @BindView(R.id.drawerlayout)
     FlowingDrawer mDrawer;
 
     private UserDataBase dataBase;
     private PrefManager prefManager;
-    private Drawable drawable1;
-    private Drawable drawable2;
-    private Drawable drawerDrawable;
 
 
 
@@ -117,13 +110,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setClickListenerToViews();
         initObj();
         //setupDrawable();
-        setupFlowindDrawer();
+        setupFlowingDrawer();
         setupToolbar();
         setupViewPsger();
         setRbChecked();
         thisIsFirstActivation();
-
     }
+
+
 
 
     private void getCurrentTheme(Bundle savedInstanceState){
@@ -164,12 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void setupDrawable(){
-       // DisplayMetrics metrics = new DisplayMetrics();
-       // getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        drawerDrawable = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.drawer_title_image, (200 * (int)getResources().getDisplayMetrics().density)/2, 0));
-        //drawable2 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(),  R.drawable.page2_title, metrics.widthPixels/2, 0));
-       // drawable1 = new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.page1_title, metrics.widthPixels/2, 0));
-    }
+         }
 
 
     private void setClickListenerToViews(){
@@ -215,9 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void setupFlowindDrawer(){
-        mDrawer.setTouchMode(ElasticDrawer.TOUCH_MODE_BEZEL);
-        drawerIv.setImageDrawable(getResources().getDrawable(R.drawable.drawer_title_image));
+    private void setupFlowingDrawer(){
+
+       // drawerIv.setImageDrawable(getResources().getDrawable(R.drawable.drawer_gif));
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
             @Override
             public void onDrawerStateChange(int oldState, int newState) {
@@ -309,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.listBgColor,
                                // new BitmapDrawable(getResources(), decodeSampledBitmapFromResource(getResources(), R.drawable.page1_title, metrics.widthPixels/2, 0))
-                                  getResources().getDrawable(R.drawable.page2_title)
+                                  getResources().getDrawable(R.drawable.page4_title)
 
 
                         );
@@ -564,23 +553,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(drawerDrawable!=null){
-            drawerDrawable.setCallback(null);
-            drawerDrawable=null;
-        }
-        if (drawable1 != null){
-            drawable1.setCallback(null);
-            drawable1 = null;
-        }
-        if (drawable2 != null) {
-            drawable2.setCallback(null);
-            drawable2 = null;
-        }
-        if (mViewPager !=null) {
-            mViewPager.getHeaderBackgroundContainer().removeAllViewsInLayout();
-            mViewPager.removeCallbacks(null);
-            mViewPager = null;
-        }
+
     }
 
 

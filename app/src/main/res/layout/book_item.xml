@@ -29,30 +29,26 @@
                     android:layout_height="wrap_content"
                     android:textSize="32sp"
                     android:layout_gravity="center"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@drawable/gradient_center_line"/>
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent"
+                android:background="@drawable/gradient_center_line"
                 android:layout_alignParentTop="true"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorAccent"
+                android:background="@drawable/gradient_center_line"
                 android:layout_alignParentBottom="true"/>
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent"
+                android:background="@drawable/gradient_center_line_vertical"
                 android:layout_alignParentTop="true"/>
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/colorAccent"
+                android:background="@drawable/gradient_center_line_vertical"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"/>
             <LinearLayout

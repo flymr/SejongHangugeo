@@ -70,7 +70,6 @@ import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
-import com.john.waveview.WaveView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.wnafee.vector.MorphButton;
 
@@ -194,7 +193,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         selectedWords.clear();
         pageWords.clear();
         pageWords = dataBase.getPageWords(pdfView.getCurrentPage()+differencePages);
-        NewWordsRecyclerAdapter adapter = new NewWordsRecyclerAdapter(pageWords, getApplicationContext(), this, this);
+        NewWordsRecyclerAdapter adapter = new NewWordsRecyclerAdapter(pageWords, this, this, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
     }

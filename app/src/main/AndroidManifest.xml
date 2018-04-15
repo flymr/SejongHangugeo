@@ -50,14 +50,15 @@
             android:theme="@style/LessonTheme" />
         <activity
             android:name=".activities.BookActivity"
+            android:theme="@style/BookTheme"
              />
         <activity
             android:name=".activities.LegendsActivity"
             android:theme="@style/LessonTheme" />
         <activity
             android:name=".activities.TestActivity"
+            android:theme="@style/BookTheme"
             android:label="@string/title_activity_test"
-            android:theme="@style/LessonTheme"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -68,8 +69,9 @@
             android:name=".activities.GramBookActivity"
              />
         <activity android:name=".activities.ListeningActivity"
+            android:theme="@style/BookTheme"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/LessonTheme">
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.flymr92gmail.sejonghangugeo.activities.BookActivity" />
