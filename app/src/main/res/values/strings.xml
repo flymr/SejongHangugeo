@@ -36,7 +36,7 @@
     <string name="share">Поделиться</string>
     <string name="sejongHangugeo1">세종한국어 1</string>
     <string name="ikhimchek">익힘책</string>
-    <string name="help">Помощь</string>
+    <string name="instruction">Руководство</string>
     <string name="last_places">Последнии места</string>
     <string name="thems">Темы</string>
     <string name="favorites">Благодарности</string>
@@ -46,9 +46,13 @@
     <string name="night">Ночь</string>
     <string name="auto">Авто</string>
     <string name="thanks_to">Благодарности</string>
+    <string name="setting">Настройки</string>
+    <string name="havent_tts">Не установлен TTS</string>
+    <string name="go_to_tts_setting">Необходимо установить TTS для корейского языка. Перейти в настройки?</string>
     <!-- lessons -->
     <string name="add_to_folder">Добавить в папку</string>
     <string name="new_folder">Новая папка</string>
+   <string name="delete">Удалить</string>
 
     <!-- listening, test etg -->
     <string name="listeningTask0">Выберите правильный вариант</string>
@@ -63,6 +67,10 @@
     <string name="prev">Предыдущий</string>
     <string name="listening_text">Текст Диалога</string>
     <string name="yonsip">연 습</string>
+    <string name="add_all">Добавить все</string>
+    <string name="uncorrect_sequence">Последовательность неполная</string>
+    <string name="right">Верно</string>
+    <string name="wrong">Неверно</string>
 
     <!-- learn final result -->
     <string name="all_words">Все слова</string>

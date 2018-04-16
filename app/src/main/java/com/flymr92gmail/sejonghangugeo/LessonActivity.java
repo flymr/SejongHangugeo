@@ -2,22 +2,23 @@ package com.flymr92gmail.sejonghangugeo;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.app.Notification;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.icu.text.MessagePattern;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,10 +28,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
-import com.flymr92gmail.sejonghangugeo.Utils.Helper;
-import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
-import com.flymr92gmail.sejonghangugeo.Utils.WordsSpeech;
 import com.flymr92gmail.sejonghangugeo.activities.CardActivity;
 import com.flymr92gmail.sejonghangugeo.activities.LearnActivity;
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonWordsSelectableRecyclerAdapter;
@@ -38,14 +36,11 @@ import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
-import com.github.lzyzsd.circleprogress.ArcProgress;
 import com.github.rubensousa.floatingtoolbar.FloatingToolbar;
 
 
 import java.util.ArrayList;
 import java.util.Locale;
-
-import javax.xml.datatype.Duration;
 
 
 public class LessonActivity extends AppCompatActivity implements SpeechActionListener, TextToSpeech.OnInitListener{
@@ -178,7 +173,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
     private void learAction(){
         if (words.size()!=0){
-            for (Word word : dataBase.getSelectedWordsInLesson(lesson)){
+            for (Word word : dataBase.getWordsInLesson(lesson.getLessonName())){
                 word.setmIsLearning(0);
                 dataBase.editWordLearning(lesson, word);
             }
@@ -190,7 +185,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             intent.putExtra("lesson", lesson);
             startActivity(intent);
         }else {
-            Toast.makeText(this, "Добавьте сюда слова", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Добавьте слова", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -259,7 +254,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
             @Override
             public void onUnmorphEnd() {
-//                floatingToolbar.detachFab();
             if (deleteMode)fab.startAnimation(plusToCross);
             }
         });
@@ -290,12 +284,10 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             @Override
             public void onStartTabSelected(final String title, final int index) {
                 linearLayoutManager.scrollToPositionWithOffset(lastFirstVisiblePosition,0);
-              //  recyclerView.clearOnScrollListeners();
                 runTabChange(index);
             }
             @Override
             public void onEndTabSelected(final String title, final int index) {
-                //setDeleteMode(false);
 
             }
         });
@@ -311,7 +303,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
                         wordsArrayChanger(tabIndex);
                     }
                 });
-               // mBottomNavigationTabStrip.setTabIndex(tabIndex);
 
             }
         }, 100);
@@ -371,7 +362,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
                   floatingToolbar.show();
 
               }
-            // if (linearLayoutManager.findLastCompletelyVisibleItemPosition() == adapter.getItemCount()-1) floatingToolbar.show();
             }
 
         });
@@ -426,15 +416,31 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS){
             int result = textToSpeech.setLanguage(Locale.KOREAN);
-
             if (result == TextToSpeech.LANG_MISSING_DATA
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
-
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.havent_tts)
+                        .setMessage(R.string.go_to_tts_setting);
+                builder.setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        Intent intent = new Intent();
+                        intent.setAction("com.android.settings.TTS_SETTINGS");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int arg1) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCancelable(true);
+                AlertDialog alert = builder.create();
+                alert.show();
             }
             Log.e("TTS", "All right");
-
-
         }
     }
 

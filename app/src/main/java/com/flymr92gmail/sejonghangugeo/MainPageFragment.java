@@ -1,34 +1,22 @@
 package com.flymr92gmail.sejonghangugeo;
 
 
-import android.animation.Animator;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.BookAdapter;
-import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
-import com.flymr92gmail.sejonghangugeo.Adapters.NewWordsRecyclerAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
-import com.flymr92gmail.sejonghangugeo.POJO.Word;
-import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
@@ -42,12 +30,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.codetail.animation.ViewAnimationUtils;
 
 public class MainPageFragment extends Fragment implements ViewClickListener{
 

@@ -8,8 +8,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,13 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 
 
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
@@ -359,7 +351,6 @@ public class CardActivity extends AppCompatActivity {
         public CardRecyclerAdapter(ArrayList<Word> words, Context context) {
             this.words= words;
             mContext = context;
-
         }
         ArrayList<Word> words;
         @Override

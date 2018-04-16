@@ -12,20 +12,22 @@
         android:layout_height="match_parent" />
 
 
-           <com.wnafee.vector.MorphButton
-               android:id="@+id/play_card_vertical"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:visibility="gone"
-               android:layout_marginRight="16dp"
-               android:layout_marginTop="20dp"
-               android:layout_gravity="center"
-               android:scaleType="fitCenter"
-               android:layout_alignParentTop="true"
-               android:layout_alignParentRight="true"
-               app:vc_foregroundTint="@color/colorAccentAlpha"
-               app:vc_startDrawable="@drawable/ic_play_to_pause"
-               app:vc_endDrawable="@drawable/ic_pause_to_play"/>
+    <com.wnafee.vector.MorphButton
+        android:id="@+id/play_card_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:vc_foregroundTint="@color/colorAccentAlpha"
+        app:vc_startDrawable="@drawable/ic_play_to_pause"
+        app:vc_endDrawable="@drawable/ic_pause_to_play"/>
 
     <com.wnafee.vector.MorphButton
         android:id="@+id/play_card_horizontal"
@@ -33,11 +35,13 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_marginRight="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="23dp"
         android:layout_gravity="center"
         android:scaleType="fitCenter"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         app:vc_foregroundTint="@color/colorAccentAlpha"
         app:vc_startDrawable="@drawable/ic_play_to_pause"
         app:vc_endDrawable="@drawable/ic_pause_to_play"/>

@@ -13,6 +13,7 @@
         android:outAnimation="@anim/scale_down"
         android:inAnimation="@anim/scale_up"
         android:clickable="true"
+        android:focusable="true"
         app:animateDesignLayoutOnly="true"
         app:checked="false"
         app:enableInitialAnimation="true"

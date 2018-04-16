@@ -9,7 +9,7 @@
     android:clipToPadding="false"
     app:edPosition="1"
     app:edMenuSize="250dp"
-    app:edMenuBackground="@color/colorAccent">
+    app:edMenuBackground="@android:color/transparent">
 
         <!--content-->
         <RelativeLayout
@@ -46,15 +46,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-           <ScrollView
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               >
+
             <RelativeLayout
                 android:id="@+id/container_menu_main"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_drawer">
 
+           <ScrollView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_alignParentBottom="true"
+               >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -433,11 +436,13 @@
                             android:layout_marginStart="10dp"
                             android:layout_gravity="center"
                             android:textColor="@color/white"
-                            android:text="@string/help"/>
+                            android:text="@string/instruction"/>
                     </LinearLayout>
                 </LinearLayout>
-            </RelativeLayout>
            </ScrollView>
+
+      </RelativeLayout>
+
         </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
 
     </com.mxn.soul.flowingdrawer_core.FlowingDrawer>

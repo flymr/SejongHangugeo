@@ -291,7 +291,7 @@ public class ListeningActivity extends AppCompatActivity{
 
     private void showSnackBar(boolean answer, View view){
         if (answer){
-            Snackbar mSnackbar = Snackbar.make(view, "Верно", Snackbar.LENGTH_SHORT)
+            Snackbar mSnackbar = Snackbar.make(view, R.string.right, Snackbar.LENGTH_SHORT)
                     .setAction("Action", null);
             View view1 = mSnackbar.getView();
             TextView tv = view1.findViewById(android.support.design.R.id.snackbar_text);
@@ -299,7 +299,7 @@ public class ListeningActivity extends AppCompatActivity{
             tv.setTextColor(Color.WHITE);
             mSnackbar.show();
         }else {
-            Snackbar mSnackbar = Snackbar.make(view, "Неверно", Snackbar.LENGTH_SHORT)
+            Snackbar mSnackbar = Snackbar.make(view, R.string.wrong, Snackbar.LENGTH_SHORT)
                     .setAction("Action", null);
             View view1 = mSnackbar.getView();
             TextView tv = view1.findViewById(android.support.design.R.id.snackbar_text);
@@ -315,11 +315,12 @@ public class ListeningActivity extends AppCompatActivity{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE){
-                    if (checkAnswerTypeText()){
-                        Toast.makeText(ListeningActivity.this, "Верно", Toast.LENGTH_SHORT).show();
+                   /* if (checkAnswerTypeText()){
+                        Toast.makeText(ListeningActivity.this, R.string.right, Toast.LENGTH_SHORT).show();
                     }else {
-                        Toast.makeText(ListeningActivity.this, "Неверно", Toast.LENGTH_SHORT).show();
-                    }
+                        Toast.makeText(ListeningActivity.this, R.string.wrong, Toast.LENGTH_SHORT).show();
+                    }*/
+                    showSnackBar(checkAnswerTypeText(), v);
                     return true;
                 }
                 return false;
@@ -353,7 +354,7 @@ public class ListeningActivity extends AppCompatActivity{
 
     private boolean checkAnswerTypeSequence(){
         if (chooseAnswers.size() != userChooseAnswers.size())
-            Toast.makeText(this,"Последовательность неполная", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getResources().getString(R.string.uncorrect_sequence), Toast.LENGTH_SHORT).show();
         for (int i = 0; i < userChooseAnswers.size(); i++){
             int userAnswer = userChooseAnswers.get(i);
             int correctAnswer = chooseAnswers.get(i);
@@ -481,7 +482,6 @@ public class ListeningActivity extends AppCompatActivity{
     }
 
 
-
     private void initializeSeekBar(){
         audioSeekBar.setMax(mp.getDuration()/10);
         audioRun = new Runnable() {
@@ -500,6 +500,7 @@ public class ListeningActivity extends AppCompatActivity{
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_listening,menu);
@@ -507,14 +508,18 @@ public class ListeningActivity extends AppCompatActivity{
         return super.onCreateOptionsMenu(menu);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.show_text){
-            FavoritesFragment favoritesFragment = new FavoritesFragment();
-            favoritesFragment.setListeningText(currentTest.getmTextAudio());
-            favoritesFragment.show(getFragmentManager(), "favorites");
+            FavoritesFragment fragment = new FavoritesFragment();
+            fragment.setListeningText(currentTest.getmTextAudio());
+            fragment.show(getFragmentManager(), "favorites");
+            fragment.setCancelable(true);
+
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }

@@ -5,13 +5,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.LearnResultWordsAdapter;
@@ -50,11 +47,11 @@ public class LearnResult extends AppCompatActivity {
         tvUnlearned = findViewById(R.id.tv_unlearned);
         tvLearning = findViewById(R.id.tv_learning);
         tvLearned = findViewById(R.id.tv_learned);
-        CardView button = findViewById(R.id.learn_next_round);
-        button.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.learn_next_round).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               nextRoundAction();
+                nextRoundAction();
+
             }
         });
     }

@@ -150,17 +150,15 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void onItemDismiss(final int position) {
 
         final Lesson lesson = dataBase.getAllLessons().get(position);
-        String buttonOk = "Удалить";
-        String buttonCancel ="Отмена";
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("Удалить " + mLessonArrayList.get(position).getLessonName()+"?");
-        builder.setPositiveButton(buttonOk, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(mContext.getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
                 dataBase.deleteLesson(lesson);
                 notifyItemRemoved(position);
             }
         });
-        builder.setNegativeButton(buttonCancel, new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(mContext.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
 
                 mLessonArrayList.add(position, dataBase.getAllLessons().get(position));
