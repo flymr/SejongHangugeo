@@ -1,2 +1,2 @@
-# SejongHangugeo
-App for education Korean language.
+# Sejong Hangugeo
+Андроид-приложение для изучения корейского языка.
