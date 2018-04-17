@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
 import com.flymr92gmail.sejonghangugeo.activities.CardActivity;
 import com.flymr92gmail.sejonghangugeo.activities.LearnActivity;
@@ -66,11 +67,12 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_lesson);
         mIntent = getIntent();
         initialization();
         lesson=getLesson(mIntent);
+        PrefManager prefManager = new PrefManager(this);
+        prefManager.saveLastLessonID(lesson.getLessonId());
         setupAdapter(lesson);
         setupToolbar();
         setupFloatingToolbarListener();

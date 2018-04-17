@@ -49,6 +49,11 @@
     <string name="setting">Настройки</string>
     <string name="havent_tts">Не установлен TTS</string>
     <string name="go_to_tts_setting">Необходимо установить TTS для корейского языка. Перейти в настройки?</string>
+    <string name="folder_dont_crate">Папка не существует</string>
+    <string name="last_page_of">(стр. %d)</string>
+    <string name="error_connection">Ошибка соединения</string>
+    <string name="home_page">https://github.com/flymr/SejongHangugeo</string>
+
     <!-- lessons -->
     <string name="add_to_folder">Добавить в папку</string>
     <string name="new_folder">Новая папка</string>

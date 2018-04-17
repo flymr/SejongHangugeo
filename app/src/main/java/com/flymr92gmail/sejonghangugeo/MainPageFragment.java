@@ -42,7 +42,6 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     @BindView(R.id.main_rv)
     RecyclerView mRecyclerView;
 
-    private PrefManager prefManager;
     private BookAdapter bookAdapter;
     public static MainPageFragment newInstance() {
         return new MainPageFragment();
@@ -58,15 +57,8 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
-        prefManager = new PrefManager(getActivity());
-
-
-        //setup materialviewpager
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
-
-        //Use this now
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
         mRecyclerView.setHasFixedSize(true);
         bookAdapter = new BookAdapter(getDailyLegend(), this);
@@ -93,81 +85,11 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     }
 
 
-
     private Legend getDailyLegend(){
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
         AppDataBase appDataBase = new AppDataBase(getActivity());
-        Legend legend;
-        String json= prefManager.getAddedLegendsId();
-        if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString)){
-            prefManager.setDateOfAddedLegend(currentDateTimeString);
-            try {
-                Log.d("main", "secondTry true");
-
-                JSONObject jsonObject = new JSONObject(json);
-                JSONArray jsonArray = jsonObject.getJSONArray("ids");
-                JSONObject jsonObject1 = new JSONObject(appDataBase.getLegendsIds());
-                JSONArray jsonArray1 = jsonObject1.getJSONArray("ids");
-                ArrayList<Integer> allIds = new ArrayList<>();
-                ArrayList<Integer> addedIds = new ArrayList<>();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    addedIds.add(jsonArray.getInt(i));
-                }
-                for (int i = 0; i < jsonArray1.length(); i++) {
-                    allIds.add(jsonArray1.getInt(i));
-                }
-                int randomInt;
-                if (addedIds.size() < allIds.size()) {
-                    allIds.removeAll(addedIds);
-                    randomInt = getRandomInt(allIds.size());
-                    allIds.get(randomInt);
-                }
-                else {
-                    jsonArray = new JSONArray();
-                    randomInt = getRandomInt(appDataBase.getLegends().size()-1);
-                }
-                legend = appDataBase.getLegendById(allIds.get(randomInt));
-                jsonArray.put(allIds.get(randomInt));
-                jsonObject = new JSONObject();
-                jsonObject.put("ids", jsonArray);
-                json = jsonObject.toString();
-                prefManager.setAddedLegendsId(json);
-                appDataBase.close();
-                return legend;
-            } catch (JSONException e) {
-                Log.d("main", "secondTry false");
-                JSONObject jsonObject = new JSONObject();
-                JSONArray jsonArray = new JSONArray();
-                try {
-                    Log.d("main", "firstTry true");
-                    legend = appDataBase.getDailyLegend(getRandomInt(appDataBase.getLegends().size()-1));
-                    jsonArray.put(legend.getmId());
-                    jsonObject.put("ids", jsonArray);
-                    json = jsonObject.toString();
-                    prefManager.setAddedLegendsId(json);
-                    appDataBase.close();
-                    return legend;
-                }catch (JSONException e2){
-                    Log.d("main", "firstTry false");
-                }
-            }
-
-        }else {
-            try {
-                JSONObject jsonObject = new JSONObject(json);
-                JSONArray jsonArray = jsonObject.getJSONArray("ids");
-                legend = appDataBase.getLegendById(jsonArray.getInt(jsonArray.length() - 1));
-                appDataBase.close();
-                return legend;
-            }catch (JSONException e){
-
-            }
-
-        }
-        legend = appDataBase.getLegends().get(getRandomInt(appDataBase.getLegends().size()-1));
+        Legend legend = appDataBase.getDailyLegend(getRandomInt(238));
         appDataBase.close();
         return legend;
-
     }
 
 
@@ -181,9 +103,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
-        if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))
-         bookAdapter = new BookAdapter(getDailyLegend(), this);
+
     }
 
     @Override

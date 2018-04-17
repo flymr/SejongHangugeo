@@ -27,6 +27,7 @@ import com.flymr92gmail.sejonghangugeo.ItemTouchHelperAdapter;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.ViewHolder.HeaderViewHolder;
 
 
@@ -46,11 +47,13 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final int FROM_FRAGMENT = 1;
     private  int from;
     private Legend legend;
+    private ViewClickListener viewClickListener;
 
-    public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext, Legend legend) {
+    public LessonsAdapter(ArrayList<Lesson> mLessonArrayList, Context mContext, Legend legend, ViewClickListener viewClickListener) {
         this.mLessonArrayList = mLessonArrayList;
         this.mContext = mContext;
         this.legend = legend;
+        this.viewClickListener = viewClickListener;
         dataBase = new UserDataBase(mContext);
         from = FROM_ACTIVITY;
     }
@@ -64,9 +67,8 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.lesson_folder_item,parent,false);
-       // return new ViewHolder(view);
-        View view = null;
+
+        View view;
         if (viewType==0){
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item_card_big, parent, false);
@@ -91,7 +93,12 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         viewHolder.legendText.setText(Html.fromHtml(legend.getLegendText()));
                     }
-
+                    viewHolder.showAllBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            viewClickListener.onViewClicked();
+                        }
+                    });
                     break;
                 case TYPE_LESSON:
                     LessonViewHolder lessonHolder = (LessonViewHolder)holder;

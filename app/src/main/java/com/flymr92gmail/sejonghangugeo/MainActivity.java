@@ -1,11 +1,9 @@
 package com.flymr92gmail.sejonghangugeo;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
@@ -49,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     MaterialViewPager mViewPager;
     @BindView(R.id.nts_main)
     NavigationTabStrip navigationTabStrip;
-
     @BindView(R.id.expand_last_places)
     LinearLayout llExpandLP;
     @BindView(R.id.expand_theme_settings)
@@ -60,11 +57,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     AppCompatRadioButton rbNight;
     @BindView(R.id.rb_auto)
     AppCompatRadioButton rbAuto;
-
+    @BindView(R.id.last_lesson)
+    LinearLayout lastLesson;
     @BindView(R.id.drawerlayout)
     FlowingDrawer mDrawer;
 
-    private UserDataBase dataBase;
     private PrefManager prefManager;
 
 
@@ -76,15 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setClickListenerToViews();
-        initObj();
         setupFlowingDrawer();
         setupToolbar();
         setupViewPager();
         setRbChecked();
         thisIsFirstActivation();
     }
-
-
 
 
     private void getCurrentTheme(Bundle savedInstanceState){
@@ -115,25 +109,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void initObj(){
-        dataBase = new UserDataBase(this);
-
-    }
-
-
-
     private void setClickListenerToViews(){
         findViewById(R.id.last_places).setOnClickListener(this);
         findViewById(R.id.theme_setting).setOnClickListener(this);
         findViewById(R.id.last_book).setOnClickListener(this);
         findViewById(R.id.last_gramm).setOnClickListener(this);
-        findViewById(R.id.last_lesson).setOnClickListener(this);
+        lastLesson = findViewById(R.id.last_lesson);
+        lastLesson.setOnClickListener(this);
         findViewById(R.id.send_massage).setOnClickListener(this);
         findViewById(R.id.share).setOnClickListener(this);
         rbNight.setOnClickListener(this);
         rbDay.setOnClickListener(this);
         rbAuto.setOnClickListener(this);
-        findViewById(R.id.favorites).setOnClickListener(this);
+        findViewById(R.id.thanks_to).setOnClickListener(this);
         findViewById(R.id.help).setOnClickListener(this);
     }
 
@@ -171,14 +159,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
             @Override
             public void onDrawerStateChange(int oldState, int newState) {
-                if (newState == ElasticDrawer.STATE_CLOSED) {
-                    Log.i("MainActivity", "Drawer STATE_CLOSED");
-                }
+
             }
 
             @Override
             public void onDrawerSlide(float openRatio, int offsetPixels) {
-                Log.i("MainActivity", "openRatio=" + openRatio + " ,offsetPixels=" + offsetPixels);
             }
         });
 
@@ -246,16 +231,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public HeaderDesign getHeaderDesign(int page) {
                 switch (page) {
                     case 0:
-                        logo.setVisibility(View.VISIBLE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.listBgColor,
                                  getResources().getDrawable(R.drawable.page1_title)
                         );
                     case 1:
-                        logo.setVisibility(View.GONE);
                         return HeaderDesign.fromColorResAndDrawable(
                                 R.color.listBgColor,
-                                  getResources().getDrawable(R.drawable.page4_title)
+                                  getResources().getDrawable(R.drawable.page2_title)
 
                         );
 
@@ -325,93 +308,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    //drawer actions
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.last_places:
-                TextView lastLessonTv = findViewById(R.id.tv_last_lesson);
-                TextView lastBookTv = findViewById(R.id.tv_last_book);
-                TextView lastGramTv = findViewById(R.id.tv_last_gramm);
-                lastLessonTv.setText(dataBase.getLessonByPrimaryId(prefManager.getLastLessonID()).getLessonName());
-                String sejong = getResources().getString(R.string.sejongHangugeo1) + " (стр. " + prefManager.getLastBookPage() + ")";
-                lastBookTv.setText(sejong);
-                String ikhimcheg = getResources().getString(R.string.ikhimchek) + " (стр. " + prefManager.getLastGramPage() + ")";
-                lastGramTv.setText(ikhimcheg);
-                ExpandIconView expandBtn = findViewById(R.id.expand_btn);
-                if (llExpandLP.getVisibility() == View.GONE){
-                    expandBtn.setState(ExpandIconView.LESS, true);
-                    expand(llExpandLP);
-                }else {
-                    expandBtn.setState(ExpandIconView.MORE, true);
-                    collapse(llExpandLP);
-                }
+                lastPlaces();
                 break;
             case R.id.last_lesson:
-                UserDataBase dataBase = new UserDataBase(this);
-                if (1 < dataBase.getAllLessons().size()){
-                    mDrawer.closeMenu(false);
-                    Intent intent = new Intent(this, LessonActivity.class);
-                    intent.putExtra("lessonId", prefManager.getLastLessonID());
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(this, "Вы не создали ни одной папки", Toast.LENGTH_SHORT).show();
-                }
-                dataBase.close();
+                lastLesson();
                 break;
             case R.id.last_book:
-                startActivity(new Intent(this, BookActivity.class));
-                mDrawer.closeMenu(false);
+                lastBookPage();
                 break;
             case R.id.last_gramm:
-                startActivity(new Intent(this, GramBookActivity.class));
+                lastGramPage();
                 break;
             case R.id.theme_setting:
-                ExpandIconView expandBtnTheme = findViewById(R.id.expand_themes);
-                if (expandThemeSettings.getVisibility() == View.GONE){
-                    expandBtnTheme.setState(ExpandIconView.LESS, true);
-                    expand(expandThemeSettings);
-                }else {
-                    expandBtnTheme.setState(ExpandIconView.MORE, true);
-                    collapse(expandThemeSettings);
-                }
+                themeSettins();
                 break;
             case R.id.rb_day:
-                rbAuto.setChecked(false);
-                rbNight.setChecked(false);
-                prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_NO);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO){
-                    recreate();
-                }
+                setDay();
                 break;
             case R.id.rb_night:
-                rbDay.setChecked(false);
-                rbAuto.setChecked(false);
-                prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_YES);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES){
-                    recreate();
-                }
+                setNight();
                 break;
             case R.id.rb_auto:
-                rbDay.setChecked(false);
-                rbNight.setChecked(false);
-                prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_AUTO);
-                int currentTheme = getCurrentNightMode();
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-                getDelegate().applyDayNight();
-                if (currentTheme != getCurrentNightMode())
-                    recreate();
+                setAutoNight();
                 break;
             case R.id.send_massage:
-                MailDialog mailDialog = new MailDialog();
-                mailDialog.show(getFragmentManager(), "new massage");
-                mailDialog.setCancelable(true);
+                sendMessage();
                 break;
-            case R.id.favorites:
-                FavoritesFragment fragment = new FavoritesFragment();
-                fragment.show(getFragmentManager(), "thanks to");
-                fragment.setCancelable(true);
+            case R.id.thanks_to:
+                thanksTo();
                 break;
             case R.id.share:
                 shareAppLink();
@@ -422,9 +351,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     private void goToGitHub(){
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/flymr/SejongHangugeo"));
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page)));
         startActivity(intent);
 
     }
@@ -446,9 +374,107 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         catch (android.content.ActivityNotFoundException ex)
         {
-            Toast.makeText(getApplicationContext(), "Ошибка", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.error_connection), Toast.LENGTH_SHORT).show();
         }
     }
 
+    private void thanksTo(){
+        FavoritesFragment fragment = new FavoritesFragment();
+        fragment.show(getFragmentManager(), "thanks to");
+        fragment.setCancelable(true);
+    }
 
+    private void sendMessage(){
+        MailDialog mailDialog = new MailDialog();
+        mailDialog.show(getFragmentManager(), "new massage");
+        mailDialog.setCancelable(true);
+    }
+
+    private void setAutoNight(){
+        rbDay.setChecked(false);
+        rbNight.setChecked(false);
+        prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_AUTO);
+        int currentTheme = getCurrentNightMode();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        getDelegate().applyDayNight();
+        if (currentTheme != getCurrentNightMode())
+            recreate();
+    }
+
+    private void setNight(){
+        rbDay.setChecked(false);
+        rbAuto.setChecked(false);
+        prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_YES);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES){
+            recreate();
+        }
+    }
+
+    private void setDay(){
+        rbAuto.setChecked(false);
+        rbNight.setChecked(false);
+        prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_NO);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO){
+            recreate();
+        }
+    }
+
+    private void themeSettins(){
+        ExpandIconView expandBtnTheme = findViewById(R.id.expand_themes);
+        if (expandThemeSettings.getVisibility() == View.GONE){
+            expandBtnTheme.setState(ExpandIconView.LESS, true);
+            expand(expandThemeSettings);
+        }else {
+            expandBtnTheme.setState(ExpandIconView.MORE, true);
+            collapse(expandThemeSettings);
+        }
+    }
+
+    private void lastGramPage(){
+        startActivity(new Intent(this, GramBookActivity.class));
+
+    }
+
+    private void lastBookPage(){
+        startActivity(new Intent(this, BookActivity.class));
+    }
+
+    private void lastLesson(){
+
+            Intent intent = new Intent(this, LessonActivity.class);
+            intent.putExtra("lessonId", prefManager.getLastLessonID());
+            startActivity(intent);
+
+            Toast.makeText(this, getString(R.string.folder_dont_crate), Toast.LENGTH_SHORT).show();
+
+    }
+
+
+    private void lastPlaces(){
+        TextView lastLessonTv = findViewById(R.id.tv_last_lesson);
+        TextView lastBookTv = findViewById(R.id.tv_last_book);
+        TextView lastGramTv = findViewById(R.id.tv_last_gramm);
+       if (prefManager.getLastLessonID()!=0){
+           UserDataBase dataBase = new UserDataBase(this);
+           lastLesson.setVisibility(View.VISIBLE);
+           lastLessonTv.setText(dataBase.getLessonByPrimaryId(prefManager.getLastLessonID()).getLessonName());
+           dataBase.close();
+       } else {
+           lastLesson.setVisibility(View.GONE);
+       }
+        String sejong = getString(R.string.sejongHangugeo1) + getString(R.string.last_page_of, prefManager.getLastBookPage());
+        lastBookTv.setText(sejong);
+        String ikhimcheg = getString(R.string.ikhimchek) + getString(R.string.last_page_of, prefManager.getLastGramPage());
+        lastGramTv.setText(ikhimcheg);
+        ExpandIconView expandBtn = findViewById(R.id.expand_btn);
+        if (llExpandLP.getVisibility() == View.GONE){
+            expandBtn.setState(ExpandIconView.LESS, true);
+            expand(llExpandLP);
+        }else {
+            expandBtn.setState(ExpandIconView.MORE, true);
+            collapse(llExpandLP);
+        }
+    }
 }
