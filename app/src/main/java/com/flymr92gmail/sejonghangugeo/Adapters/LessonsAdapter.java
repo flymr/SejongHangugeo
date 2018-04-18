@@ -27,6 +27,7 @@ import com.flymr92gmail.sejonghangugeo.ItemTouchHelperAdapter;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.R;
+import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.ViewHolder.HeaderViewHolder;
 
@@ -161,6 +162,9 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         builder.setTitle("Удалить " + mLessonArrayList.get(position).getLessonName()+"?");
         builder.setPositiveButton(mContext.getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
+                PrefManager prefManager = new PrefManager(mContext);
+                if (prefManager.getLastLessonID() == lesson.getLessonId())
+                    prefManager.saveLastLessonID(0);
                 dataBase.deleteLesson(lesson);
                 notifyItemRemoved(position);
             }

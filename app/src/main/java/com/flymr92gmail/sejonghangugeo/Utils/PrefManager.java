@@ -77,7 +77,7 @@ public class PrefManager implements Constants {
     }
 
     public int getLastLessonID(){
-        return preferences.getInt(LAST_LESSON_ID, -1);
+        return preferences.getInt(LAST_LESSON_ID, 0);
     }
 
     public void saveLastBookPage(int pageNumber){

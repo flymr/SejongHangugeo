@@ -2,14 +2,18 @@ package com.flymr92gmail.sejonghangugeo;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,11 +21,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.Fragments.MailDialog;
@@ -61,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout lastLesson;
     @BindView(R.id.drawerlayout)
     FlowingDrawer mDrawer;
+    @BindView(R.id.drawer_sky_iv)
+    ImageView drawerIv;
 
     private PrefManager prefManager;
 
@@ -78,6 +87,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupViewPager();
         setRbChecked();
         thisIsFirstActivation();
+        Drawable drawerDrawable = getResources().getDrawable(R.drawable.sky);
+        drawerIv.setImageDrawable(drawerDrawable);
     }
 
 
@@ -158,7 +169,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setupFlowingDrawer(){
         mDrawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
             @Override
-            public void onDrawerStateChange(int oldState, int newState) {
+            public void onDrawerStateChange(int oldState,final int newState) {
 
             }
 
@@ -166,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDrawerSlide(float openRatio, int offsetPixels) {
             }
         });
-
     }
 
 
@@ -251,63 +261,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navigationTabStrip.setViewPager(mViewPager.getViewPager()); // exp
     }
 
-
-    private void expand(final View v) {
-        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final int targetHeight = v.getMeasuredHeight();
-
-
-        v.getLayoutParams().height = 1;
-        v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().height = interpolatedTime == 1
-                        ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : (int)(targetHeight * interpolatedTime);
-                v.requestLayout();
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int)(targetHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
-
-
-    private void collapse(final View v) {
-        final int initialHeight = v.getMeasuredHeight();
-
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
-                    v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
-                    v.requestLayout();
-                }
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-
-        // 1dp/ms
-        a.setDuration((int)(initialHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
-
-
     //drawer actions
     @Override
     public void onClick(View v) {
@@ -325,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lastGramPage();
                 break;
             case R.id.theme_setting:
-                themeSettins();
+                themeSetting();
                 break;
             case R.id.rb_day:
                 setDay();
@@ -386,7 +339,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void sendMessage(){
         MailDialog mailDialog = new MailDialog();
-        mailDialog.show(getFragmentManager(), "new massage");
+        mailDialog.show(getFragmentManager(), "new message");
         mailDialog.setCancelable(true);
     }
 
@@ -421,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void themeSettins(){
+    private void themeSetting(){
         ExpandIconView expandBtnTheme = findViewById(R.id.expand_themes);
         if (expandThemeSettings.getVisibility() == View.GONE){
             expandBtnTheme.setState(ExpandIconView.LESS, true);
@@ -451,7 +404,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
+    //expand collapse ll
     private void lastPlaces(){
         TextView lastLessonTv = findViewById(R.id.tv_last_lesson);
         TextView lastBookTv = findViewById(R.id.tv_last_book);
@@ -475,6 +428,91 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else {
             expandBtn.setState(ExpandIconView.MORE, true);
             collapse(llExpandLP);
+        }
+    }
+
+    private void expand(final View v) {
+        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        final int targetHeight = v.getMeasuredHeight();
+        v.getLayoutParams().height = 1;
+        v.setVisibility(View.VISIBLE);
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                v.getLayoutParams().height = interpolatedTime == 1
+                        ? ViewGroup.LayoutParams.WRAP_CONTENT
+                        : (int)(targetHeight * interpolatedTime);
+                v.requestLayout();
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+        a.setDuration((int)(targetHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+
+    private void collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+        Animation a = new Animation()
+        {
+            @Override
+            protected void applyTransformation(float interpolatedTime, Transformation t) {
+                if(interpolatedTime == 1){
+                    v.setVisibility(View.GONE);
+                }else{
+                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
+                    v.requestLayout();
+                }
+            }
+
+            @Override
+            public boolean willChangeBounds() {
+                return true;
+            }
+        };
+        a.setDuration((int)(initialHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
+        v.startAnimation(a);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindDrawables(drawerIv);
+        unbindDrawables(mDrawer);
+    }
+
+    public static void unbindDrawables(View view) {
+        if (view == null) {
+            return;
+        }
+        if (view.getBackground() != null) {
+            view.getBackground().setCallback(null);
+        }
+        if (view instanceof ImageView) {
+            ImageView imgView = (ImageView) view;
+            if (imgView.getDrawable() != null) {
+                Drawable b = imgView.getDrawable();
+                b.setCallback(null);
+                imgView.setImageDrawable(null);
+            }
+        } else if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                unbindDrawables(((ViewGroup) view).getChildAt(i));
+            }
+            try {
+                if ((view instanceof AdapterView<?>)) {
+                    AdapterView<?> adapterView = (AdapterView<?>) view;
+                    adapterView.setAdapter(null);
+                } else {
+                    ((ViewGroup) view).removeAllViews();
+                }
+            } catch (Exception e) {
+            }
         }
     }
 }

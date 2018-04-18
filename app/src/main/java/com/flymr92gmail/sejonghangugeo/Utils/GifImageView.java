@@ -20,6 +20,9 @@ public class GifImageView extends View {
     private int mWidth, mHeight;
     private long mStart;
     private Context mContext;
+    private float mScale;
+    private int mMeasuredMovieWidth;
+    private int mMeasuredMovieHeight;
 
     public GifImageView(Context context) {
         super(context);
@@ -52,8 +55,54 @@ public class GifImageView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
-        setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight());
+        if (mMovie != null) {
+            int movieWidth = mMovie.width();
+            int movieHeight = mMovie.height();
+
+            /*
+             * Calculate horizontal scaling
+             */
+            float scaleH = 1f;
+            int measureModeWidth = MeasureSpec.getMode(widthMeasureSpec);
+
+            if (measureModeWidth != MeasureSpec.UNSPECIFIED) {
+                int maximumWidth = MeasureSpec.getSize(widthMeasureSpec);
+                if (movieWidth > maximumWidth) {
+                    scaleH = (float) movieWidth / (float) maximumWidth;
+                }
+            }
+
+            /*
+             * calculate vertical scaling
+             */
+            float scaleW = 1f;
+            int measureModeHeight = MeasureSpec.getMode(heightMeasureSpec);
+
+            if (measureModeHeight != MeasureSpec.UNSPECIFIED) {
+                int maximumHeight = MeasureSpec.getSize(heightMeasureSpec);
+                if (movieHeight > maximumHeight) {
+                    scaleW = (float) movieHeight / (float) maximumHeight;
+                }
+            }
+
+            /*
+             * calculate overall scale
+             */
+            mScale = 1f / Math.max(scaleH, scaleW);
+
+            mMeasuredMovieWidth = (int) (movieWidth * mScale);
+            mMeasuredMovieHeight = (int) (movieHeight * mScale);
+
+            setMeasuredDimension(mMeasuredMovieWidth, mMeasuredMovieHeight);
+
+        } else {
+            /*
+             * No movie set, just set minimum available size.
+             */
+            setMeasuredDimension(getSuggestedMinimumWidth(), getSuggestedMinimumHeight());
+        }
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {

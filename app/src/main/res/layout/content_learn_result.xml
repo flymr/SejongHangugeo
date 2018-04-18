@@ -28,6 +28,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="17sp"
+               android:fontFamily="@font/opensans_bold"
                android:text="0"/>
 
            <LinearLayout
@@ -53,6 +54,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="13sp"
+               android:fontFamily="@font/opensans_bold"
                android:text="@string/unlearn"/>
        </LinearLayout>
 
@@ -68,6 +70,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="17sp"
+               android:fontFamily="@font/opensans_bold"
                android:text="0"/>
 
            <LinearLayout
@@ -93,6 +96,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="13sp"
+               android:fontFamily="@font/opensans_bold"
                android:text="@string/learning"/>
        </LinearLayout>
 
@@ -108,6 +112,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="17sp"
+               android:fontFamily="@font/opensans_bold"
                android:text="0"/>
 
            <LinearLayout
@@ -135,6 +140,7 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:textSize="13sp"
+               android:fontFamily="@font/opensans_bold"
                android:text="@string/learned"/>
        </LinearLayout>
 
