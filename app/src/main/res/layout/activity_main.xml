@@ -103,23 +103,6 @@
                             android:textColor="@color/white"
                             android:text="@string/last_places"/>
 
-                        <com.github.zagum.expandicon.ExpandIconView
-                            android:id="@+id/expand_btn"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginLeft="5dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_gravity="center"
-                            app:eiv_animationDuration="300"
-                            app:eiv_color="@color/white"
-                            app:eiv_colorLess="@color/white"
-                            app:eiv_colorMore="@color/white"
-                            app:eiv_colorIntermediate="@color/white"
-                            app:eiv_roundedCorners="false"
-                            app:eiv_switchColor="true"
-                            app:eiv_padding="8dp"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -248,21 +231,6 @@
                                 android:textColor="@color/white"
                                 android:text="@string/thems"/>
 
-                            <com.github.zagum.expandicon.ExpandIconView
-                                android:id="@+id/expand_themes"
-                                android:layout_width="30dp"
-                                android:layout_height="30dp"
-                                android:layout_marginRight="5dp"
-                                android:layout_marginLeft="5dp"
-                                android:layout_gravity="center"
-                                app:eiv_animationDuration="300"
-                                app:eiv_color="@color/white"
-                                app:eiv_colorLess="@color/white"
-                                app:eiv_colorMore="@color/white"
-                                app:eiv_colorIntermediate="@color/white"
-                                app:eiv_roundedCorners="false"
-                                app:eiv_switchColor="true"
-                                app:eiv_padding="8dp"/>
                         </LinearLayout>
 
                         <LinearLayout

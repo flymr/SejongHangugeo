@@ -59,7 +59,7 @@
     <string name="new_folder">Новая папка</string>
    <string name="delete">Удалить</string>
 
-    <!-- listening, test etg -->
+    <!--book, listening, test etg -->
     <string name="listeningTask0">Выберите правильный вариант</string>
     <string name="listeningTask1">Выберите правильные варианты</string>
     <string name="listeningTask2">Укажите правильную последовательность</string>
@@ -76,6 +76,7 @@
     <string name="uncorrect_sequence">Последовательность неполная</string>
     <string name="right">Верно</string>
     <string name="wrong">Неверно</string>
+    <string name="search_in_dictionary">Поиск в словаре</string>
 
     <!-- learn final result -->
     <string name="all_words">Все слова</string>

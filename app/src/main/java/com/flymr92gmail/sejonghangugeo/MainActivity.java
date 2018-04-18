@@ -33,6 +33,7 @@ import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.Fragments.MailDialog;
 
+import com.flymr92gmail.sejonghangugeo.Utils.Helper;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.activities.BookActivity;
 import com.flymr92gmail.sejonghangugeo.activities.GramBookActivity;
@@ -375,14 +376,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void themeSetting(){
-        ExpandIconView expandBtnTheme = findViewById(R.id.expand_themes);
-        if (expandThemeSettings.getVisibility() == View.GONE){
-            expandBtnTheme.setState(ExpandIconView.LESS, true);
-            expand(expandThemeSettings);
-        }else {
-            expandBtnTheme.setState(ExpandIconView.MORE, true);
-            collapse(expandThemeSettings);
-        }
+        if (expandThemeSettings.getVisibility() == View.GONE)
+            Helper.expand(expandThemeSettings);
+        else
+            Helper.collapse(expandThemeSettings);
     }
 
     private void lastGramPage(){
@@ -395,12 +392,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void lastLesson(){
-
-            Intent intent = new Intent(this, LessonActivity.class);
-            intent.putExtra("lessonId", prefManager.getLastLessonID());
-            startActivity(intent);
-
-            Toast.makeText(this, getString(R.string.folder_dont_crate), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, LessonActivity.class);
+        intent.putExtra("lessonId", prefManager.getLastLessonID());
+        startActivity(intent);
+       // Toast.makeText(this, getString(R.string.folder_dont_crate), Toast.LENGTH_SHORT).show();
 
     }
 
@@ -421,98 +416,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         lastBookTv.setText(sejong);
         String ikhimcheg = getString(R.string.ikhimchek) + getString(R.string.last_page_of, prefManager.getLastGramPage());
         lastGramTv.setText(ikhimcheg);
-        ExpandIconView expandBtn = findViewById(R.id.expand_btn);
-        if (llExpandLP.getVisibility() == View.GONE){
-            expandBtn.setState(ExpandIconView.LESS, true);
-            expand(llExpandLP);
-        }else {
-            expandBtn.setState(ExpandIconView.MORE, true);
-            collapse(llExpandLP);
-        }
-    }
+        if (llExpandLP.getVisibility() == View.GONE)
+            Helper.expand(llExpandLP);
+        else
+            Helper.collapse(llExpandLP);
 
-    private void expand(final View v) {
-        v.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        final int targetHeight = v.getMeasuredHeight();
-        v.getLayoutParams().height = 1;
-        v.setVisibility(View.VISIBLE);
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                v.getLayoutParams().height = interpolatedTime == 1
-                        ? ViewGroup.LayoutParams.WRAP_CONTENT
-                        : (int)(targetHeight * interpolatedTime);
-                v.requestLayout();
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-        a.setDuration((int)(targetHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
     }
 
 
-    private void collapse(final View v) {
-        final int initialHeight = v.getMeasuredHeight();
-        Animation a = new Animation()
-        {
-            @Override
-            protected void applyTransformation(float interpolatedTime, Transformation t) {
-                if(interpolatedTime == 1){
-                    v.setVisibility(View.GONE);
-                }else{
-                    v.getLayoutParams().height = initialHeight - (int)(initialHeight * interpolatedTime);
-                    v.requestLayout();
-                }
-            }
-
-            @Override
-            public boolean willChangeBounds() {
-                return true;
-            }
-        };
-        a.setDuration((int)(initialHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
-        v.startAnimation(a);
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unbindDrawables(drawerIv);
-        unbindDrawables(mDrawer);
+        Helper.unbindDrawables(drawerIv);
+        Helper.unbindDrawables(mDrawer);
     }
 
-    public static void unbindDrawables(View view) {
-        if (view == null) {
-            return;
-        }
-        if (view.getBackground() != null) {
-            view.getBackground().setCallback(null);
-        }
-        if (view instanceof ImageView) {
-            ImageView imgView = (ImageView) view;
-            if (imgView.getDrawable() != null) {
-                Drawable b = imgView.getDrawable();
-                b.setCallback(null);
-                imgView.setImageDrawable(null);
-            }
-        } else if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                unbindDrawables(((ViewGroup) view).getChildAt(i));
-            }
-            try {
-                if ((view instanceof AdapterView<?>)) {
-                    AdapterView<?> adapterView = (AdapterView<?>) view;
-                    adapterView.setAdapter(null);
-                } else {
-                    ((ViewGroup) view).removeAllViews();
-                }
-            } catch (Exception e) {
-            }
-        }
-    }
+
 }

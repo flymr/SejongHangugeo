@@ -117,7 +117,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
                                 .swipeHorizontal(orientationIsHorizontal())
                                 //.enableAnnotationRendering(true)
                                 .enableAntialiasing(true)
-                                .spacing(40)
+                                .spacing(3)
                                 .onPageScroll(new OnPageScrollListener() {
                                     @Override
                                     public void onPageScrolled(int page, float positionOffset) {

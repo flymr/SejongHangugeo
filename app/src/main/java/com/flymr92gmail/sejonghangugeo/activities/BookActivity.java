@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Configuration;
+import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -45,6 +46,7 @@ import com.flymr92gmail.sejonghangugeo.Utils.Constants;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
@@ -147,7 +149,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
-      //  getDelegate().setLocalNightMode(AppCompatDelegate.getDefaultNightMode());
     }
 
     @Override
@@ -319,7 +320,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         searchEditText.setHintTextColor(getResources().getColor(R.color.white));
         ImageView closeIcon = wordsSearcher.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         closeIcon.setImageResource(R.drawable.ic_close_24dp);
-        wordsSearcher.setQueryHint("Поиск в словаре");
+        wordsSearcher.setQueryHint(getString(R.string.search_in_dictionary));
         try {
             Field mDrawable = SearchView.class.getDeclaredField("mSearchHintIcon");
             mDrawable.setAccessible(true);
@@ -353,6 +354,11 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
 
     }
 
+    private int setSpacing(boolean isLandScape){
+        if (isLandScape) return 0;
+        else return 20;
+    }
+
     private void setupPdf(){
         handlerPdf.postDelayed(new Runnable() {
             @Override
@@ -365,8 +371,14 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                                 .enableSwipe(true)
                                 .swipeHorizontal(orientationIsHorizontal())
                                 //.enableAnnotationRendering(true)
+                                .onDraw(new OnDrawListener() {
+                                    @Override
+                                    public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
+
+                                    }
+                                })
                                 .enableAntialiasing(true)
-                                .spacing(20)
+                                .spacing(setSpacing(orientationIsHorizontal()))
                                 .onPageScroll(new OnPageScrollListener() {
                                     @Override
                                     public void onPageScrolled(int page, float positionOffset) {

@@ -62,17 +62,15 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.colorAccent));
             viewHolder.pageNum.setTextColor(context.getResources().getColor(R.color.white));
         }
-        else viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.cardItemColor));
+        else {
+            viewHolder.cardView.setCardBackgroundColor(context.getResources().getColor(R.color.cardItemColor));
+            viewHolder.pageNum.setTextColor(context.getResources().getColor(R.color.textColor));
+        }
         if (withImages) {
             try {
                 Drawable d;
-                // get input stream
                 InputStream ims = context.getAssets().open("pages/page-" + (position + 1) + "-1.jpg");
-                // load image as Drawable
-               // int reqSize = (40 * (int)context.getResources().getDisplayMetrics().density)/2;
-               // d = new BitmapDrawable(context.getResources(), Helper.decodeSampledBitmapFromResource(ims, reqSize, reqSize));
                 d = Drawable.createFromStream(ims, null);
-                // set image to ImageView
                 viewHolder.imageView.setImageDrawable(d);
             } catch (IOException ex) {
 
