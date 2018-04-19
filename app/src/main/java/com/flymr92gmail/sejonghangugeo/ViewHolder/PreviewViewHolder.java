@@ -7,9 +7,6 @@ import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.R;
 
-/**
- * Created by hp on 21.02.2018.
- */
 
 public class PreviewViewHolder extends RecyclerView.ViewHolder{
     public TextView title, subTitle;

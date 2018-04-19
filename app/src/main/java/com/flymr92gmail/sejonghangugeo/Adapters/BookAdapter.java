@@ -1,12 +1,9 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -17,11 +14,7 @@ import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.ViewHolder.HeaderViewHolder;
 
-import java.util.List;
 
-/**
- * Created by florentchampigny on 24/04/15.
- */
 public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Legend legend;
@@ -55,20 +48,20 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         switch (viewType) {
-            case TYPE_HEADER: {
+            case TYPE_HEADER:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.list_item_card_big, parent, false);
-                return new HeaderViewHolder(view) {
-                };
-            }
-            case TYPE_BOOK: {
+                return new HeaderViewHolder(view);
+            case TYPE_BOOK:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.book_item, parent, false);
-                return new BookViewHolder(view) {
-                };
-            }
+                return new BookViewHolder(view);
+            default:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.book_item, parent, false);
+                return new BookViewHolder(view);
         }
-        return null;
+
     }
 
 

@@ -404,7 +404,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, LessonActivity.class);
         intent.putExtra("lessonId", prefManager.getLastLessonID());
         startActivity(intent);
-       // Toast.makeText(this, getString(R.string.folder_dont_crate), Toast.LENGTH_SHORT).show();
 
     }
 

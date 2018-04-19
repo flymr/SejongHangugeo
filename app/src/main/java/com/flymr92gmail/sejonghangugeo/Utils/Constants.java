@@ -13,14 +13,8 @@ public interface Constants {
     String MAIL_BODY = "mail_body";
     String MAIL_TITLE = "mail_title";
     String LAST_LEGEND_POSS = "last_legends_poss";
-    //Data Bases
-    final String TABLE_FAVORITE = "favorite";
-    final String CREATE_TABLE_FAVORITE = "CREATE TABLE "+TABLE_FAVORITE+" (" +
-            "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            "primaryId INTEGER," +
-            "russian TEXT," +
-            "korean TEXT);";
 
+    //Data Bases
     String USER_LESSONS_TABLE = "userlessonstable";
     String CREATE_LESSONS_TABLE = "CREATE TABLE "+USER_LESSONS_TABLE+" (" +
             "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -33,7 +27,7 @@ public interface Constants {
             "lessonProgress INTEGER,"+
             "positionIndex INTEGER);";
     //Dictionary
-    public enum Language{
+    enum Language{
         Korean,Russian
     }
 

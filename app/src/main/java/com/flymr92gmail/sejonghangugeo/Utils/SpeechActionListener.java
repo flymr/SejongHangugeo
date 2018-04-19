@@ -7,5 +7,5 @@ import android.view.View;
  */
 
 public interface SpeechActionListener {
-    public void onSpeechClick(int position, View view);
+    void onSpeechClick(int position, View view);
 }

@@ -6,10 +6,6 @@ import android.widget.ImageView;
 
 import com.flymr92gmail.sejonghangugeo.R;
 
-/**
- * Created by hp on 24.03.2018.
- */
-
 public class ListeningViewHolder extends RecyclerView.ViewHolder {
     public ImageView frontImage, rearCorrect, rearIncorrect;
     public ListeningViewHolder(View itemView) {

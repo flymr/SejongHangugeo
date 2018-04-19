@@ -10,6 +10,7 @@
     <string name="learned">Усвоено</string>
     <string name="next_round">Следующий раунд</string>
     <string name="title_activity_test">TestActivity</string>
+
     <!--for mail dialog -->
     <string name="your_mail">Ваш mail</string>
     <string name="massage_title">Тема сообщения</string>
@@ -19,20 +20,25 @@
     <string name="app_mail">appmailsejong@gmail.com</string>
     <string name="app_mail_pass">123</string>
     <string name="app_mail_outbox">flymr92@gmail.com</string>
-    <string name="send_success">Ваше сообщение доставленно</string>
+    <string name="send_success">Ваше сообщение доставлено</string>
     <string name="send_error">Ошибка. Нет подключения к интернету</string>
-    <string name="sending">Сообщение отправляется...</string>
+    <string name="sending">Сообщение отправляется#8230</string>
     <string name="send_massage">Отправить сообщение</string>
+    <string name="write_message_theme">Напишите тему сообщения</string>
+    <string name="write_message">Напишите сообщение</string>
+    <string name="message_subject">mail: %s /title: %s</string>
+
     <!-- legends -->
     <string name="culture">Культура</string>
     <string name="category">Категория: %s</string>
     <string name="show_other">Смотреть другие</string>
+
     <!-- mainActivity -->
     <string name="share">Поделиться</string>
     <string name="sejongHangugeo1">세종한국어 1</string>
     <string name="ikhimchek">익힘책</string>
     <string name="instruction">Руководство</string>
-    <string name="last_places">Последнии места</string>
+    <string name="last_places">Последниe места</string>
     <string name="thems">Темы</string>
     <string name="favorites">Благодарности</string>
     <string name="feedback">Обратная связь</string>
@@ -40,7 +46,7 @@
     <string name="night">Ночь</string>
     <string name="auto">Авто</string>
     <string name="thanks_to">Благодарности</string>
-    <string name="last_page_of">(стр. %d)</string>
+    <string name="last_page_of">(стр. %i)</string>
     <string name="error_connection">Ошибка соединения</string>
     <string name="home_page">https://github.com/flymr/SejongHangugeo</string>
     <string name="delete_lesson">Удалить %s?</string>
@@ -50,7 +56,7 @@
     <string name="add_to_folder">Добавить в папку</string>
     <string name="new_folder">Новая папка</string>
    <string name="delete">Удалить</string>
-    <string name="firstly_add_words">Сначала добавте слова</string>
+    <string name="firstly_add_words">Сначала добавьте слова</string>
 
     <!--book, listening, test etg -->
     <string name="listeningTask0">Выберите правильный вариант</string>
@@ -69,6 +75,10 @@
     <string name="right">Верно</string>
     <string name="wrong">Неверно</string>
     <string name="search_in_dictionary">Поиск в словаре</string>
+    <string name="exercise">Упражнение</string>
+    <string name="cards">Карточки</string>
+    <string name="add_and_edit">Редактировать/Добавить</string>
+    <string name="selected_count">выбранные(%d)</string>
 
     <!-- learn final result -->
     <string name="all_words">Все слова</string>
@@ -76,7 +86,7 @@
     <string name="favorites_words">Избранное</string>
 
     <!-- learn result -->
-    <string name="error_count">Ошибок сделанно: </string>
+    <string name="error_count">Ошибок сделано: </string>
 
 
 

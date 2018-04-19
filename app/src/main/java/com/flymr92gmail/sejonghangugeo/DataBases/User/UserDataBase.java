@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Random;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
-import com.flymr92gmail.sejonghangugeo.POJO.Audio;
 import com.flymr92gmail.sejonghangugeo.Utils.Constants;
 
 public class UserDataBase extends SQLiteOpenHelper implements Constants{

@@ -11,14 +11,7 @@ import android.widget.TextView;
 
 import com.flymr92gmail.sejonghangugeo.R;
 
-/**
- * Created by hp on 4/3/2018.
- */
-
 public class FavoritesFragment extends DialogFragment{
-    private View form = null;
-    private Dialog dialog;
-    private TextView textView;
     private String text;
 
     public void setListeningText(String text) {
@@ -27,9 +20,9 @@ public class FavoritesFragment extends DialogFragment{
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        dialog = null;
-        form = getActivity().getLayoutInflater().inflate(R.layout.fragment_favorites, null);
-        textView = form.findViewById(R.id.tv_fragment_favorites);
+        Dialog dialog;
+        View form = getActivity().getLayoutInflater().inflate(R.layout.fragment_favorites, null);
+        TextView textView = form.findViewById(R.id.tv_fragment_favorites);
         String title;
         if (text == null) {
             text = "<p>&emsp;Так говорят о человеке, который возвысившись, возомнил себя пупом земли. Русский аналог – «Из грязи – в князи».</p>\n" +

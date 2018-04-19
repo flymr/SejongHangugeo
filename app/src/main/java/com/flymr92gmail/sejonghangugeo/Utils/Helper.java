@@ -5,10 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.SoundPool;
-import android.renderscript.ScriptGroup;
-import android.text.format.DateFormat;
-import android.util.Log;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -17,16 +14,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 
 
-import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
-import com.flymr92gmail.sejonghangugeo.POJO.Test;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
-import com.flymr92gmail.sejonghangugeo.R;
+
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
 import java.util.Random;
 
 

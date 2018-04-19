@@ -3,6 +3,7 @@ package com.flymr92gmail.sejonghangugeo.Adapters;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecyclerAdapter.ViewHolder> {
     private ArrayList<Word> mWords;
     private Context mContext;
-    public boolean[] selects;
+    private boolean[] selects;
     private Animation plusToCross;
     private Animation croosToPlus;
     private SpeechActionListener speechActionListener;
@@ -42,14 +43,15 @@ public class NewWordsRecyclerAdapter extends RecyclerView.Adapter<NewWordsRecycl
         this.speechActionListener = speechActionListener;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_item_book,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Word word = mWords.get(position);
         //holder.ivAdd.setVisibility(View.VISIBLE);
         holder.tvKorWord.setText(word.getKoreanWord());

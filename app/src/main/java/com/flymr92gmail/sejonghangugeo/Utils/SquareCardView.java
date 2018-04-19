@@ -13,7 +13,6 @@ public class SquareCardView extends CardView {
 
     int width;
     int height;
-    private int orientation = getResources().getConfiguration().orientation;
 
 
 
@@ -62,7 +61,7 @@ public class SquareCardView extends CardView {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if(orientation == Configuration.ORIENTATION_PORTRAIT){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             width = getMeasuredWidth();
             height = getMeasuredWidth();
 
@@ -162,16 +161,4 @@ public class SquareCardView extends CardView {
         super.setPreventCornerOverlap(preventCornerOverlap);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        //Log.w("orientation",newConfig.orientation+" -   orientation     ");
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            orientation = Configuration.ORIENTATION_LANDSCAPE;
-
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            orientation = Configuration.ORIENTATION_PORTRAIT;
-        }
-    }
 }

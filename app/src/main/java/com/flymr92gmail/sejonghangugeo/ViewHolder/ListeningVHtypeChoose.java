@@ -3,14 +3,10 @@ package com.flymr92gmail.sejonghangugeo.ViewHolder;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroupOverlay;
 import android.widget.ImageView;
 
 import com.flymr92gmail.sejonghangugeo.R;
 
-/**
- * Created by hp on 3/27/2018.
- */
 
 public class ListeningVHtypeChoose extends RecyclerView.ViewHolder {
     public CardView cardView;

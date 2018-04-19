@@ -4,15 +4,12 @@ package com.flymr92gmail.sejonghangugeo;
  * Created by xyarim on 3/6/17.
  */
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 
 
@@ -74,7 +71,6 @@ public class LessonsCreateFolder extends DialogFragment {
                             dataBase.editLessonName(mLesson,editText.getText().toString());
                         }else {
                             dataBase.createNewLesson(editText.getText().toString().trim());
-                          //  mListener.onDialogPositiveClick(LessonsCreateFolder.this);
                             dialog.dismiss();
                         }
                     }
@@ -82,7 +78,6 @@ public class LessonsCreateFolder extends DialogFragment {
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                       // mListener.onDialogNegativeClick(LessonsCreateFolder.this);
                         dialog.dismiss();
                     }
                 }).create());
@@ -92,13 +87,7 @@ public class LessonsCreateFolder extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        //final Activity activity = getActivity();
-       // if (activity instanceof DialogInterface.OnDismissListener) {
-          // ((DialogInterface.OnDismissListener) activity).onDismiss(dialog); }
-       // Fragment parentFragment = getParentFragment();
-     //   if (parentFragment instanceof DialogInterface.OnDismissListener) {
-       //     ((DialogInterface.OnDismissListener) parentFragment).onDismiss(dialog);
-      //  }
+
         if (onDismissListener != null) {
             onDismissListener.onDismiss(dialog);
         }

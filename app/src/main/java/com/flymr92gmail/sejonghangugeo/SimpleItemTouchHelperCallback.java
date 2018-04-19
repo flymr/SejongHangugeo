@@ -1,16 +1,14 @@
 package com.flymr92gmail.sejonghangugeo;
 
 
-import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
-    static final int TYPE_HEADER = 0;
-    static final int TYPE_CELL = 1;
+
     private final ItemTouchHelperAdapter mAdapter;
 
-    public SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
+    SimpleItemTouchHelperCallback(ItemTouchHelperAdapter adapter) {
         this.mAdapter = adapter;
     }
 

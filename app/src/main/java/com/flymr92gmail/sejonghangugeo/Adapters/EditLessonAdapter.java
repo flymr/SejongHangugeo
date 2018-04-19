@@ -1,6 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -8,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,18 +20,14 @@ import com.flymr92gmail.sejonghangugeo.R;
 
 import java.util.ArrayList;
 
-/**
- * Created by hp on 14.12.2017.
- */
 
 public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.ViewHolder>{
-    static final int TYPE_CURENT_WORD = 0;
-    static final int TYPE_NEW_WORD = 1;
+    private static final int TYPE_CURENT_WORD = 0;
+    private static final int TYPE_NEW_WORD = 1;
     private Context mContext;
     private Lesson mLesson;
     private UserDataBase mUserDataBase;
     private ArrayList<Word> words;
-    private InputMethodManager imm;
 
 
     public EditLessonAdapter(Context mContext, Lesson mLesson){
@@ -42,15 +38,16 @@ public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.Vi
 
     }
 
+    @NonNull
     @Override
-    public EditLessonAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public EditLessonAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.edit_word_item,parent,false);
          return new ViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(EditLessonAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EditLessonAdapter.ViewHolder holder, int position) {
     switch (getItemViewType(position)){
         case TYPE_CURENT_WORD:
             Word word = words.get(position);
@@ -98,8 +95,6 @@ public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.Vi
             editTextKor.setMaxLines(Integer.MAX_VALUE);
             editTextRus.setHorizontallyScrolling(false);
             editTextRus.setMaxLines(Integer.MAX_VALUE);
-           // editTextRus.setBackground(ContextCompat.getDrawable(mContext, R.color.transparent));
-            imm = (InputMethodManager)mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
             editTextRus.setOnFocusChangeListener(this);
             editTextKor.setOnFocusChangeListener(this);
             editTextKor.setOnEditorActionListener(this);
@@ -113,8 +108,8 @@ public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.Vi
 
         @Override
         public void onFocusChange(View view, boolean b) {
-            if(view.getId()==R.id.korean_word_et) onFocus(b, editTextKor);
-            else if (view.getId()==R.id.russian_word_et) onFocus(b, editTextRus);
+            if(view.getId()==R.id.korean_word_et) onFocus(b);
+            else if (view.getId()==R.id.russian_word_et) onFocus(b);
             switch (getItemViewType()){
                 case TYPE_CURENT_WORD:
                     if (!b){
@@ -129,14 +124,10 @@ public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.Vi
             }
         }
 
-        private void onFocus(boolean isFocus , EditText editText){
+        private void onFocus(boolean isFocus){
             if (isFocus){
-               // separator.setBackgroundColor(mContext.getResources().getColor(R.color.redM));
-               // editText.setTextColor(mContext.getResources().getColor(R.color.redM));
                 cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
             } else {
-               // separator.setBackgroundColor(mContext.getResources().getColor(R.color.white));
-               // editText.setTextColor(mContext.getResources().getColor(R.color.white));
                 cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.navigationBarColor));
             }
         }
@@ -147,7 +138,6 @@ public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.Vi
             if (textView.getId() == R.id.korean_word_et){
                 if (actionId == EditorInfo.IME_ACTION_DONE){
                     editTextRus.requestFocus();
-                   // imm.showSoftInput(editTextKor,InputMethodManager.SHOW_IMPLICIT);
                     return true;
                 }
             }
@@ -160,9 +150,7 @@ public class EditLessonAdapter extends RecyclerView.Adapter<EditLessonAdapter.Vi
                            break;
                        case  TYPE_NEW_WORD:
                            if (addWord()) {
-                               //cardView.requestFocus();
                                 notifyItemInserted(words.size()-1);
-                               // notifyDataSetChanged();
                                editTextKor.requestFocus();
 
 

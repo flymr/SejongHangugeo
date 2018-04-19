@@ -43,6 +43,7 @@ import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.RecyclerItemClickListener;
 import com.flymr92gmail.sejonghangugeo.Utils.Constants;
+import com.flymr92gmail.sejonghangugeo.Utils.Helper;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
 import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
 import com.github.barteksc.pdfviewer.PDFView;
@@ -162,10 +163,11 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                 handlerAudio.removeCallbacksAndMessages(null);
             }
         }
+        Helper.unbindDrawables(findViewById(R.id.iv_loader));
     }
 
     private void setupRecyclerView(){
-        String s = "выбранные(0)";
+        String s = getString(R.string.selected_count, 0);
         addSelected.setText(s);
         selectedWords.clear();
         pageWords.clear();
@@ -277,7 +279,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         try{
             wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         }catch (NullPointerException n){
-
+            n.printStackTrace();
         }
         queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
@@ -371,12 +373,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                                 .enableSwipe(true)
                                 .swipeHorizontal(orientationIsHorizontal())
                                 //.enableAnnotationRendering(true)
-                                .onDraw(new OnDrawListener() {
-                                    @Override
-                                    public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
 
-                                    }
-                                })
                                 .enableAntialiasing(true)
                                 .spacing(setSpacing(orientationIsHorizontal()))
                                 .onPageScroll(new OnPageScrollListener() {
@@ -393,7 +390,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                                        try {
                                            clearNavBook();
                                         }catch (NullPointerException e){
-
+                                           e.printStackTrace();
                                        }
                                      }
                                 })
@@ -402,7 +399,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                                     public void loadComplete(int nbPages) {
                                         ObjectAnimator.ofFloat(findViewById(R.id.iv_loader), "alpha", 1f, 0).setDuration(500).start();
                                         bookMenu.setVisibility(View.VISIBLE);
-
                                     }
                                 })
                                 .load();
@@ -568,7 +564,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             getAudioStats();
             initializeSeekBar();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -649,7 +645,7 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         }
 
 
-        String s = "выбранные(" + selected + ")";
+        String s = getString(R.string.selected_count, selected);
         addSelected.setText(s);
 
     }

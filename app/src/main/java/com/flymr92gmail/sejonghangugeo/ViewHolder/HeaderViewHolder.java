@@ -28,24 +28,20 @@ public class HeaderViewHolder extends RecyclerView.ViewHolder implements View.On
    public TextView legendName;
     public TextView legendText;
     public TextView legendCategory;
-    private ImageView iv_add;
     private ExpandIconView dropBtn;
     private boolean isViewExpanded = false;
     public Button showAllBtn;
     public TextView categoryForGroup;
     private LinearLayout llExpand;
-    public CardView cardView;
     public HeaderViewHolder(View itemView) {
         super(itemView);
         legendName = itemView.findViewById(R.id.legend_header);
         legendText = itemView.findViewById(R.id.legend_text);
         legendCategory = itemView.findViewById(R.id.legend_category);
         categoryForGroup = itemView.findViewById(R.id.group_category);
-        iv_add = itemView.findViewById(R.id.iv_add_legend);
         showAllBtn = itemView.findViewById(R.id.show_all_btn);
         dropBtn = itemView.findViewById(R.id.drop_button);
         llExpand = itemView.findViewById(R.id.expand_ll);
-        cardView = itemView.findViewById(R.id.card_view_legend);
         dropBtn.setOnClickListener(this);
         if (!isViewExpanded){
             llExpand.setVisibility(View.GONE);

@@ -386,7 +386,6 @@ public class LearnActivity extends AppCompatActivity {
     //мозгов хватило только на такое вот безобразие :(
     private void getWordsFragment(String userAnswer, String correctAnswer){
         int corAnsSize = correctAnswer.length();
-        int userAnsSize = userAnswer.length();
         for (int i = 0; i < corAnsSize; i++){
             for (int b = 0; b <= i; b++){
                 int cutFromEnd = corAnsSize - (i - b);

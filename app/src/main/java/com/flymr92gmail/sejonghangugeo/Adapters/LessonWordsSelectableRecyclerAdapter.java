@@ -1,7 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
-import com.flymr92gmail.sejonghangugeo.DeleteModListener;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.POJO.Word;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.SpeechActionListener;
-import com.flymr92gmail.sejonghangugeo.Utils.WordsSpeech;
 
 
 import java.util.ArrayList;
@@ -44,31 +40,28 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
 
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view;
         if (viewType == FOOTER_VIEW) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_item_footer, parent, false);
-
-            FooterViewHolder vh = new FooterViewHolder(view);
-
-            return vh;
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.word_item_footer, parent, false);
+            return new FooterViewHolder(view);
         }
         view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.words_item, parent, false);
-        WordViewHolder vh = new WordViewHolder(view);
-        return vh;
+        return new WordViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder,final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder,final int position) {
 
 
         switch (getItemViewType(position)){
             case FOOTER_VIEW:
-                FooterViewHolder footerViewHolder = (FooterViewHolder) holder;
                 break;
             default:
                 WordViewHolder viewHolder =(WordViewHolder)holder;
@@ -168,12 +161,12 @@ public class LessonWordsSelectableRecyclerAdapter extends RecyclerView.Adapter<R
 
     }
     class FooterViewHolder extends RecyclerView.ViewHolder {
-        public FooterViewHolder(View itemView) {
+        FooterViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    public void removeAt(int position) {
+    private void removeAt(int position) {
        try {
            dataBase.deleteLessonWord(lesson.getLessonTable(), mWords.get(position));
            mWords.remove(position);

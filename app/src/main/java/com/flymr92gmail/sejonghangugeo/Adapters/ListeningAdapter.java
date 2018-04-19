@@ -1,6 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,7 @@ import com.flymr92gmail.sejonghangugeo.ViewHolder.ListeningVHtypeSequence;
 import com.flymr92gmail.sejonghangugeo.ViewHolder.ListeningViewHolder;
 
 import java.util.ArrayList;
-import java.util.List;
 
-/**
- * Created by hp on 24.03.2018.
- */
 
 public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private int correctAnswer;
@@ -46,13 +43,9 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
+    @NonNull
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
-        super.onBindViewHolder(holder, position, payloads);
-    }
-
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (TEST_FORMAT){
             case TEST_STANDARD:
                 View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_listenning, parent, false);
@@ -72,7 +65,7 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         switch (TEST_FORMAT){
             case TEST_STANDARD:
                 ListeningViewHolder holderStandard = (ListeningViewHolder)holder;
@@ -88,11 +81,11 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holderChoose.cardView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (selects[position]){
-                            selects[position] = false;
+                        if (selects[holder.getAdapterPosition()]){
+                            selects[holder.getAdapterPosition()] = false;
                             holderChoose.ivChoose.setVisibility(View.GONE);
                         } else {
-                            selects[position] = true;
+                            selects[holder.getAdapterPosition()] = true;
                             holderChoose.ivChoose.setVisibility(View.VISIBLE);
                         }
                     }
@@ -106,7 +99,7 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     public void onClick(View view) {
                         if (holserSequence.llVariants.getVisibility() == View.VISIBLE){
                             holserSequence.llVariants.setVisibility(View.GONE);
-                            sequence[position] = 0;
+                            sequence[holder.getAdapterPosition()] = 0;
                         }else {
                             holserSequence.llVariants.setVisibility(View.VISIBLE);
                             holserSequence.ivVar1.setVisibility(View.VISIBLE);
@@ -119,11 +112,11 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     @Override
                     public void onClick(View view) {
                         if (holserSequence.ivVar2.getVisibility() ==View.GONE){
-                            sequence[position] = 0;
+                            sequence[holder.getAdapterPosition()] = 0;
                             holserSequence.ivVar2.setVisibility(View.VISIBLE);
                             holserSequence.ivVar3.setVisibility(View.VISIBLE);
                         }else {
-                            sequence[position] = 1;
+                            sequence[holder.getAdapterPosition()] = 1;
                             holserSequence.ivVar2.setVisibility(View.GONE);
                             holserSequence.ivVar3.setVisibility(View.GONE);
                         }
@@ -134,11 +127,11 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     @Override
                     public void onClick(View view) {
                         if (holserSequence.ivVar1.getVisibility() == View.GONE){
-                            sequence[position] = 0;
+                            sequence[holder.getAdapterPosition()] = 0;
                             holserSequence.ivVar1.setVisibility(View.VISIBLE);
                             holserSequence.ivVar3.setVisibility(View.VISIBLE);
                         }else {
-                            sequence[position] = 2;
+                            sequence[holder.getAdapterPosition()] = 2;
                             holserSequence.ivVar1.setVisibility(View.GONE);
                             holserSequence.ivVar3.setVisibility(View.GONE);
                         }
@@ -149,11 +142,11 @@ public class ListeningAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     @Override
                     public void onClick(View view) {
                         if (holserSequence.ivVar2.getVisibility() ==View.GONE){
-                            sequence[position] = 0;
+                            sequence[holder.getAdapterPosition()] = 0;
                             holserSequence.ivVar2.setVisibility(View.VISIBLE);
                             holserSequence.ivVar1.setVisibility(View.VISIBLE);
                         }else {
-                            sequence[position] = 3;
+                            sequence[holder.getAdapterPosition()] = 3;
                             holserSequence.ivVar1.setVisibility(View.GONE);
                             holserSequence.ivVar2.setVisibility(View.GONE);
                         }

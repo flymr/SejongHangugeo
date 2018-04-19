@@ -1,6 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,19 +10,17 @@ import android.view.ViewGroup;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.ViewHolder.PreviewViewHolder;
 
-/**
- * Created by hp on 21.02.2018.
- */
 
 public class PreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    Context context;
+    private Context context;
 
     public PreviewAdapter(Context context) {
      this.context = context;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_preview, parent, false);
 
@@ -29,7 +28,7 @@ public class PreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         PreviewViewHolder viewHolder = (PreviewViewHolder)holder;
         String[] stringsArray = new String[2];
         switch (position){
@@ -50,7 +49,6 @@ public class PreviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         .getStringArray(R.array.preview_page3);
                 break;
             case 4:
-                stringsArray = new String[3];
                 stringsArray = context.getResources()
                         .getStringArray(R.array.preview_page4);
                 break;

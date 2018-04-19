@@ -2,17 +2,13 @@ package com.flymr92gmail.sejonghangugeo;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
-import android.app.Notification;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.icu.text.MessagePattern;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -150,8 +146,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
     private Lesson getLesson(Intent intent){
         intent.getStringExtra("lessonId");
-        Lesson lesson = dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
-        return lesson;
+        return dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
     }
 
     private void setupAdapter(Lesson lesson){

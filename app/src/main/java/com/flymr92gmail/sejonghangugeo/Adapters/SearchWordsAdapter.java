@@ -1,17 +1,12 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
-import android.app.DialogFragment;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
-
 import android.text.SpannableString;
-import android.text.Spanned;
-
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
@@ -48,14 +43,15 @@ public class SearchWordsAdapter extends RecyclerView.Adapter<SearchWordsAdapter.
         this.speechActionListener = speechActionListener;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.word_item_book,parent,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Word word = mWords.get(position);
         if (language == Constants.Language.Korean){
             Spannable kor = new SpannableString(word.getKoreanWord());

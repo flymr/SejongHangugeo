@@ -40,9 +40,9 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     this.context = context;
     this.withImages = withImages;
     }
-
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_page, parent, false);
         return new PageViewHolder(view);
     }
@@ -53,7 +53,7 @@ public class NavBookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         PageViewHolder viewHolder = (PageViewHolder)holder;
         String s = ""+(position+differencePages);

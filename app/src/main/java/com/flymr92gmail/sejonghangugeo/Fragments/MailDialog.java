@@ -5,22 +5,13 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
-import com.flymr92gmail.sejonghangugeo.MainActivity;
 import com.flymr92gmail.sejonghangugeo.R;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
-
-/**
- * Created by DELL on 2/28/2018.
- */
 
 public class MailDialog extends DialogFragment {
     private View form = null;
@@ -62,11 +53,11 @@ public class MailDialog extends DialogFragment {
         String massage = etBody.getText().toString();
         String title = etUserMail.getText().toString();
         if (massage.equals("")){
-            Toast.makeText(getActivity(),"Напишите тему сообщения", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),R.string.write_message_theme, Toast.LENGTH_SHORT).show();
             return false;
         }
         if (title.equals("")){
-            Toast.makeText(getActivity(),"Напишите сообщение", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),R.string.write_message, Toast.LENGTH_SHORT).show();
             return false;
         }
         BackgroundMail.newBuilder(getActivity())
@@ -74,7 +65,7 @@ public class MailDialog extends DialogFragment {
                 .withPassword(R.string.app_mail_pass)
                 .withMailto(R.string.app_mail_outbox)
                 .withType(BackgroundMail.TYPE_PLAIN)
-                .withSubject("mail: "+etUserMail.getText().toString() + " /title " + etTitle.getText().toString())
+                .withSubject(getString(R.string.message_subject, etUserMail.getText().toString(),etTitle.getText().toString()))
                 .withBody(etBody.getText().toString())
                 .withProcessVisibility(true)
                 .withSendingMessageSuccess(R.string.send_success)

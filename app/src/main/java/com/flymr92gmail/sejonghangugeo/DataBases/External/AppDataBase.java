@@ -14,15 +14,11 @@ import com.flymr92gmail.sejonghangugeo.POJO.Audio;
 import com.flymr92gmail.sejonghangugeo.Utils.Constants;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 
 public class AppDataBase extends SQLiteAssetHelper implements Constants {
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
     private static final String DATABASE_NAME = "vordsbase.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_WORDS = "words";
@@ -34,21 +30,6 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
     public AppDataBase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         db = getReadableDatabase();
-    }
-    public ArrayList<Word> getAllWords() {
-        ArrayList<Word> arrayList = new ArrayList<>();
-        String[] columns = {"_id", "korean", "russian","page"};
-        Cursor cursor = db.query(TABLE_WORDS, columns, null, null, null, null, null);
-        while (cursor.moveToNext()) {
-            Word word = new Word();
-            word.setId(cursor.getInt(cursor.getColumnIndex("_id")));
-            word.setPage(cursor.getInt(cursor.getColumnIndex("page")));
-            word.setRussianWord(cursor.getString(cursor.getColumnIndex("russian")));
-            word.setKoreanWord(cursor.getString(cursor.getColumnIndex("korean")));
-            arrayList.add(word);
-        }
-        cursor.close();
-        return arrayList;
     }
 
     public ArrayList<Legend> getLegends(){
@@ -88,13 +69,13 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
 
     public ArrayList<Word> getSearchResult(String searchWord, Language language) {
         ArrayList<Word> words = new ArrayList<>();
-        Cursor cursorWord = null;
-        String myQuery=null;
+        Cursor cursorWord;
+        String myQuery;
             if (language== Language.Russian){
-                myQuery = "SELECT * FROM words WHERE " + "russian" + " LIKE '%"+ searchWord +"%'";
+                myQuery = "SELECT * FROM " +TABLE_WORDS + " WHERE " + "russian" + " LIKE '%"+ searchWord +"%'";
             }
             else {
-                myQuery = "SELECT * FROM words WHERE " + "korean" + " LIKE '%" + searchWord + "%'";
+                myQuery = "SELECT * FROM " +TABLE_WORDS + " WHERE " + "korean" + " LIKE '%" + searchWord + "%'";
             }
         cursorWord=db.rawQuery(myQuery,null);
             while (cursorWord.moveToNext()){

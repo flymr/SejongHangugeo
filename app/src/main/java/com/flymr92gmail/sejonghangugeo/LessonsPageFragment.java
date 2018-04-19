@@ -2,32 +2,24 @@ package com.flymr92gmail.sejonghangugeo;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.format.DateFormat;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
-import com.flymr92gmail.sejonghangugeo.Fragments.LessonsDialogCreateFragment;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
@@ -35,25 +27,16 @@ import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.activities.LegendsActivity;
 import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDecorator;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
 import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static android.content.ContentValues.TAG;
 
-/**
- * Created by hp on 09.12.2017.
- */
 
 public class LessonsPageFragment extends Fragment implements ViewClickListener {
 
@@ -118,8 +101,6 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
             @Override
             public void onClick(View view) {
                 dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"New lesson");
-
-
             }
         });
 
