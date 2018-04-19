@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupViewPager();
         setRbChecked();
         thisIsFirstActivation();
-        Drawable drawerDrawable = getResources().getDrawable(R.drawable.sky);
-        drawerIv.setImageDrawable(drawerDrawable);
+        setDrawerIv();
     }
 
 
@@ -178,6 +177,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onDrawerSlide(float openRatio, int offsetPixels) {
             }
         });
+    }
+
+
+    private void setDrawerIv(){
+        Drawable drawerDrawable = getResources().getDrawable(R.drawable.sky);
+        drawerIv.setImageDrawable(drawerDrawable);
     }
 
 
@@ -308,7 +313,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void goToGitHub(){
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page)));
         startActivity(intent);
-
     }
 
 
@@ -324,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra(Intent.EXTRA_TEXT, textToSend);
         try
         {
-            startActivity(Intent.createChooser(intent, getResources().getString(R.string.share)));
+            startActivity(Intent.createChooser(intent, getString(R.string.share)));
         }
         catch (android.content.ActivityNotFoundException ex)
         {
@@ -351,8 +355,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int currentTheme = getCurrentNightMode();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         getDelegate().applyDayNight();
-        if (currentTheme != getCurrentNightMode())
+        if (currentTheme != getCurrentNightMode()){
+            Helper.unbindDrawables(drawerIv);
+            Helper.unbindDrawables(mDrawer);
             recreate();
+
+        }
     }
 
     private void setNight(){
@@ -361,6 +369,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_YES);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES){
+            Helper.unbindDrawables(drawerIv);
+            Helper.unbindDrawables(mDrawer);
             recreate();
         }
     }
@@ -371,6 +381,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO){
+            Helper.unbindDrawables(drawerIv);
+            Helper.unbindDrawables(mDrawer);
             recreate();
         }
     }
@@ -428,8 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Helper.unbindDrawables(drawerIv);
-        Helper.unbindDrawables(mDrawer);
+
     }
 
 

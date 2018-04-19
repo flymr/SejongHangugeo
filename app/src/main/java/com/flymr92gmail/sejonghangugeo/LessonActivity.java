@@ -175,7 +175,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
     private void learAction(){
         if (words.size()!=0){
-            for (Word word : dataBase.getWordsInLesson(lesson.getLessonName())){
+            for (Word word : dataBase.getWordsInLesson(lesson.getLessonTable())){
                 word.setmIsLearning(0);
                 dataBase.editWordLearning(lesson, word);
             }
@@ -187,7 +187,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             intent.putExtra("lesson", lesson);
             startActivity(intent);
         }else {
-            Toast.makeText(this, "Добавьте слова", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getText(R.string.firstly_add_words), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -421,7 +421,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
             if (result == TextToSpeech.LANG_MISSING_DATA
                     || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Log.e("TTS", "This Language is not supported");
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+              /*  AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.havent_tts)
                         .setMessage(R.string.go_to_tts_setting);
                 builder.setPositiveButton(R.string.setting, new DialogInterface.OnClickListener() {
@@ -440,7 +440,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
                 });
                 builder.setCancelable(true);
                 AlertDialog alert = builder.create();
-                alert.show();
+                alert.show();*/
             }
             Log.e("TTS", "All right");
         }

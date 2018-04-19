@@ -43,6 +43,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     RecyclerView mRecyclerView;
 
     private BookAdapter bookAdapter;
+
     public static MainPageFragment newInstance() {
         return new MainPageFragment();
     }
@@ -103,11 +104,17 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     @Override
     public void onResume() {
         super.onResume();
-
+        bookAdapter = new BookAdapter(getDailyLegend(), this);
+        mRecyclerView.setAdapter(bookAdapter);
     }
 
     @Override
     public void onViewClicked() {
        startActivity(new Intent(getActivity(), LegendsActivity.class));
+    }
+
+    @Override
+    public void deleteItem(int position) {
+
     }
 }

@@ -91,29 +91,6 @@ public class PrefManager implements Constants {
         return preferences.getInt(BOOK,36);
     }
 
-    public String getDateOfAddedLegend(){
-        Log.d(TAG, "getDate "+preferences.getString(DATE_LEGEND, "0"));
-        return preferences.getString(DATE_LEGEND, "0");
-    }
-
-    public void setDateOfAddedLegend(String newDate){
-        Log.d(TAG, "setDate: "+ newDate);
-        editor.putString(DATE_LEGEND, newDate);
-        editor.apply();
-        editor.commit();
-    }
-
-    public String getAddedLegendsId(){
-        Log.d(TAG, "getIds: "+preferences.getString(ADDED_LEGENDS_ID, "0"));
-        return preferences.getString(ADDED_LEGENDS_ID, "0");
-    }
-
-    public void setAddedLegendsId(String addedArray){
-        Log.d(TAG, "setIds: "+ addedArray);
-        editor.putString(ADDED_LEGENDS_ID, addedArray);
-        editor.apply();
-        editor.commit();
-    }
 
     public void  saveLastGramPage(int pageNumber){
         editor.putInt(GRAM,pageNumber);

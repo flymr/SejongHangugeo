@@ -156,31 +156,24 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onItemDismiss(final int position) {
-
-        final Lesson lesson = dataBase.getAllLessons().get(position);
+        Lesson lesson = dataBase.getAllLessons().get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("Удалить " + mLessonArrayList.get(position).getLessonName()+"?");
+        builder.setTitle(mContext.getResources().getString(R.string.delete_lesson, lesson.getLessonName()));
         builder.setPositiveButton(mContext.getResources().getString(R.string.delete), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
-                PrefManager prefManager = new PrefManager(mContext);
-                if (prefManager.getLastLessonID() == lesson.getLessonId())
-                    prefManager.saveLastLessonID(0);
-                dataBase.deleteLesson(lesson);
-                notifyItemRemoved(position);
+                viewClickListener.deleteItem(position);
             }
         });
         builder.setNegativeButton(mContext.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int arg1) {
 
-                mLessonArrayList.add(position, dataBase.getAllLessons().get(position));
-                mLessonArrayList = dataBase.getAllLessons();
                 notifyDataSetChanged();
             }
         });
-        builder.setCancelable(true);
+        builder.setCancelable(false);
         AlertDialog alert = builder.create();
         alert.show();
-        mLessonArrayList.remove(position);
+       // mLessonArrayList.remove(position);
     }
 
 

@@ -85,38 +85,6 @@ public class AppDataBase extends SQLiteAssetHelper implements Constants {
         return legend;
     }
 
-    public Legend getLegendById(int id){
-        Legend legend = new Legend();
-        String query = "SELECT * FROM " + TABLE_LEGENDS+ " WHERE _id=" + id;
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.moveToNext()){
-            legend.setmId(cursor.getInt(cursor.getColumnIndex("_id")));
-            legend.setName(cursor.getString(cursor.getColumnIndex("header")));
-            legend.setNameTranslate(cursor.getString(cursor.getColumnIndex("headerTranslate")));
-            legend.setLegendText(cursor.getString(cursor.getColumnIndex("legendText")));
-            legend.setLegendCategory(cursor.getString(cursor.getColumnIndex("category")));
-
-        }
-        cursor.close();
-        return legend;
-    }
-
-    public String getLegendsIds(){
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        String[] columns = {"_id", "header", "headerTranslate","legendText", "category"};
-        Cursor cursor = db.query(TABLE_LEGENDS, columns, null, null, null, null, null);
-        while (cursor.moveToNext()){
-            jsonArray.put(cursor.getInt(cursor.getColumnIndex("_id")));
-        }
-        cursor.close();
-        try{
-            jsonObject.put("ids", jsonArray);
-        }catch (JSONException e){
-
-        }
-        return jsonObject.toString();
-    }
 
     public ArrayList<Word> getSearchResult(String searchWord, Language language) {
         ArrayList<Word> words = new ArrayList<>();

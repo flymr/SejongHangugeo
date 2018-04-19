@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.flymr92gmail.sejonghangugeo.Adapters.LessonsAdapter;
 import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
+import com.flymr92gmail.sejonghangugeo.Fragments.LessonsDialogCreateFragment;
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
@@ -54,6 +55,8 @@ import static android.content.ContentValues.TAG;
  */
 
 public class LessonsPageFragment extends Fragment implements ViewClickListener {
+
+
     @BindView(R.id.lessons_rv)
     RecyclerView lessonsRecyclerView;
     @BindView(R.id.fab)
@@ -62,7 +65,7 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
     private ArrayList<Lesson> lessonArrayList;
     private LessonsAdapter lessonsAdapter;
     private Context context;
-
+    private LessonsCreateFolder dialogCreateFragment;
 
     public static LessonsPageFragment newInstance() {
         return new LessonsPageFragment();
@@ -87,6 +90,7 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
             lessonArrayList = userDataBase.getAllLessons();
         }
         userDataBase.close();
+
         lessonsAdapter = new LessonsAdapter(lessonArrayList, context, getDailyLegend(), this);
         lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         lessonsRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
@@ -97,9 +101,7 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
         lessonsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, lessonsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, float x, float y) {
-
                if (position!=0) {
-
                    Intent intent = new Intent(context, LessonActivity.class);
                    intent.putExtra("lessonId", lessonArrayList.get(position).getLessonId());
                    startActivity(intent);
@@ -110,24 +112,11 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
             public void onLongItemClick(View view, final int position) {
             }
         }));
+        dialogCreateFragment = new LessonsCreateFolder();
+        setupLessonCreateFolder(dialogCreateFragment);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LessonsCreateFolder dialogCreateFragment = new LessonsCreateFolder();
-                dialogCreateFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        //setupLessonsAdapter();
-                        userDataBase = new UserDataBase(context);
-                        if (userDataBase.getAllLessons().size()!=lessonArrayList.size()) {
-                            int dbLastItemPos = lessonArrayList.size();
-                            lessonArrayList.add(dbLastItemPos, userDataBase.getAllLessons().get(dbLastItemPos));
-                            lessonsAdapter.notifyItemInserted(dbLastItemPos);
-                            lessonsRecyclerView.smoothScrollToPosition(lessonsAdapter.getItemCount()-1);
-                            userDataBase.close();
-                        }
-                    }
-                });
                 dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"New lesson");
 
 
@@ -138,7 +127,22 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
 
     }
 
-
+    private void setupLessonCreateFolder(LessonsCreateFolder fragment){
+        fragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                //setupLessonsAdapter();
+                userDataBase = new UserDataBase(context);
+                if (userDataBase.getAllLessons().size()!=lessonArrayList.size()) {
+                    int dbLastItemPos = lessonArrayList.size();
+                    lessonArrayList.add(dbLastItemPos, userDataBase.getAllLessons().get(dbLastItemPos));
+                    lessonsAdapter.notifyItemInserted(dbLastItemPos);
+                    lessonsRecyclerView.smoothScrollToPosition(lessonsAdapter.getItemCount()-1);
+                }
+                userDataBase.close();
+            }
+        });
+    }
 
     private int getRandomInt(int distance){
         int randomInt;
@@ -157,12 +161,23 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        //String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy",new Date());
-       // if (!prefManager.getDateOfAddedLegend().equals(currentDateTimeString))lessonsAdapter = new LessonsAdapter(lessonArrayList, context, getDailyLegend());
+
     }
 
     @Override
     public void onViewClicked() {
         startActivity(new Intent(getActivity(), LegendsActivity.class));
+    }
+
+    @Override
+    public void deleteItem(int position) {
+        PrefManager prefManager = new PrefManager(context);
+        if (prefManager.getLastLessonID() == lessonArrayList.get(position).getLessonId())
+            prefManager.saveLastLessonID(0);
+        UserDataBase dataBase = new UserDataBase(context);
+        dataBase.deleteLesson(lessonArrayList.get(position));
+        dataBase.close();
+        lessonArrayList.remove(position);
+        lessonsAdapter.notifyItemRemoved(position);
     }
 }

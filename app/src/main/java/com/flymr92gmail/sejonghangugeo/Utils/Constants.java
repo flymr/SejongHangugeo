@@ -6,8 +6,6 @@ public interface Constants {
     String PREF_NAME = "koreanBookpref";
     String BOOK = "book_";
     String GRAM = "gram";
-    String DATE_LEGEND = "date_legend";
-    String ADDED_LEGENDS_ID = "added_legends_id";
     String FIRST_APP_ACTIVATION = "first_app_activation";
     String LAST_LESSON_ID = "last_lesson_id";
     String APP_THEME = "app_theme";

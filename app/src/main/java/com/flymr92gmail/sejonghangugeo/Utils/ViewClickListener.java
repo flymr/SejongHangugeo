@@ -6,4 +6,5 @@ package com.flymr92gmail.sejonghangugeo.Utils;
 
 public interface ViewClickListener {
     public void onViewClicked();
+    public void deleteItem(int position);
 }

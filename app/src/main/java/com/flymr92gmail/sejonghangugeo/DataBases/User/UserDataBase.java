@@ -43,20 +43,8 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
     private void deleteLessonTable(String tableName){
         db.execSQL("DROP TABLE IF EXISTS " + tableName);
     }
-   /*public ArrayList<Lesson> getAllLessons(){
-        ArrayList<Lesson> lessons = new ArrayList<>();
-        String[] columns = {"_id", "lessonName","lessonTable"};
-        Cursor cursor = db.query(USER_LESSONS_TABLE,columns,null,null,null,null,null);
-        while (cursor.moveToNext()){
-            Lesson lesson = new Lesson();
-            lesson.setLessonId(cursor.getInt(cursor.getColumnIndex("_id")));
-            lesson.setLessonName(cursor.getString(cursor.getColumnIndex("lessonName")));
-            lesson.setLessonTable(cursor.getString(cursor.getColumnIndex("lessonTable")));
-            lessons.add(lesson);
-        }
-        cursor.close();
-        return lessons;
-    }*/
+
+
    public ArrayList<Lesson> getAllLessons(){
        ArrayList<Lesson> lessons = new ArrayList<>();
        String query = "SELECT * FROM " + USER_LESSONS_TABLE + " ORDER BY positionIndex";
@@ -78,6 +66,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
        return lessons;
    }
 
+
     public Lesson getLessonByPrimaryId(int primaryId){
         Lesson lesson = new Lesson();
         Cursor cursor = db.rawQuery("SELECT * FROM " + USER_LESSONS_TABLE + " where _id = " + primaryId, null);
@@ -97,14 +86,12 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         return lesson;
 
     }
-    //Методы для создания и удаления урока
+
+
     public void createNewLesson(String lessonName){
         Random random = new Random();
-        //генерируем название таблици, изменяя заглавные буквы на маленькие(метод toLowerCase) и удаляем пробелы(метод replaseAll)
         String lessonTableName = "les"+lessonName.toLowerCase().replaceAll(" ","")+random.nextInt(1000000);
-        //создаем таблицу со словами
         createNewLessonTable(lessonTableName);
-        //добавляем название таблици урока в таблицу с уроками
         String currentDateTimeString = (String) DateFormat.format("dd-MM-yyyy kk:mm",new Date());
         ContentValues contentValues = new ContentValues();
         contentValues.put("lessonName",lessonName);
@@ -118,28 +105,38 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         db.insertWithOnConflict(USER_LESSONS_TABLE,null,contentValues, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
+
     public void deleteLessonWord(String lessonTableName, Word word){
         db.delete(lessonTableName,"_id="+word.getId(),null);
     }
+
+
     public void deleteLesson(Lesson lesson){
         db.execSQL("DROP TABLE IF EXISTS "+lesson.getLessonTable());
         db.delete(USER_LESSONS_TABLE,"_id ="+lesson.getLessonId(),null);
     }
+
+
     public  void editLessonName(Lesson lesson,String name){
         ContentValues cv = new ContentValues();
         cv.put("lessonName",name);
         db.update(USER_LESSONS_TABLE,cv,"_id="+lesson.getLessonId(),null);
     }
+
+
     public void editCurrentLanguage(Lesson lesson){
         ContentValues cv = new ContentValues();
         cv.put("currentLanguage", lesson.getCurrentLanguage());
         db.update(USER_LESSONS_TABLE,cv,"_id="+lesson.getLessonId(),null);
     }
+
+
     public void editCurrentLanguagCards(Lesson lesson){
         ContentValues cv = new ContentValues();
         cv.put("currentLanguageCards", lesson.getCurrentLanguageCards());
         db.update(USER_LESSONS_TABLE,cv,"_id="+lesson.getLessonId(),null);
     }
+
 
     public void editLessonProgress(Lesson lesson){
         ContentValues cv = new ContentValues();
@@ -147,6 +144,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         db.update(USER_LESSONS_TABLE,cv,"_id="+lesson.getLessonId(),null);
 
     }
+
 
     public void addNewWord(String tableName, Word word){
         ContentValues contentValues = new ContentValues();
@@ -163,6 +161,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         db.update(tableName,cv,"_id="+word.getId(),null);
     }
 
+
     public void addNewWords(String tableName, ArrayList<Word> words){
         for (int i = 0; i < words.size(); i++) {
             Word word = words.get(i);
@@ -174,9 +173,13 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         }
 
     }
+
+
     public void deleteWord(String tableName, int wordId){
         db.delete(tableName,"wordId = " + wordId,null);
     }
+
+
     public ArrayList<Word> getWordsInLesson(String tableName){
         ArrayList<Word> words = new ArrayList<>();
         String[] columns = {"_id", "korean", "russian","primaryId","correctCount","isSelected","isLearning","positionInCardAction","missCount"};
@@ -198,17 +201,20 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         return words;
     }
 
+
     public void editLessonsPositionInArray(Lesson lesson){
         ContentValues cv = new ContentValues();
         cv.put("positionIndex", lesson.getPositionIndex());
         db.update(USER_LESSONS_TABLE, cv, "_id="+lesson.getLessonId(),null);
     }
 
+
     public void editLessonTabIndex(Lesson lesson){
         ContentValues cv = new ContentValues();
         cv.put("lessonTabIndex", lesson.getLessonTabIndex());
         db.update(USER_LESSONS_TABLE, cv, "_id="+lesson.getLessonId(), null);
     }
+
 
     public void editWordCorrectCount(Lesson lesson, Word word){
         ContentValues cv = new ContentValues();
@@ -217,11 +223,13 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         db.update(lesson.getLessonTable(),cv,"_id="+word.getId(),null);
     }
 
+
     public void editWordMissCount(Lesson lesson, Word word){
         ContentValues cv = new ContentValues();
         cv.put("missCount", word.getMissCount());
         db.update(lesson.getLessonTable(),cv,"_id="+word.getId(),null);
     }
+
 
    public void editWordPositionInCardAction(Lesson lesson, Word word){
        ContentValues cv = new ContentValues();
@@ -230,11 +238,14 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
 
    }
 
+
     public void editWordSelect(Lesson lesson, Word word){
         ContentValues cv = new ContentValues();
         cv.put("isSelected",word.isSelected());
         db.update(lesson.getLessonTable(),cv,"_id="+word.getId(),null);
     }
+
+
     public int getCountOfSelectedWords(Lesson lesson){
         int count = 0;
         String[] columns = {"isSelected"};
@@ -271,11 +282,13 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         return words;
     }
 
+
     public void editWordLearning(Lesson lesson, Word word){
         ContentValues cv = new ContentValues();
         cv.put("isLearning",word.getmIsLearning());
         db.update(lesson.getLessonTable(),cv,"_id="+word.getId(),null);
     }
+
 
     public ArrayList<Word> getLearningWord(Lesson lesson){
         ArrayList<Word> words = new ArrayList<>();
@@ -298,6 +311,7 @@ public class UserDataBase extends SQLiteOpenHelper implements Constants{
         cursor.close();
         return words;
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

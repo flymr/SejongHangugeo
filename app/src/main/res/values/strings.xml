@@ -53,11 +53,13 @@
     <string name="last_page_of">(стр. %d)</string>
     <string name="error_connection">Ошибка соединения</string>
     <string name="home_page">https://github.com/flymr/SejongHangugeo</string>
+    <string name="delete_lesson">Удалить %s?</string>
 
     <!-- lessons -->
     <string name="add_to_folder">Добавить в папку</string>
     <string name="new_folder">Новая папка</string>
    <string name="delete">Удалить</string>
+    <string name="firstly_add_words">Сначала добавте слова</string>
 
     <!--book, listening, test etg -->
     <string name="listeningTask0">Выберите правильный вариант</string>
