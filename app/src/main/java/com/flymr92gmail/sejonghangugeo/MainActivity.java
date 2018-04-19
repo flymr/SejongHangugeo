@@ -51,6 +51,7 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
     @BindView(R.id.nts_main)
@@ -71,9 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FlowingDrawer mDrawer;
     @BindView(R.id.drawer_sky_iv)
     ImageView drawerIv;
-
     private PrefManager prefManager;
-
 
 
     @Override
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void getCurrentTheme(Bundle savedInstanceState){
         prefManager = new PrefManager(this);
         if (savedInstanceState == null){
-            Log.d("savedInstanceState", "   ==null");
             int currentThemeIndex = prefManager.getAppTheme();
             switch (currentThemeIndex){
                 case AppCompatDelegate.MODE_NIGHT_NO:
@@ -310,16 +308,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     private void goToGitHub(){
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.home_page)));
         startActivity(intent);
     }
 
-
     private int getCurrentNightMode(){
         return getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
     }
-
 
     private void shareAppLink(){
         final Intent intent = new Intent(Intent.ACTION_SEND);

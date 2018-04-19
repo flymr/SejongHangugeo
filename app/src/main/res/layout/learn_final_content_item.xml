@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:id="@+id/learn_final_ll"
     android:gravity="center"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
@@ -39,7 +38,6 @@
             >
 
             <TextView
-                android:id="@+id/all_rep_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/all_words"

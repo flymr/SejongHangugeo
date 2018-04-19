@@ -4,33 +4,20 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#2196F3</color>
     <color name="white">#FFF</color>
-    <color name="colorListBackground">#e3e3e3</color>
-    <color name="colorListBackgroundHigh">#FF4081</color>
     <color name="colorFolder">#FECA28</color>
     <color name="black">#ff252e39</color>
     <color name="blackAlpha">#802b2828</color>
-    <color name="drawerColor">#FF2B588F</color>
-    <color name="darkBlue">#182128</color>
-    <color name="ntsColor">#ff252e39</color>
     <color name="md_blue">#2196F3</color>
 
     <color name="orange">#FEC10F</color>
     <color name="green">#8DC640</color>
     <color name="blue">#6099D2</color>
     <color name="violet">#8C72B3</color>
-    <color name="lowOrange">#FEE9BB</color>
-    <color name="lowGreen">#DAEAC2</color>
-    <color name="lowBlue">#CBD9EE</color>
-    <color name="lowViolet">#D4CCE5</color>
     <color name="whiteAlpha">#80FFFFFF</color>
-    <color name="testBg">#E3E3E3</color>
-    <color name="gold">#B5985A</color>
     <color name="redM">#ff1748</color>
     <color name="hintColor">#a3a3a7</color>
-    <color name="md_purple">#673AB7</color>
     <color name="grayM">#dcdcdc</color>
     <color name="yellow">#ffe600</color>
-    <color name="pinkAlpha">#D9FF4081</color>
     <integer-array name="preview_color">
         <item>@color/orange</item>
         <item>@color/green</item>

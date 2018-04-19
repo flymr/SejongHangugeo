@@ -13,7 +13,6 @@
 
         <!--content-->
         <RelativeLayout
-            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -42,13 +41,11 @@
 
         <!--menu-->
         <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
-            android:id="@+id/menulayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
 
             <RelativeLayout
-                android:id="@+id/container_menu_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient_drawer">
@@ -243,7 +240,6 @@
                             android:orientation="vertical">
 
                             <LinearLayout
-                                android:id="@+id/theme_day"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"

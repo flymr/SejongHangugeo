@@ -7,7 +7,6 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <com.flymr92gmail.sejonghangugeo.Utils.SquareCardView
-        android:id="@+id/card_holf"
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

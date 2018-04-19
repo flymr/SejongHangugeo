@@ -7,7 +7,6 @@
     >
 
     <eu.davidea.flipview.FlipView
-        android:id="@+id/scale_oval_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:outAnimation="@anim/scale_down"
