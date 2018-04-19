@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -72,12 +73,12 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_lessons, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
@@ -90,7 +91,6 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
             lessonArrayList = userDataBase.getAllLessons();
         }
         userDataBase.close();
-
         lessonsAdapter = new LessonsAdapter(lessonArrayList, context, getDailyLegend(), this);
         lessonsRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         lessonsRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
@@ -120,10 +120,8 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
                 dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"New lesson");
 
 
-
             }
         });
-
 
     }
 
@@ -131,7 +129,6 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
         fragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialogInterface) {
-                //setupLessonsAdapter();
                 userDataBase = new UserDataBase(context);
                 if (userDataBase.getAllLessons().size()!=lessonArrayList.size()) {
                     int dbLastItemPos = lessonArrayList.size();
@@ -152,7 +149,7 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
 
     private Legend getDailyLegend(){
         AppDataBase appDataBase = new AppDataBase(context);
-        Legend legend = appDataBase.getDailyLegend(getRandomInt(238));
+        Legend legend = appDataBase.getDailyLegend(getRandomInt(appDataBase.getLegends().size()));
         appDataBase.close();
         return legend;
     }

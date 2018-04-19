@@ -3,6 +3,7 @@ package com.flymr92gmail.sejonghangugeo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,12 +50,12 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
@@ -74,7 +75,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
                 }else if (position == 2){
                     startActivity(new Intent(getActivity(), BookActivity.class));
                 }else {
-                    Toast.makeText(getActivity(),"Еще не готово :(", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(),getString(R.string.still_unready), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -88,7 +89,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
 
     private Legend getDailyLegend(){
         AppDataBase appDataBase = new AppDataBase(getActivity());
-        Legend legend = appDataBase.getDailyLegend(getRandomInt(238));
+        Legend legend = appDataBase.getDailyLegend(getRandomInt(appDataBase.getLegends().size()));
         appDataBase.close();
         return legend;
     }
@@ -104,8 +105,6 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        bookAdapter = new BookAdapter(getDailyLegend(), this);
-        mRecyclerView.setAdapter(bookAdapter);
     }
 
     @Override

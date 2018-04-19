@@ -3,6 +3,7 @@ package com.flymr92gmail.sejonghangugeo.Adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -66,8 +67,9 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         from = FROM_FRAGMENT;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view;
         if (viewType==0){
@@ -80,12 +82,13 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return new LessonViewHolder(view);
     }
 
+
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
                 case TYPE_HEADER:
                     HeaderViewHolder viewHolder = (HeaderViewHolder)holder;
-                    String category = "Категория: " + legend.getLegendCategory();
+                    String category = mContext.getResources().getString(R.string.category, legend.getLegendCategory());
                     viewHolder.legendCategory.setText(category);
                     String header = legend.getNameTranslate() + ". " + legend.getName();
                     viewHolder.legendName.setText(header);
@@ -112,8 +115,6 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -176,22 +177,14 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
        // mLessonArrayList.remove(position);
     }
 
-
-
-
     public class LessonViewHolder extends RecyclerView.ViewHolder {
         RobotoTextView tvLessonName, dateOfCreated;
-
-        public LessonViewHolder(View itemView) {
+         LessonViewHolder(View itemView) {
             super(itemView);
             tvLessonName = itemView.findViewById(R.id.lesson_name_tv);
             dateOfCreated = itemView.findViewById(R.id.date_of_created_lesson);
         }
-
-        }
-
-
-
+    }
 
     @Override
     public int getItemViewType(int position) {
@@ -203,9 +196,9 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return TYPE_LESSON;
             }
         }else return TYPE_LESSON;
-    }
+        }
 
-    }
+}
 
 
 

@@ -1,6 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -49,8 +50,9 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return 6;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         switch (viewType) {
             case TYPE_HEADER: {
@@ -71,7 +73,7 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_HEADER:
                 HeaderViewHolder viewHolder = (HeaderViewHolder)holder;

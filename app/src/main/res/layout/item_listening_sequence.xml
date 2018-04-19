@@ -13,7 +13,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        app:cardCornerRadius="60dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
         >
@@ -37,8 +37,8 @@
                 >
                 <ImageView
                     android:id="@+id/var1"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:contentDescription="1"
@@ -47,8 +47,8 @@
                     />
                 <ImageView
                     android:id="@+id/var2"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:contentDescription="2"
@@ -57,8 +57,8 @@
                     />
                 <ImageView
                     android:id="@+id/var3"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:contentDescription="3"
@@ -68,8 +68,8 @@
             </LinearLayout>
             <ImageView
                 android:id="@+id/iv_choose"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:scaleType="fitCenter"
                 android:layout_centerInParent="true"
                 app:srcCompat="@drawable/ic_check_circle_24dp"
