@@ -8,6 +8,7 @@
     >
 
    <LinearLayout
+       android:id="@+id/ll_circles"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="horizontal"
@@ -149,6 +150,8 @@
         android:id="@+id/learn_next_round"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_circles"
+        android:layout_margin="10dp"
         android:text="@string/next_round"
         android:textColor="@color/white"
         android:theme="@style/MyButton"/>

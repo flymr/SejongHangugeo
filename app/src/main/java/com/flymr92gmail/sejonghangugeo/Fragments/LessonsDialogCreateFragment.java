@@ -54,6 +54,8 @@ public class LessonsDialogCreateFragment extends DialogFragment {
         dataBase = new UserDataBase(getContext());
         form= getActivity().getLayoutInflater().inflate(R.layout.create_lesson_dialog, null);
         final EditText editText = form.findViewById(R.id.lessonName_et);
+        editText.setText(getString(R.string.lesson_number, dataBase.getAllLessons().size()));
+        editText.selectAll();
         if (mLesson!=null){
             editText.setText(mLesson.getLessonName());
         }
@@ -99,8 +101,9 @@ public class LessonsDialogCreateFragment extends DialogFragment {
             trans.commit();
             manager.popBackStack();
         }catch (NullPointerException e){
-
+            e.printStackTrace();
         }
+        dataBase.close();
     }
     @Override
     public void onCancel(DialogInterface unused) {

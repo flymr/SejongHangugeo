@@ -32,6 +32,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.flymr92gmail.sejonghangugeo.Adapters.NavBookAdapter;
@@ -181,18 +182,21 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         addAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
-                lessonsDialogAddFragment.setWords(pageWords);
-                lessonsDialogAddFragment.show(getSupportFragmentManager(),"Choise Lesson");
+                    LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
+                    lessonsDialogAddFragment.setWords(pageWords);
+                    lessonsDialogAddFragment.show(getSupportFragmentManager(),"Choise Lesson");
 
             }
         });
         addSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
-                lessonsDialogAddFragment.setWords(selectedWords);
-                lessonsDialogAddFragment.show(getSupportFragmentManager(),"Choise Lesson");
+                if (0 < selectedWords.size()) {
+                    LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
+                    lessonsDialogAddFragment.setWords(selectedWords);
+                    lessonsDialogAddFragment.show(getSupportFragmentManager(), "Choise Lesson");
+                } else
+                    Toast.makeText(BookActivity.this, getString(R.string.nothing_selected), Toast.LENGTH_SHORT).show();
             }
         });
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -490,7 +494,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
           public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
               if(mp!=null && b){
                   mp.seekTo(i*10);
-                  //if (i == mp.getDuration()/10) stopAudio();
 
               }
           }
@@ -559,8 +562,6 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
             mp.setVolume(1f, 1f);
             mp.setLooping(false);
             mp.start();
-
-
             getAudioStats();
             initializeSeekBar();
         } catch (Exception e) {

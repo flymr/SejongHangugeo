@@ -46,7 +46,7 @@
     <string name="night">Ночь</string>
     <string name="auto">Авто</string>
     <string name="thanks_to">Благодарности</string>
-    <string name="last_page_of">(стр. %i)</string>
+    <string name="last_page_of">(стр. %d)</string>
     <string name="error_connection">Ошибка соединения</string>
     <string name="home_page">https://github.com/flymr/SejongHangugeo</string>
     <string name="delete_lesson">Удалить %s?</string>
@@ -57,6 +57,7 @@
     <string name="new_folder">Новая папка</string>
    <string name="delete">Удалить</string>
     <string name="firstly_add_words">Сначала добавьте слова</string>
+    <string name="lesson_number">Урок %d</string>
 
     <!--book, listening, test etg -->
     <string name="listeningTask0">Выберите правильный вариант</string>
@@ -79,6 +80,7 @@
     <string name="cards">Карточки</string>
     <string name="add_and_edit">Редактировать/Добавить</string>
     <string name="selected_count">выбранные(%d)</string>
+    <string name="nothing_selected">Ничего не выбрано</string>
 
     <!-- learn final result -->
     <string name="all_words">Все слова</string>

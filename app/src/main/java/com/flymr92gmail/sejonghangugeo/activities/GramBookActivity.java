@@ -24,6 +24,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.flymr92gmail.sejonghangugeo.Adapters.NavBookAdapter;
 import com.flymr92gmail.sejonghangugeo.Adapters.NewWordsRecyclerAdapter;
@@ -60,7 +61,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
     private RecyclerView recyclerView;
     private int differencePages = 3;
     private Handler handlerPdf;
-    private Handler handlerAudio;
+
     private RecyclerView navBookRv;
     private LinearLayoutManager llmanagerNav;
     private boolean navIsShow = false;
@@ -84,6 +85,13 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         setupSlidingPanelButtonListener();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        pdfView.recycle();
+        handlerPdf.removeCallbacksAndMessages(null);
+    }
+
     private void initialization(){
         slidingUpPanelLayout = findViewById(R.id.sliding_layout);
         slidingUpPanelLayout.setPanelHeight(0);
@@ -94,7 +102,6 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         recyclerView = findViewById(R.id.new_words_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         handlerPdf = new Handler();
-        handlerAudio = new Handler();
         addAll = findViewById(R.id.sliding_add_all_btn);
         addSelected = findViewById(R.id.sliding_add_selected_btn);
         wordsSearcher = findViewById(R.id.search_words_sv);
@@ -117,7 +124,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
                                 .swipeHorizontal(orientationIsHorizontal())
                                 //.enableAnnotationRendering(true)
                                 .enableAntialiasing(true)
-                                .spacing(3)
+                                .spacing(2)
                                 .onPageScroll(new OnPageScrollListener() {
                                     @Override
                                     public void onPageScrolled(int page, float positionOffset) {
@@ -206,9 +213,12 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         addSelected.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (0 < selectedWords.size()) {
                 LessonsDialogAddFragment lessonsDialogAddFragment = new LessonsDialogAddFragment();
                 lessonsDialogAddFragment.setWords(selectedWords);
                 lessonsDialogAddFragment.show(getSupportFragmentManager(),"Choise Lesson");
+                } else
+                    Toast.makeText(GramBookActivity.this, getString(R.string.nothing_selected), Toast.LENGTH_SHORT).show();
             }
         });
         slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -225,7 +235,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
     }
 
     private void setupRecyclerView(){
-        String s = "выбранные(0)";
+        String s = getString(R.string.selected_count, 0);
         addSelected.setText(s);
         selectedWords.clear();
         pageWords.clear();
@@ -258,7 +268,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         try{
             wordsSearcher.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         }catch (NullPointerException n){
-
+            n.printStackTrace();
         }
         queryTextListener = new SearchView.OnQueryTextListener() {
             @Override
@@ -301,7 +311,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
         searchEditText.setHintTextColor(getResources().getColor(R.color.white));
         ImageView closeIcon = wordsSearcher.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         closeIcon.setImageResource(R.drawable.ic_close_24dp);
-        wordsSearcher.setQueryHint("Поиск в словаре");
+        wordsSearcher.setQueryHint(getString(R.string.search_in_dictionary));
         try {
             Field mDrawable = SearchView.class.getDeclaredField("mSearchHintIcon");
             mDrawable.setAccessible(true);
@@ -341,7 +351,7 @@ public class GramBookActivity extends AppCompatActivity implements NewWordsRecyc
             }
         }
 
-        String s = "выбранные(" + selected + ")";
+        String s = getString(R.string.selected_count, selected);
         addSelected.setText(s);
     }
 

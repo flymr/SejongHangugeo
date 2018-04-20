@@ -67,7 +67,8 @@
         <activity android:name=".activities.PreviewActivity" />
         <activity
             android:name=".activities.GramBookActivity"
-             />
+            android:theme="@style/BookTheme"
+            />
         <activity android:name=".activities.ListeningActivity"
             android:theme="@style/BookTheme"
             android:windowSoftInputMode="adjustResize"

@@ -321,7 +321,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void shareAppLink(){
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String textToSend = "link for my app";
+        String textToSend = "link my app";
         intent.putExtra(Intent.EXTRA_TEXT, textToSend);
         try
         {
@@ -407,7 +407,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    //expand collapse ll
+
     private void lastPlaces(){
         TextView lastLessonTv = findViewById(R.id.tv_last_lesson);
         TextView lastBookTv = findViewById(R.id.tv_last_book);

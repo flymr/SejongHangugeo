@@ -98,7 +98,7 @@ public class PrefManager implements Constants {
         editor.commit();
     }
     public int getLastGramPage(){
-        return preferences.getInt(GRAM,0);
+        return preferences.getInt(GRAM,9);
     }
 
    public int getCurrentLearnLanguage() {
