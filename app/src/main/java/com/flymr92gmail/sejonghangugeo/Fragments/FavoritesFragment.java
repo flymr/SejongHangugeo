@@ -25,14 +25,23 @@ public class FavoritesFragment extends DialogFragment{
         TextView textView = form.findViewById(R.id.tv_fragment_favorites);
         String title;
         if (text == null) {
-            text = "<p>&emsp;Так говорят о человеке, который возвысившись, возомнил себя пупом земли. Русский аналог – «Из грязи – в князи».</p>\n" +
-                    "<p>&emsp;Избрание дракона идеалом человеческих стремлений произошло потому, что корейцы свято верили, что именно это мифическое животное двигает облака и насылает на землю дожди, туманы, и молнии. Словом, обладает огромной властью. Не случайно короля почитали, как олицетворение дракона, а сам престол называли троном дракона.</p>\n" +
-                    "<p>&emsp;Другое выражение: «Пробираться через драконовы ворота» означало – сделать чиновничью карьеру. На реке Янцзы есть место под названием «Драконовы ворота», где течение настолько сильное, что, говорят, даже рыба, преодолевшая его, становится драконом. Так что, заслужить похвалу, что ты прошел Драконовы ворота, как видите, не просто.</p>\n" +
-                    "<p>&emsp;И хотелось бы упомянуть эпическую поэму «Песнь дракона», объявшую тему, ни много ни мало, управления всей вселенной. Она была опубликована в 1447 году и является первой литературной работой, написанной на корейском алфавите. Поэма восхваляет основателей королевской династии Ли. Почти все корейцы знают первые строки поэмы:</p>\n" +
-                    "<p>&emsp;Дерево с крепкими корнями щедро плодоносит и не сгибается от ветра,<br />\n" +
-                    "&emsp;Глубокий колодец никогда не высыхает,<br />\n" +
-                    "&emsp;Текущая вода обязательно достигает моря.</p>";
-            title = getActivity().getResources().getString(R.string.thanks_to);
+            text = "<p> &emsp;  Преподавателям школы “Седжонг” за интересное и продуктивное обучение корейскому языку, а именно: Ким Виктории, Шин Ирине и И Хёшин (이효신). Также Сим Анжелике за помощь с поиском, заполнением и редактированием контента и авторам используемых в приложении ресурсов и программных средств: </p>\n" +
+                    "<p> &emsp;  - Joan Zapata за Android PdfViewer (https://github.com/barteksc/AndroidPdfViewer) <br />\n" +
+                    "&emsp;  - Florent Champigny за MaterialViewPager (http://www.florentchampigny.com/) <br />\n" +
+                    "&emsp;  - Evgenii Zagumennyi за Android-ExpandIcon (https://github.com/zagum/Android-ExpandIcon) <br />\n" +
+                    "&emsp;  - Yesid Lazaro за GmailBackground (https://github.com/yesidlazaro/GmailBackground) <br />\n" +
+                    "&emsp;  - FlowingDrawer (https://github.com/mxn21/FlowingDrawer) <br />\n" +
+                    "&emsp;  - Yavor Ivanov за fab-speed-dial (https://github.com/yavski/fab-speed-dial) <br />\n" +
+                    "&emsp;  - Android Sliding Up Panel (https://github.com/umano/AndroidSlidingUpPanel) <br />\n" +
+                    "&emsp;  - Davide Steduto за FlipView (https://github.com/davideas/FlipView) <br />\n" +
+                    "&emsp;  - Basil Miller за NavigationTabStrip (https://github.com/Devlight/NavigationTabStrip) <br />\n" +
+                    "&emsp;  - EuroMillions за FloatingToolbar (https://github.com/rubensousa/FloatingToolbar) <br />\n" +
+                    "&emsp;  - Jeff Gilfelt за SQLiteAssetHelper  (https://github.com/jgilfelt/android-sqlite-asset-helper) <br />\n" +
+                    "&emsp;  - Владимр Ким. Корейские пословицы и поговорки https://koryo-saram.ru/  </p>\n" +
+                    "<p>&emsp; С уважением,<br/>\n " +
+                    "&emsp; Максим Петров <br/>\n"+
+                    "&emsp; flymr92@gmail.com</p>\n";
+            title = " " + getActivity().getResources().getString(R.string.thanks_to);
         }else {
             title = getActivity().getResources().getString(R.string.listening_text);
         }

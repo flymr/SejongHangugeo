@@ -231,9 +231,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return "";
             }
 
-            public int getItemPosition(@NonNull Object object){
-                return POSITION_NONE;
-            }
+
         });
         final View logo = findViewById(R.id.logo_white);
         if (logo != null) {
@@ -442,11 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        try{
-            mViewPager.getViewPager().getAdapter().notifyDataSetChanged();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+
 
     }
 }

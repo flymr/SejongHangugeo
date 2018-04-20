@@ -9,7 +9,7 @@ tools:context="com.example.xyarim.koreanbook.Activities.Lessons.LessonActivity">
         android:title="@string/delete"
         android:icon="@drawable/ic_delete_white_24dp"
         app:showAsAction="ifRoom"
-        android:orderInCategory="4"
+        android:orderInCategory="1"
         />
 
     <item
@@ -17,7 +17,7 @@ tools:context="com.example.xyarim.koreanbook.Activities.Lessons.LessonActivity">
         android:title="@string/add_and_edit"
         android:icon="@drawable/ic_playlist_add_24dp"
         app:showAsAction="ifRoom"
-        android:orderInCategory="3"
+        android:orderInCategory="2"
         />
 
 
@@ -26,7 +26,7 @@ tools:context="com.example.xyarim.koreanbook.Activities.Lessons.LessonActivity">
         android:title="@string/cards"
         android:icon="@drawable/ic_card_24dp"
         app:showAsAction="ifRoom"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
     />
 
     <item
@@ -34,7 +34,7 @@ tools:context="com.example.xyarim.koreanbook.Activities.Lessons.LessonActivity">
         android:title="@string/exercise"
         android:icon="@drawable/ic_school_24dp"
         app:showAsAction="ifRoom"
-        android:orderInCategory="1"
+        android:orderInCategory="4"
         />
 
 

@@ -22,7 +22,7 @@
     <string name="app_mail_outbox">flymr92@gmail.com</string>
     <string name="send_success">Ваше сообщение доставлено</string>
     <string name="send_error">Ошибка. Нет подключения к интернету</string>
-    <string name="sending">Сообщение отправляется#8230</string>
+    <string name="sending">Сообщение отправляется...</string>
     <string name="send_massage">Отправить сообщение</string>
     <string name="write_message_theme">Напишите тему сообщения</string>
     <string name="write_message">Напишите сообщение</string>
