@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -13,22 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 
 
-import com.devspark.robototextview.widget.RobotoTextView;
-import com.flymr92gmail.sejonghangugeo.DataBases.External.AppDataBase;
+
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.ItemTouchHelperAdapter;
 
 import com.flymr92gmail.sejonghangugeo.POJO.Legend;
 import com.flymr92gmail.sejonghangugeo.POJO.Lesson;
 import com.flymr92gmail.sejonghangugeo.R;
-import com.flymr92gmail.sejonghangugeo.Utils.PrefManager;
+
 import com.flymr92gmail.sejonghangugeo.Utils.ViewClickListener;
 import com.flymr92gmail.sejonghangugeo.ViewHolder.HeaderViewHolder;
 
@@ -36,7 +32,7 @@ import com.flymr92gmail.sejonghangugeo.ViewHolder.HeaderViewHolder;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import eu.davidea.flipview.FlipView;
+
 
 
 public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ItemTouchHelperAdapter {
@@ -111,6 +107,7 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     dataBase.editLessonsPositionInArray(lesson);
                     lessonHolder.tvLessonName.setText(lesson.getLessonName());
                     lessonHolder.dateOfCreated.setText(lesson.getDateOfCreated());
+                    lessonHolder.tvWordsCount.setText(String.valueOf(dataBase.getWordsInLesson(lesson.getLessonTable()).size()));
                     break;
         }
 
@@ -178,11 +175,12 @@ public class LessonsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class LessonViewHolder extends RecyclerView.ViewHolder {
-        RobotoTextView tvLessonName, dateOfCreated;
+        TextView tvLessonName, dateOfCreated, tvWordsCount;
          LessonViewHolder(View itemView) {
             super(itemView);
             tvLessonName = itemView.findViewById(R.id.lesson_name_tv);
             dateOfCreated = itemView.findViewById(R.id.date_of_created_lesson);
+            tvWordsCount = itemView.findViewById(R.id.tv_words_count);
         }
     }
 

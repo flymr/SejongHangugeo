@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
@@ -229,6 +230,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 return "";
             }
+
+            public int getItemPosition(@NonNull Object object){
+                return POSITION_NONE;
+            }
         });
         final View logo = findViewById(R.id.logo_white);
         if (logo != null) {
@@ -353,8 +358,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
         getDelegate().applyDayNight();
         if (currentTheme != getCurrentNightMode()){
-            Helper.unbindDrawables(drawerIv);
-            Helper.unbindDrawables(mDrawer);
             recreate();
 
         }
@@ -366,8 +369,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_YES);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_YES){
-            Helper.unbindDrawables(drawerIv);
-            Helper.unbindDrawables(mDrawer);
             recreate();
         }
     }
@@ -378,8 +379,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         prefManager.setAppTheme(AppCompatDelegate.MODE_NIGHT_NO);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         if (getCurrentNightMode() != Configuration.UI_MODE_NIGHT_NO){
-            Helper.unbindDrawables(drawerIv);
-            Helper.unbindDrawables(mDrawer);
             recreate();
         }
     }
@@ -436,8 +435,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        Helper.unbindDrawables(drawerIv);
+        Helper.unbindDrawables(mDrawer);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try{
+            mViewPager.getViewPager().getAdapter().notifyDataSetChanged();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
 
+    }
 }
