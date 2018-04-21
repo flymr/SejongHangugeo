@@ -4,6 +4,8 @@
 
 Релиз будет доступен 23 апреля.
 
+![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/1.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/2.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/3.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/4.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/5.gif)
+
 Описание.
 
 Приложение не претендует на роль полноценного самоучителя, а скорее призвано упростить процесс обучения учащимся по материалам школы “세종학당”(Седжонг Хактанг).
