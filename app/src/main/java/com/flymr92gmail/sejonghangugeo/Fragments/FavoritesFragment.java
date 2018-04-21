@@ -25,7 +25,7 @@ public class FavoritesFragment extends DialogFragment{
         TextView textView = form.findViewById(R.id.tv_fragment_favorites);
         String title;
         if (text == null) {
-            text = "<p> &emsp;  Преподавателям школы “Седжонг” за интересное и продуктивное обучение корейскому языку, а именно: Ким Виктории, Шин Ирине и И Хёшин (이효신). Также Сим Анжелике за помощь с поиском, заполнением и редактированием контента и авторам используемых в приложении ресурсов и программных средств: </p>\n" +
+            text = "<p> &emsp;  Преподавателям школы “Седжонг” за интересное и продуктивное обучение корейскому языку, а именно: Ким Виктории, Шин Ирине и И Хёшин (이효신). Также авторам используемых в приложении ресурсов и программных средств: </p>\n" +
                     "<p> &emsp;  - Joan Zapata за Android PdfViewer (https://github.com/barteksc/AndroidPdfViewer) <br />\n" +
                     "&emsp;  - Florent Champigny за MaterialViewPager (http://www.florentchampigny.com/) <br />\n" +
                     "&emsp;  - Evgenii Zagumennyi за Android-ExpandIcon (https://github.com/zagum/Android-ExpandIcon) <br />\n" +

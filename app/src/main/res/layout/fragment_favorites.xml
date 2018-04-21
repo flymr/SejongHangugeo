@@ -18,6 +18,8 @@
             android:textIsSelectable="true"
             android:autoLink="all"
             android:linksClickable="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             />
 
     </ScrollView>

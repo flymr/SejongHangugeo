@@ -64,9 +64,20 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-
-
         context = getActivity();
+        setupRecyclerView();
+        dialogCreateFragment = new LessonsCreateFolder();
+        setupLessonCreateFolder(dialogCreateFragment);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"New lesson");
+            }
+        });
+
+    }
+
+    private void setupRecyclerView(){
         userDataBase = new UserDataBase(context);
         lessonArrayList = userDataBase.getAllLessons();
         if (lessonArrayList.size() == 0) {
@@ -84,26 +95,17 @@ public class LessonsPageFragment extends Fragment implements ViewClickListener {
         lessonsRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(context, lessonsRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, float x, float y) {
-               if (position!=0) {
-                   Intent intent = new Intent(context, LessonActivity.class);
-                   intent.putExtra("lessonId", lessonArrayList.get(position).getLessonId());
-                   startActivity(intent);
-               }
+                if (position!=0) {
+                    Intent intent = new Intent(context, LessonActivity.class);
+                    intent.putExtra("lessonId", lessonArrayList.get(position).getLessonId());
+                    startActivity(intent);
+                }
             }
 
             @Override
             public void onLongItemClick(View view, final int position) {
             }
         }));
-        dialogCreateFragment = new LessonsCreateFolder();
-        setupLessonCreateFolder(dialogCreateFragment);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogCreateFragment.show(getActivity().getSupportFragmentManager(),"New lesson");
-            }
-        });
-
     }
 
     private void setupLessonCreateFolder(LessonsCreateFolder fragment){

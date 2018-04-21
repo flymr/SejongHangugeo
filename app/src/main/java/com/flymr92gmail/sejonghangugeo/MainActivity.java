@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
@@ -219,7 +220,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return "";
             }
 
-
+            public int getItemPosition(@NonNull Object object){
+                return POSITION_NONE;
+            }
         });
         final View logo = findViewById(R.id.logo_white);
         if (logo != null) {
@@ -431,7 +434,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-
-
+        try{
+            mViewPager.getViewPager().getAdapter().notifyDataSetChanged();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 }

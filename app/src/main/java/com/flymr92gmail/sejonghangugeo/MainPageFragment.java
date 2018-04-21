@@ -104,6 +104,7 @@ public class MainPageFragment extends Fragment implements ViewClickListener{
        startActivity(new Intent(getActivity(), LegendsActivity.class));
     }
 
+
     @Override
     public void deleteItem(int position) {
 

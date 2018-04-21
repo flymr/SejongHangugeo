@@ -1,6 +1,7 @@
 package com.flymr92gmail.sejonghangugeo.Adapters;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -52,10 +53,6 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.list_item_card_big, parent, false);
                 return new HeaderViewHolder(view);
-            case TYPE_BOOK:
-                view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.book_item, parent, false);
-                return new BookViewHolder(view);
             default:
                 view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.book_item, parent, false);
@@ -103,10 +100,13 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private class BookViewHolder extends RecyclerView.ViewHolder{
         TextView bookName;
         LinearLayout lockLL;
+        CardView cardView;
         private BookViewHolder(View itemView) {
             super(itemView);
             bookName = itemView.findViewById(R.id.tv_book_name);
             lockLL = itemView.findViewById(R.id.ll_lock);
+            cardView = itemView.findViewById(R.id.card_book_item);
+
         }
 
 
