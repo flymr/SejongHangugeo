@@ -152,7 +152,7 @@ public class Helper {
                 return true;
             }
         };
-        a.setDuration((int)(targetHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int)(targetHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 
@@ -176,7 +176,7 @@ public class Helper {
                 return true;
             }
         };
-        a.setDuration((int)(initialHeight*2 / v.getContext().getResources().getDisplayMetrics().density));
+        a.setDuration((int)(initialHeight / v.getContext().getResources().getDisplayMetrics().density));
         v.startAnimation(a);
     }
 }

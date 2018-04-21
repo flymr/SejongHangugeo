@@ -19,6 +19,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             >
 
             <LinearLayout
@@ -43,21 +44,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
                     android:id="@+id/lesson_name_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:minHeight="75dp"
-                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
                     android:textSize="18sp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginEnd="30dp"
+                    android:layout_marginRight="42dp"
+                    android:layout_marginEnd="42dp"
                     android:layout_marginTop="15dp"
                     android:fontFamily="sans-serif-light"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginStart="12dp"
                     />
 
                 <TextView

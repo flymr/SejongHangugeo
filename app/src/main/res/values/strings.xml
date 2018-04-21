@@ -51,6 +51,7 @@
     <string name="home_page">https://github.com/flymr/SejongHangugeo</string>
     <string name="delete_lesson">Удалить %s?</string>
     <string name="still_unready">Еще не готово :(</string>
+    <string name="folder_wos_delete">Папка удалена</string>
 
     <!-- lessons -->
     <string name="add_to_folder">Добавить в папку</string>

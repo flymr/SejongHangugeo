@@ -2,34 +2,23 @@ package com.flymr92gmail.sejonghangugeo;
 
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
-import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.Transformation;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.bumptech.glide.Glide;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.Fragments.MailDialog;
@@ -41,7 +30,6 @@ import com.flymr92gmail.sejonghangugeo.activities.GramBookActivity;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
-import com.github.zagum.expandicon.ExpandIconView;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
@@ -276,7 +264,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lastPlaces();
                 break;
             case R.id.last_lesson:
-                lastLesson();
+                if (prefManager.getLastLessonID() !=0)
+                    lastLesson();
+                else
+                    Toast.makeText(this, getString(R.string.folder_wos_delete), Toast.LENGTH_SHORT).show();
                 break;
             case R.id.last_book:
                 lastBookPage();
