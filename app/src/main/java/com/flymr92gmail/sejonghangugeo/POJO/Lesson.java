@@ -9,9 +9,9 @@ public class Lesson  implements Serializable {
     private int mLessonId;
     private int mPositionIndex;
     private int mLessonTabIndex;
-    private int currentLanguage=0;
-    private int currentLanguageCards = 0;
-    private int lessonProgress = 0;
+    private int currentLanguage;
+    private int currentLanguageCards;
+    private int lessonProgress;
     private String dateOfCreated;
     public String getLessonName() {
         return mLessonName;
