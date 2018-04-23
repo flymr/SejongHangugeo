@@ -2,7 +2,7 @@
 
 Андроид-приложение для изучения корейского языка.
 
-Релиз будет доступен 23 апреля.
+Релиз будет доступен 24 апреля.
 
 ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/1.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/2.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/3.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/4.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/5.gif)
 
