@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.flymr92gmail.sejonghangugeo.DataBases.User.UserDataBase;
 import com.flymr92gmail.sejonghangugeo.Fragments.FavoritesFragment;
 import com.flymr92gmail.sejonghangugeo.Fragments.MailDialog;
@@ -31,6 +33,12 @@ import com.flymr92gmail.sejonghangugeo.activities.GramBookActivity;
 import com.gigamole.navigationtabstrip.NavigationTabStrip;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.github.florent37.materialviewpager.header.HeaderDesign;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 
@@ -41,7 +49,6 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
     @BindView(R.id.materialViewPager)
     MaterialViewPager mViewPager;
     @BindView(R.id.nts_main)
@@ -63,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.drawer_sky_iv)
     ImageView drawerIv;
     private PrefManager prefManager;
-
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
     }
+
 
 
     private void thisIsFirstActivation(){
@@ -318,8 +326,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void shareAppLink(){
         final Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");
-        String textToSend = "link my app";
-        intent.putExtra(Intent.EXTRA_TEXT, textToSend);
+        String linkToSend = getString(R.string.home_page);
+        intent.putExtra(Intent.EXTRA_TEXT, linkToSend);
         try
         {
             startActivity(Intent.createChooser(intent, getString(R.string.share)));

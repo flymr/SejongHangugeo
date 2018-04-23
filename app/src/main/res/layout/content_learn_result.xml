@@ -27,7 +27,7 @@
                android:id="@+id/tv_unlearned"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textSize="17sp"
+               android:textSize="18sp"
                android:fontFamily="@font/opensans_bold"
                android:text="0"/>
 
@@ -40,12 +40,15 @@
                <android.support.v7.widget.AppCompatImageView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   app:srcCompat="@drawable/ic_circle_gray"/>
+                   app:srcCompat="@drawable/ic_circle_gray"
+                   app:tint="@color/white"
+                   />
 
                <android.support.v7.widget.AppCompatImageView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    app:srcCompat="@drawable/ic_circle_gray"
+                   app:tint="@color/white"
                    />
 
            </LinearLayout>
@@ -69,7 +72,7 @@
                android:id="@+id/tv_learning"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textSize="17sp"
+               android:textSize="18sp"
                android:fontFamily="@font/opensans_bold"
                android:text="0"/>
 
@@ -111,7 +114,7 @@
                android:id="@+id/tv_learned"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:textSize="17sp"
+               android:textSize="18sp"
                android:fontFamily="@font/opensans_bold"
                android:text="0"/>
 

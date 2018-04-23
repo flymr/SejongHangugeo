@@ -38,8 +38,9 @@ public class LearnResult extends AppCompatActivity {
     private void initialization(){
         Intent intent = getIntent();
         learningWords = (ArrayList<Word>)intent.getSerializableExtra("learningWords");
-        lesson = (Lesson)intent.getSerializableExtra("lesson");
+        //lesson = (Lesson)intent.getSerializableExtra("lesson");
         dataBase = new UserDataBase(this);
+        lesson = getLesson(intent);
         toolbar = findViewById(R.id.toolbar_learn_result);
         recyclerView = findViewById(R.id.rv_learn_result);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -56,9 +57,13 @@ public class LearnResult extends AppCompatActivity {
         });
     }
 
+    private Lesson getLesson(Intent intent){
+        return dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
+    }
+
     private void nextRoundAction(){
         Intent intent = new Intent(this, LearnActivity.class);
-        intent.putExtra("lesson", lesson);
+        intent.putExtra("lessonId", lesson.getLessonId());
         startActivity(intent);
         finish();
     }

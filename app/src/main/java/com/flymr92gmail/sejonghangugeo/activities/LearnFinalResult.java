@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -53,12 +53,16 @@ public class LearnFinalResult extends AppCompatActivity {
 
     private void initialization(){
         Intent intent = getIntent();
-        lesson = (Lesson)intent.getSerializableExtra("lesson");
         dataBase = new UserDataBase(this);
+        lesson = getLesson(intent);
         words = dataBase.getLearningWord(lesson);
         recyclerView = findViewById(R.id.rv_learn_final);
         toolbar = findViewById(R.id.toolbar_learn_final);
         layoutManager = new LinearLayoutManager(this);
+    }
+
+    private Lesson getLesson(Intent intent){
+        return dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
     }
 
     private void setupToolbar() {
@@ -130,7 +134,7 @@ public class LearnFinalResult extends AppCompatActivity {
 
     private void learnAction(){
         Intent intent = new Intent(this, LearnActivity.class);
-        intent.putExtra("lesson", lesson);
+        intent.putExtra("lessonId", lesson.getLessonId());
         startActivity(intent);
         finish();
     }
@@ -185,25 +189,20 @@ public class LearnFinalResult extends AppCompatActivity {
         static final int NORMAL_ITEM = 1;
         static final int CONTENT_VH = 2;
 
-        public LearnFinalResultAdapter(){
-
-        }
-
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view;
             if (viewType == CONTENT_VH){
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.learn_final_content_item, parent, false);
-                ContentViewHolder vh = new ContentViewHolder(view);
-                return vh;
+                return new ContentViewHolder(view);
             }
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.words_item, parent, false);
-            WordViewHolderFinal vh = new WordViewHolderFinal(view);
-            return vh;
+            return new WordViewHolderFinal(view);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             if (getItemViewType(position)!=CONTENT_VH){
                 Word word = words.get(position-1);
                 WordViewHolderFinal viewHolder =(WordViewHolderFinal)holder;
@@ -253,7 +252,7 @@ public class LearnFinalResult extends AppCompatActivity {
         public class WordViewHolderFinal extends RecyclerView.ViewHolder implements View.OnClickListener{
             ImageView ivStar;
             TextView tvHeader, tvKorean, tvRuss;
-            public WordViewHolderFinal(View itemView) {
+            WordViewHolderFinal(View itemView) {
                 super(itemView);
                 tvKorean = itemView.findViewById(R.id.korean_word_tv);
                 tvRuss = itemView.findViewById(R.id.russian_word_tv);
@@ -298,7 +297,7 @@ public class LearnFinalResult extends AppCompatActivity {
             CardView errorRepeatCv;
             CardView selectedRepeatCv;
             TextView errorTv, selectedTv;
-            public ContentViewHolder(View itemView) {
+            ContentViewHolder(View itemView) {
                 super(itemView);
                 circleProgressView = itemView.findViewById(R.id.arc_progress);
                 allRepeatCv = itemView.findViewById(R.id.repeat_all_words);
@@ -311,8 +310,10 @@ public class LearnFinalResult extends AppCompatActivity {
                 if (!checkSelectedWord())selectedRepeatCv.setAlpha(0.5f);
                 setProgress();
                 clickableButton();
-                onClickButton();
-
+                //onClickButton();
+                allRepeatCv.setOnClickListener(this);
+                errorRepeatCv.setOnClickListener(this);
+                selectedRepeatCv.setOnClickListener(this);
             }
 
             @Override
@@ -339,9 +340,7 @@ public class LearnFinalResult extends AppCompatActivity {
                            clearWords();
                            learnAction();
                        }else {
-                           Snackbar mSnackbar = Snackbar.make(view, "Вы не допустили ни одной ошибки", Snackbar.LENGTH_SHORT)
-                                   .setAction("Action", null);
-                           mSnackbar.show();
+                           Toast.makeText(LearnFinalResult.this, "Вы не допустили ни одной ошибки", Toast.LENGTH_SHORT).show();
                        }
                        break;
                    case R.id.repeat_selected_words:
@@ -357,9 +356,7 @@ public class LearnFinalResult extends AppCompatActivity {
                            clearWords();
                            learnAction();
                        } else {
-                           Snackbar mSnackbar = Snackbar.make(view, "Нет избранных слов", Snackbar.LENGTH_SHORT)
-                                   .setAction("Action", null);
-                           mSnackbar.show();
+                           Toast.makeText(LearnFinalResult.this, "Нет избранных слов", Toast.LENGTH_SHORT).show();
                        }
                        break;
                }
@@ -385,61 +382,6 @@ public class LearnFinalResult extends AppCompatActivity {
             }
 
 
-            private void onClickButton(){
-
-                allRepeatCv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        clearLearningIndex();
-                        for (Word word : words){
-                            word.setmIsLearning(1);
-                            dataBase.editWordLearning(lesson, word);
-                        }
-                        clearWords();
-                        learnAction();
-                    }
-                });
-                errorRepeatCv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (checkErrorWords()) {
-                            clearLearningIndex();
-                            for (Word word : words) {
-                                if (0 < word.getMissCount()) {
-                                    word.setmIsLearning(1);
-                                    dataBase.editWordLearning(lesson, word);
-                                }
-                            }
-                            clearWords();
-                            learnAction();
-                        }else {
-
-                            Toast.makeText(LearnFinalResult.this, "Вы не допустили ни одной ошибки", Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
-                selectedRepeatCv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (checkSelectedWords()) {
-                            clearLearningIndex();
-
-                            for (Word word : words) {
-                                if (word.isSelected() == 1) {
-                                    word.setmIsLearning(1);
-                                    dataBase.editWordLearning(lesson, word);
-                                }
-                            }
-                            clearWords();
-                            learnAction();
-                        } else {
-
-                            Toast.makeText(LearnFinalResult.this, "Нет избранных слов", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-            }
 
             private void clickableButton(){
                 for (Word word : words){

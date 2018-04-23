@@ -75,7 +75,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
         setupTabStrip();
         setupRecyclerViewListener();
         setupGesture();
-
     }
 
     @Override
@@ -145,7 +144,6 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
 
 
     private Lesson getLesson(Intent intent){
-        intent.getStringExtra("lessonId");
         return dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
     }
 
@@ -179,7 +177,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
                 dataBase.editWordLearning(lesson, word);
             }
             Intent intent = new Intent(this, LearnActivity.class);
-            intent.putExtra("lesson", lesson);
+            intent.putExtra("lessonId", lesson.getLessonId());
             startActivity(intent);
         }else {
             Toast.makeText(this, getText(R.string.firstly_add_words), Toast.LENGTH_SHORT).show();
@@ -191,7 +189,7 @@ public class LessonActivity extends AppCompatActivity implements SpeechActionLis
     private void cardAction(){
         Intent intent = new Intent(this, CardActivity.class);
         intent.putExtra("words", words);
-        intent.putExtra("lesson", lesson);
+        intent.putExtra("lessonId", lesson.getLessonId());
         startActivity(intent);
     }
 

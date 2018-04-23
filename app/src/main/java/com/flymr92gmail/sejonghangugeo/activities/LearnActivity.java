@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -64,7 +66,6 @@ public class LearnActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
-
         initialization();
         setupToolbar();
         getLearningWordsArray();
@@ -77,7 +78,8 @@ public class LearnActivity extends AppCompatActivity {
         dataBase = new UserDataBase(this);
         Intent intent = getIntent();
         learningWords = new ArrayList<>();
-        lesson = (Lesson)intent.getSerializableExtra("lesson");
+        lesson = getLesson(intent);
+       // lesson = (Lesson)intent.getSerializableExtra("lesson");
         words = Helper.randomizeArray(dataBase.getLearningWord(lesson));
         progressBar = findViewById(R.id.learn_progress);
         inputLayout = findViewById(R.id.learn_textInputLayout);
@@ -124,6 +126,10 @@ public class LearnActivity extends AppCompatActivity {
             upArrow.setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
             getSupportActionBar().setHomeAsUpIndicator(upArrow);
         }
+    }
+
+    private Lesson getLesson(Intent intent){
+        return dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
     }
 
     private void publishProgress(int numb, int progress){
@@ -214,8 +220,6 @@ public class LearnActivity extends AppCompatActivity {
             while (portionOfWords < learningWords.size())
                 learningWords.remove(portionOfWords);
         }
-
-
         currentWord = learningWords.get(currentWordCount);
         textViewWord.setText("");
         textViewWord.setText(getQuestionText());
@@ -252,12 +256,12 @@ public class LearnActivity extends AppCompatActivity {
             if (!allWordIsLearned()){
              Intent intent = new Intent(this, LearnResult.class);
              intent.putExtra("learningWords", learningWords);
-             intent.putExtra("lesson", lesson);
+             intent.putExtra("lessonId", lesson.getLessonId());
              startActivity(intent);
              finish();
             }else {
              Intent intent = new Intent(this, LearnFinalResult.class);
-             intent.putExtra("lesson", lesson);
+             intent.putExtra("lessonId", lesson.getLessonId());
              startActivity(intent);
              finish();
             }
@@ -287,12 +291,11 @@ public class LearnActivity extends AppCompatActivity {
             case R.id.actionChangeLanguage:
                 if (lesson.getCurrentLanguage()==0){
                     lesson.setCurrentLanguage(1);
-                    dataBase.editCurrentLanguage(lesson);
                 }
                 else {
                     lesson.setCurrentLanguage(0);
-                    dataBase.editCurrentLanguage(lesson);
                 }
+                dataBase.editCurrentLanguage(lesson);
                 restartLearn();
                 break;
             case R.id.actionRestart:
@@ -580,8 +583,9 @@ public class LearnActivity extends AppCompatActivity {
 
         }
 
+        @NonNull
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.learn_answer_item,parent,false);
             return new ViewHolder(view);
         }

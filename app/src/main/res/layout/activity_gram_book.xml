@@ -61,7 +61,7 @@
         android:visibility="gone"
         android:background="@color/colorAccent"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="25dp"/>
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_words_rv"

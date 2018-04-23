@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -75,15 +77,13 @@ public class CardActivity extends AppCompatActivity {
                 });
             }
         }, 500);
-
-
-
     }
 
     private void initialization(){
         Intent intent = getIntent();
-        lesson = (Lesson)intent.getSerializableExtra("lesson");
+       // lesson = (Lesson)intent.getSerializableExtra("lesson");
         dataBase = new UserDataBase(this);
+        lesson = getLesson(intent);
         words = (ArrayList<Word>)intent.getSerializableExtra("words");
         playButton = findViewById(R.id.play_card_vertical);
         playButtonHoriz = findViewById(R.id.play_card_horizontal);
@@ -109,6 +109,9 @@ public class CardActivity extends AppCompatActivity {
         });
     }
 
+    private Lesson getLesson(Intent intent){
+        return dataBase.getLessonByPrimaryId(intent.getIntExtra("lessonId",-1));
+    }
 
     @Override
     protected void onStop() {
@@ -125,7 +128,7 @@ public class CardActivity extends AppCompatActivity {
                 getSupportActionBar().setHomeButtonEnabled(true);
                 getSupportActionBar().setDisplayShowTitleEnabled(false);
             }catch (NullPointerException n){
-
+               n.printStackTrace();
             }
             toolbar.setTitle(lesson.getLessonName());
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -245,13 +248,13 @@ public class CardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try{
-                            View view = null;
-                            FlipView flipView = null;
+                            View view;
+                            FlipView flipView;
                             view = recyclerView.findViewHolderForAdapterPosition(linearLayoutManager.findFirstCompletelyVisibleItemPosition()).itemView;
                             flipView = view.findViewById(R.id.mFlipView);
                             flipView.showNext(0);
                         }catch (NullPointerException n){
-
+                           n.printStackTrace();
                         }
 
 
@@ -348,19 +351,20 @@ public class CardActivity extends AppCompatActivity {
     }
 
     class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapter.CardViewHolder>{
-        public CardRecyclerAdapter(ArrayList<Word> words, Context context) {
+        CardRecyclerAdapter(ArrayList<Word> words, Context context) {
             this.words= words;
             mContext = context;
         }
         ArrayList<Word> words;
+        @NonNull
         @Override
-        public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item,parent,false);
             return new CardViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final CardViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull final CardViewHolder holder, int position) {
             final Word word = words.get(position);
             holder.ivStar.setVisibility(View.VISIBLE);
             holder.ivStar2.setVisibility(View.VISIBLE);
@@ -424,8 +428,8 @@ public class CardActivity extends AppCompatActivity {
         public class CardViewHolder extends RecyclerView.ViewHolder {
             AppCompatTextView tvKorWord,tvRusWord;
             ImageView ivStar, ivStar2;
-            public FlipView flipView;
-            public CardViewHolder(View itemView) {
+            FlipView flipView;
+            CardViewHolder(View itemView) {
                 super(itemView);
                 tvKorWord = itemView.findViewById(R.id.korean_card_tv);
                 tvRusWord = itemView.findViewById(R.id.russian_card_tv);
