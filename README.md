@@ -2,7 +2,7 @@
 
 Андроид-приложение для изучения корейского языка.
 
-Скачать [Sejong.apk](https://github.com/flymr/SejongHangugeo/releases/download/1.0/Sejong.apk) для установки на Ваш телефон(минимальная версия Android 4.1)
+Скачать [Sejong.apk](https://github.com/flymr/SejongHangugeo/releases/download/1.0/Sejong.apk) для установки на Ваш телефон (минимальная версия Android 4.1).
 
 ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/1.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/2.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/3.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/4.gif) ![Image alt](https://github.com/flymr/SejongHangugeo/blob/master/app/screenshots/5.gif)
 
