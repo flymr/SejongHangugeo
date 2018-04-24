@@ -62,7 +62,7 @@ public class MailDialog extends DialogFragment {
         }
         BackgroundMail.newBuilder(getActivity())
                 .withUsername(R.string.app_mail)
-                .withPassword(R.string.app_mail_pass)
+                .withPassword("123")
                 .withMailto(R.string.app_mail_outbox)
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject(getString(R.string.message_subject, etUserMail.getText().toString(),etTitle.getText().toString()))

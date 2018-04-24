@@ -18,7 +18,6 @@
     <string name="send">Отправить</string>
     <string name="cancel">Отмена</string>
     <string name="app_mail">appmailsejong@gmail.com</string>
-    <string name="app_mail_pass">123</string>
     <string name="app_mail_outbox">flymr92@gmail.com</string>
     <string name="send_success">Ваше сообщение доставлено</string>
     <string name="send_error">Ошибка. Нет подключения к интернету</string>

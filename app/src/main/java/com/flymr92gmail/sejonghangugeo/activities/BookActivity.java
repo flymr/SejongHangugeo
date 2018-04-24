@@ -212,9 +212,16 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
         });
     }
 
+    private boolean closeSlidingPanel(){
+        if (slidingUpPanelLayout.getPanelState() != SlidingUpPanelLayout.PanelState.COLLAPSED){
+            slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            return true;
+        } else return false;
+    }
+
     @Override
     public void onBackPressed() {
-        if (!closeSearcher()&&!clearNavBook()&&!stopAudio()) {
+        if (!closeSearcher()&&!clearNavBook()&&!stopAudio()&&!closeSlidingPanel()) {
             super.onBackPressed();
         }
     }
@@ -383,7 +390,8 @@ public class BookActivity extends AppCompatActivity implements NewWordsRecyclerA
                                 .onPageScroll(new OnPageScrollListener() {
                                     @Override
                                     public void onPageScrolled(int page, float positionOffset) {
-                                        slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                                        //slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                                         closeSlidingPanel();
                                     }
                                 })
                                 .onPageChange(new OnPageChangeListener() {
